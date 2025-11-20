@@ -9,6 +9,7 @@ import SEO from '../components/SEO';
 import CountdownTimer from '../components/CountdownTimer';
 import ShareButtons from '../components/ShareButtons';
 import NewsSection from '../components/NewsSection';
+import MatchStats from '../components/MatchStats';
 
 const Match = () => {
     const { state } = useLocation();
@@ -187,6 +188,9 @@ const Match = () => {
 
                 </div>
             </div>
+
+            {/* Match Stats */}
+            <MatchStats query={event.title} />
 
             {/* Related Matches */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
