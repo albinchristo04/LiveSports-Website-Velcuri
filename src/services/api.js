@@ -49,13 +49,20 @@ const normalizeSource1 = (data) => {
         thumbnail: event.poster,
         streams: [
           {
-            name: 'Primary Stream',
+            name: 'Server 1 (HLS)',
+            type: 'hls',
             url: event.m3u8_url,
             headers: {
               'Referer': 'https://ppv.to/',
               'Origin': 'https://ppv.to',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
             }
+          },
+          {
+            name: 'Server 2 (Embed)',
+            type: 'iframe',
+            url: event.iframe,
+            headers: {}
           }
         ],
         isLive: isLive(new Date(event.starts_at * 1000))
@@ -81,9 +88,16 @@ const normalizeSource2 = (data) => {
       thumbnail: item.thumbnail,
       streams: [
         {
-          name: 'Primary Stream',
+          name: 'Server 1 (HLS)',
+          type: 'hls',
           url: playable.m3u8_url,
           headers: playable.headers || {}
+        },
+        {
+          name: 'Server 2 (Embed)',
+          type: 'iframe',
+          url: playable.iframe_url,
+          headers: {}
         }
       ],
       isLive: true
