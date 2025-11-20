@@ -30,7 +30,7 @@ const ShareButtons = ({ title }) => {
     ];
 
     return (
-        <div className="share-buttons-container" style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem' }}>
+        <div className="share-buttons-container" style={{ display: 'flex', gap: '0.75rem', marginTop: '1rem', flexWrap: 'wrap' }}>
             {shareLinks.map((link) => (
                 <a
                     key={link.name}
@@ -39,13 +39,14 @@ const ShareButtons = ({ title }) => {
                     rel="noopener noreferrer"
                     className="glass-button"
                     style={{
-                        flex: 1,
+                        flex: '1 1 100px',
                         justifyContent: 'center',
                         color: link.color,
                         backgroundColor: link.bg,
                         borderColor: link.color,
                         textDecoration: 'none',
-                        fontSize: '0.9rem'
+                        fontSize: '0.9rem',
+                        whiteSpace: 'nowrap'
                     }}
                 >
                     {link.icon}

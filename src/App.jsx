@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import Match from './pages/Match';
 import Privacy from './pages/Privacy';
 import DMCA from './pages/DMCA';
+import TelegramTool from './pages/TelegramTool';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
 
@@ -17,6 +18,7 @@ function App() {
             <Route path="/match/:id" element={<Match />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/dmca" element={<DMCA />} />
+            <Route path="/telegram-tool" element={<TelegramTool />} />
           </Routes>
         </div>
         <Footer />
