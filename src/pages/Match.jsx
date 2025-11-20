@@ -5,6 +5,7 @@ import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2, MonitorPlay } fro
 import { getEventById, getRelatedEvents } from '../services/api';
 import AdUnit from '../components/AdUnit';
 import EventCard from '../components/EventCard';
+import SEO from '../components/SEO';
 
 const Match = () => {
     const { state } = useLocation();
@@ -56,6 +57,37 @@ const Match = () => {
 
     return (
         <div className="container">
+            {/* SEO & Schema */}
+            <SEO
+                title={`${event.title} - Live Stream | ROJADIRECTA`}
+                description={`Watch ${event.title} live stream online for free. ${event.league} match coverage.`}
+                schema={{
+                    "@context": "https://schema.org",
+                    "@type": "BroadcastEvent",
+                    "name": event.title,
+                    "startDate": event.startTime.toISOString(),
+                    "location": {
+                        "@type": "Place",
+                        "name": "Online"
+                    },
+                    "description": `Live coverage of ${event.title} in ${event.league}`,
+                    "broadcastOfEvent": {
+                        "@type": "SportsEvent",
+                        "name": event.title,
+                        "competitor": [
+                            {
+                                "@type": "SportsTeam",
+                                "name": event.title.split(' vs ')[0] || "Team A"
+                            },
+                            {
+                                "@type": "SportsTeam",
+                                "name": event.title.split(' vs ')[1] || "Team B"
+                            }
+                        ]
+                    }
+                }}
+            />
+
             {/* Top Ad - First1 */}
             <AdUnit slot="3242297546" />
 

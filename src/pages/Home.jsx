@@ -28,6 +28,14 @@ const Home = () => {
         ? events
         : events.filter(e => e.league === category);
 
+    // Group events by date
+    const groupedEvents = filteredEvents.reduce((groups, event) => {
+        const date = event.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        if (!groups[date]) groups[date] = [];
+        groups[date].push(event);
+        return groups;
+    }, {});
+
     return (
         <div className="container">
             <header className="app-header text-center">
@@ -54,21 +62,36 @@ const Home = () => {
                 </div>
             ) : (
                 <>
-                    <div className="event-grid">
-                        {filteredEvents.map((event, index) => (
-                            <React.Fragment key={event.id}>
-                                <EventCard event={event} />
-                                {/* Insert Ad every 6 items */}
-                                {(index + 1) % 6 === 0 && (
-                                    <div style={{ gridColumn: '1 / -1' }}>
-                                        <AdUnit slot="3714292026" /> {/* 2nd Ads */}
+                    <div className="events-container">
+                        {Object.entries(groupedEvents).map(([date, dateEvents], groupIndex) => (
+                            <div key={date} style={{ marginBottom: '2rem' }}>
+                                <h3 style={{
+                                    color: 'var(--text-secondary)',
+                                    borderBottom: '1px solid var(--glass-border)',
+                                    paddingBottom: '0.5rem',
+                                    marginBottom: '1rem',
+                                    fontSize: '1.1rem',
+                                    fontWeight: '600'
+                                }}>
+                                    {date === new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' }) ? 'Today' : date}
+                                </h3>
+                                <div className="event-grid">
+                                    {dateEvents.map((event) => (
+                                        <EventCard key={event.id} event={event} />
+                                    ))}
+                                </div>
+
+                                {/* Ad interleaved between groups or after specific count */}
+                                {(groupIndex + 1) % 2 === 0 && (
+                                    <div style={{ marginTop: '2rem' }}>
+                                        <AdUnit slot="3714292026" />
                                     </div>
                                 )}
-                            </React.Fragment>
+                            </div>
                         ))}
 
                         {filteredEvents.length === 0 && (
-                            <div className="text-center" style={{ gridColumn: '1 / -1', padding: '3rem', color: 'var(--text-secondary)' }}>
+                            <div className="text-center" style={{ padding: '3rem', color: 'var(--text-secondary)' }}>
                                 No events found for this category.
                             </div>
                         )}
