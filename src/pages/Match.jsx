@@ -1,13 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
-import { ArrowLeft, Share2, AlertTriangle, RefreshCw } from 'lucide-react';
+import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2 } from 'lucide-react';
+import { getEventById } from '../services/api';
 
 const Match = () => {
     const { state } = useLocation();
     const { id } = useParams();
-    const event = state?.event;
-    const [activeStream, setActiveStream] = useState(event?.streams[0]);
+    const [event, setEvent] = useState(state?.event || null);
+    const [activeStream, setActiveStream] = useState(state?.event?.streams[0] || null);
+    const [loading, setLoading] = useState(!state?.event);
+
+    useEffect(() => {
+        if (!event && id) {
+            const loadEvent = async () => {
+                setLoading(true);
+                const fetchedEvent = await getEventById(id);
+                if (fetchedEvent) {
+                    setEvent(fetchedEvent);
+                    setActiveStream(fetchedEvent.streams[0]);
+                }
+                setLoading(false);
+            };
+            loadEvent();
+        }
+    }, [id, event]);
+
+    if (loading) {
+        return (
+            <div className="container flex items-center justify-center" style={{ minHeight: '80vh' }}>
+                <Loader2 className="loading-spinner" size={48} color="#3b82f6" />
+            </div>
+        );
+    }
 
     if (!event) {
         return (
@@ -51,7 +76,10 @@ const Match = () => {
                         </div>
 
                         <div className="action-buttons">
-                            <button className="glass-button gap-2">
+                            <button className="glass-button gap-2" onClick={() => {
+                                navigator.clipboard.writeText(window.location.href);
+                                alert('Link copied to clipboard!');
+                            }}>
                                 <Share2 size={18} />
                                 Share
                             </button>
@@ -94,7 +122,7 @@ const Match = () => {
                     </div>
                 </div>
             </div>
-        </div >
+        </div>
     );
 };
 

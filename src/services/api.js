@@ -20,6 +20,14 @@ export const fetchEvents = async (server) => {
   }
 };
 
+export const getEventById = async (id) => {
+  if (!id) return null;
+
+  const isServer1 = id.startsWith('s1-');
+  const events = await fetchEvents(isServer1 ? 'server1' : 'server2');
+  return events.find(e => e.id === id);
+};
+
 const normalizeSource1 = (data) => {
   // Source 1: events.streams -> array of categories, each has streams array
   const events = [];
@@ -30,6 +38,9 @@ const normalizeSource1 = (data) => {
     const categoryEvents = category.streams || [];
 
     categoryEvents.forEach(event => {
+      // Filter out 24/7 streams (always_live)
+      if (event.always_live) return;
+
       events.push({
         id: `s1-${event.id}`,
         title: event.name,
@@ -41,10 +52,6 @@ const normalizeSource1 = (data) => {
             name: 'Primary Stream',
             url: event.m3u8_url,
             headers: {
-              // Source 1 headers might be implicit or fixed. 
-              // Based on user context, we might need specific headers.
-              // For now, we'll use a default set if not provided in JSON.
-              // The JSON chunk didn't show headers, so we assume standard or ppv.to
               'Referer': 'https://ppv.to/',
               'Origin': 'https://ppv.to',
               'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
@@ -64,17 +71,10 @@ const normalizeSource2 = (data) => {
   const items = data.items || [];
 
   return items.map((item, index) => {
-    // Source 2 doesn't seem to have a start time in the chunk I saw, 
-    // but maybe it's live now? Or I need to check if there's a time field.
-    // The chunk showed "extracted_at". I'll use current time or look for time.
-    // Actually, let's assume they are live or upcoming. 
-    // If no time, we might default to now or "Live".
-    // Wait, I see "last_updated" in root.
-
     const playable = item.playable_link || {};
 
     return {
-      id: `s2-${index}`, // Source 2 items didn't show an ID in the chunk
+      id: `s2-${index}`,
       title: item.title,
       startTime: new Date(), // Placeholder if no time provided
       league: item.sport,
@@ -86,15 +86,13 @@ const normalizeSource2 = (data) => {
           headers: playable.headers || {}
         }
       ],
-      isLive: true // Assuming source 2 (streambtw) lists currently available streams
+      isLive: true
     };
   });
 };
 
 const isLive = (date) => {
   const now = new Date();
-  // Simple logic: if started within last 3 hours and not ended
-  // For now, just check if it's close to now.
   const diff = (now - date) / 1000 / 60; // minutes
-  return diff > -15 && diff < 180; // Started 15 mins ago or less, up to 3 hours
+  return diff > -15 && diff < 180;
 };
