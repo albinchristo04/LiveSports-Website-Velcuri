@@ -22,10 +22,14 @@ async function handleRequest(request) {
     const referer = url.searchParams.get('referer') || 'https://ppv.to/'
     const origin = url.searchParams.get('origin') || 'https://ppv.to'
 
+    // Root path check - if no URL provided, show status
     if (!targetUrl) {
-        return new Response('Error: No URL provided', {
-            status: 400,
-            headers: { 'Content-Type': 'text/plain' }
+        return new Response('M3U8 Proxy is Running. Usage: ?url=YOUR_URL', {
+            status: 200,
+            headers: {
+                'Content-Type': 'text/plain',
+                'Access-Control-Allow-Origin': '*'
+            }
         })
     }
 
@@ -40,6 +44,17 @@ async function handleRequest(request) {
                 'Accept-Language': 'en-US,en;q=0.9',
             }
         })
+
+        // If target returns 404, forward it but with CORS headers so we can see it
+        if (!response.ok) {
+            return new Response(`Proxy Error: Target returned ${response.status} ${response.statusText}`, {
+                status: response.status,
+                headers: {
+                    'Content-Type': 'text/plain',
+                    'Access-Control-Allow-Origin': '*'
+                }
+            })
+        }
 
         let body = await response.text()
         let contentType = response.headers.get('content-type') || 'application/octet-stream'
