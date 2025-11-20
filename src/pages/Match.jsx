@@ -10,6 +10,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import ShareButtons from '../components/ShareButtons';
 import NewsSection from '../components/NewsSection';
 import MatchStats from '../components/MatchStats';
+import LiveChat from '../components/LiveChat';
 
 const Match = () => {
     const { state } = useLocation();
@@ -198,6 +199,9 @@ const Match = () => {
 
             {/* Match Stats */}
             <MatchStats query={event.title} />
+
+            {/* Live Chat */}
+            <LiveChat />
 
             {/* Related Matches */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
