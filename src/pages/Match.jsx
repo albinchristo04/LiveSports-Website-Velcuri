@@ -76,26 +76,26 @@ const Match = () => {
                                 <button
                                     key={idx}
                                     onClick={() => setActiveStream(stream)}
-                                    className={\`stream-btn \${activeStream === stream ? 'active' : ''}\`}
-                    >
-                            <div style={{ fontWeight: 500 }}>{stream.name || \`Stream \${idx + 1}\`}</div>
-                            <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>Server {idx + 1} • 1080p</div>
-                        </button>
-                ))}
+                                    className={`stream-btn ${activeStream === stream ? 'active' : ''}`}
+                                >
+                                    <div style={{ fontWeight: 500 }}>{stream.name || `Stream ${idx + 1}`}</div>
+                                    <div style={{ fontSize: '0.75rem', opacity: 0.7, marginTop: '0.25rem' }}>Server {idx + 1} • 1080p</div>
+                                </button>
+                            ))}
+                        </div>
                     </div>
-                </div>
 
-                {/* Related Matches Placeholder */}
-                <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                    <h3>Related Matches</h3>
-                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
-                        No related matches found at this time.
+                    {/* Related Matches Placeholder */}
+                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
+                        <h3>Related Matches</h3>
+                        <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                            No related matches found at this time.
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div >
-  );
+        </div >
+    );
 };
 
 export default Match;

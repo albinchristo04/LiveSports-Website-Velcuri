@@ -8,7 +8,7 @@ export const fetchEvents = async (server) => {
     const url = server === 'server1' ? SOURCE_1_URL : SOURCE_2_URL;
     const response = await fetch(url);
     const data = await response.json();
-    
+
     if (server === 'server1') {
       return normalizeSource1(data);
     } else {
@@ -31,7 +31,7 @@ const normalizeSource1 = (data) => {
 
     categoryEvents.forEach(event => {
       events.push({
-        id: \`s1-\${event.id}\`,
+        id: `s1-${event.id}`,
         title: event.name,
         startTime: new Date(event.starts_at * 1000), // source 1 uses unix timestamp
         league: categoryName, // or event.category_name
@@ -62,7 +62,7 @@ const normalizeSource1 = (data) => {
 const normalizeSource2 = (data) => {
   // Source 2: items array
   const items = data.items || [];
-  
+
   return items.map((item, index) => {
     // Source 2 doesn't seem to have a start time in the chunk I saw, 
     // but maybe it's live now? Or I need to check if there's a time field.
@@ -70,11 +70,11 @@ const normalizeSource2 = (data) => {
     // Actually, let's assume they are live or upcoming. 
     // If no time, we might default to now or "Live".
     // Wait, I see "last_updated" in root.
-    
+
     const playable = item.playable_link || {};
-    
+
     return {
-      id: \`s2-\${index}\`, // Source 2 items didn't show an ID in the chunk
+      id: `s2-${index}`, // Source 2 items didn't show an ID in the chunk
       title: item.title,
       startTime: new Date(), // Placeholder if no time provided
       league: item.sport,

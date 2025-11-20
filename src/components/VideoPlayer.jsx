@@ -2,26 +2,26 @@ import React, { useEffect, useRef } from 'react';
 import Hls from 'hls.js';
 
 const VideoPlayer = ({ src, headers }) => {
-    const videoRef = useRef(null);
-    const hlsRef = useRef(null);
+  const videoRef = useRef(null);
+  const hlsRef = useRef(null);
 
-    useEffect(() => {
-        const video = videoRef.current;
-        if (!video) return;
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
 
-        if (Hls.isSupported()) {
-            if (hlsRef.current) {
-                hlsRef.current.destroy();
-            }
+    if (Hls.isSupported()) {
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+      }
 
-            const hls = new Hls({
-                xhrSetup: function (xhr, url) {
-                    if (headers) {
-                        Object.entries(headers).forEach(([key, value]) => {
-                            try {
-                                xhr.setRequestHeader(key, value);
-                            } catch (e) {
-                                console.warn(\`Cannot set header \${key}: \${e.message}\`);
+      const hls = new Hls({
+        xhrSetup: function (xhr, url) {
+          if (headers) {
+            Object.entries(headers).forEach(([key, value]) => {
+              try {
+                xhr.setRequestHeader(key, value);
+              } catch (e) {
+                console.warn(`Cannot set header ${key}: ${e.message}`);
               }
             });
           }
@@ -31,7 +31,7 @@ const VideoPlayer = ({ src, headers }) => {
       hlsRef.current = hls;
       hls.loadSource(src);
       hls.attachMedia(video);
-      
+
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         video.play().catch(e => console.log("Auto-play prevented:", e));
       });
