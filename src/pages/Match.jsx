@@ -3,6 +3,7 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
 import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2, MonitorPlay } from 'lucide-react';
 import { getEventById } from '../services/api';
+import AdUnit from '../components/AdUnit';
 
 const Match = () => {
     const { state } = useLocation();
@@ -45,12 +46,15 @@ const Match = () => {
 
     return (
         <div className="container">
+            {/* Top Ad - First1 */}
+            <AdUnit slot="3242297546" />
+
             <Link to="/" className="back-link">
                 <ArrowLeft size={20} />
                 Back to Events
             </Link>
 
-            {/* Match Header - Moved Above Player */}
+            {/* Match Header */}
             <div className="glass-panel match-header" style={{ marginBottom: '1.5rem' }}>
                 <div className="match-title-row">
                     <div>
@@ -81,7 +85,7 @@ const Match = () => {
                 </div>
             </div>
 
-            {/* Available Streams - Moved Above Player */}
+            {/* Available Streams */}
             <div className="glass-panel" style={{ padding: '1rem', marginBottom: '1.5rem' }}>
                 <h3 style={{ marginBottom: '1rem', fontSize: '1rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--text-secondary)' }}>Select Server</h3>
                 <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
@@ -128,15 +132,21 @@ const Match = () => {
                             </div>
                         )}
                     </div>
+
+                    {/* Ad Below Player - 300x280 (Responsive) */}
+                    <AdUnit slot="8693123672" style={{ display: 'inline-block', width: '100%', minHeight: '280px' }} />
+
                 </div>
             </div>
 
-            {/* Related Matches Placeholder (Optional, kept at bottom) */}
+            {/* Related Matches / Bottom Ad */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
                 <h3>Related Matches</h3>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem' }}>
+                <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem' }}>
                     No related matches found at this time.
                 </div>
+                {/* Bottom Ad - 2nd Ads */}
+                <AdUnit slot="3714292026" />
             </div>
         </div>
     );
