@@ -38,10 +38,8 @@ export const getRelatedEvents = async (currentEventId, league) => {
 
 const getProxiedUrl = (url, referer, origin) => {
   if (!url) return '';
-  // TODO: Replace with your Cloudflare Worker URL after deployment
-  // See CLOUDFLARE_WORKER_SETUP.md for instructions
-  const proxyBase = 'https://m3u8-proxy.priyankaamalraj2.workers.dev/';
-  return `${proxyBase}?url=${encodeURIComponent(url)}&referer=${encodeURIComponent(referer)}&origin=${encodeURIComponent(origin)}`;
+  // Using corsproxy.io as a public proxy solution
+  return `https://corsproxy.io/?${encodeURIComponent(url)}`;
 };
 
 const normalizeSource1 = (data) => {
@@ -67,7 +65,10 @@ const normalizeSource1 = (data) => {
             type: 'hls',
             // Route through proxy
             url: getProxiedUrl(event.m3u8_url, 'https://ppv.to/', 'https://ppv.to'),
-            headers: {} // Headers are handled by the proxy now
+            headers: {
+              'Referer': 'https://ppv.to/',
+              'Origin': 'https://ppv.to'
+            }
           },
           {
             name: 'Server 2 (Embed)',
@@ -105,7 +106,10 @@ const normalizeSource2 = (data) => {
           type: 'hls',
           // Route through proxy with dynamic headers from source
           url: getProxiedUrl(playable.m3u8_url, referer, origin),
-          headers: {}
+          headers: {
+            'Referer': referer,
+            'Origin': origin
+          }
         },
         {
           name: 'Server 2 (Embed)',
