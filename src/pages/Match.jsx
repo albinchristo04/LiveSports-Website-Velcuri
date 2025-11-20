@@ -94,6 +94,13 @@ const Match = () => {
                 }}
             />
 
+            {/* Site Header */}
+            <header className="app-header text-center" style={{ marginBottom: '1.5rem' }}>
+                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <h1 className="app-title">Velcuri.io</h1>
+                </Link>
+            </header>
+
             {/* Top Ad - First1 */}
             <AdUnit slot="3242297546" />
 
