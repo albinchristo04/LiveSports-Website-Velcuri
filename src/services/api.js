@@ -40,7 +40,7 @@ const getProxiedUrl = (url, referer, origin) => {
   if (!url) return '';
   // TODO: Replace with your Cloudflare Worker URL after deployment
   // See CLOUDFLARE_WORKER_SETUP.md for instructions
-  const proxyBase = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';
+  const proxyBase = 'https://m3u8-proxy.priyankaamalraj2.workers.dev/';
   return `${proxyBase}?url=${encodeURIComponent(url)}&referer=${encodeURIComponent(referer)}&origin=${encodeURIComponent(origin)}`;
 };
 
