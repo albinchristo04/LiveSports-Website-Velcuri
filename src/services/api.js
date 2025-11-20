@@ -30,15 +30,18 @@ export const getEventById = async (id) => {
 
 export const getRelatedEvents = async (currentEventId, league) => {
   if (!currentEventId || !league) return [];
-
-  // Try to find matches in the same league from both servers if possible, 
-  // but for simplicity and performance, we might just check the same server or default to Server 1.
-  // Let's fetch from Server 1 as it has more categorized events usually.
   const events = await fetchEvents('server1');
-
   return events
     .filter(e => e.league === league && e.id !== currentEventId)
-    .slice(0, 6); // Return top 6 related
+    .slice(0, 6);
+};
+
+const getProxiedUrl = (url, referer, origin) => {
+  if (!url) return '';
+  // TODO: Replace with your Cloudflare Worker URL after deployment
+  // See CLOUDFLARE_WORKER_SETUP.md for instructions
+  const proxyBase = 'https://YOUR-WORKER-NAME.YOUR-SUBDOMAIN.workers.dev';
+  return `${proxyBase}?url=${encodeURIComponent(url)}&referer=${encodeURIComponent(referer)}&origin=${encodeURIComponent(origin)}`;
 };
 
 const normalizeSource1 = (data) => {
@@ -62,15 +65,9 @@ const normalizeSource1 = (data) => {
           {
             name: 'Server 1 (HLS)',
             type: 'hls',
-            url: event.m3u8_url,
-            headers: {
-              'Origin': 'https://ppv.to',
-              'Referer': 'https://ppv.to/',
-              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
-              'Accept': '*/*',
-              'Accept-Language': 'en-US,en;q=0.9',
-              'Connection': 'keep-alive'
-            }
+            // Route through proxy
+            url: getProxiedUrl(event.m3u8_url, 'https://ppv.to/', 'https://ppv.to'),
+            headers: {} // Headers are handled by the proxy now
           },
           {
             name: 'Server 2 (Embed)',
@@ -92,6 +89,9 @@ const normalizeSource2 = (data) => {
 
   return items.map((item, index) => {
     const playable = item.playable_link || {};
+    const headers = playable.headers || {};
+    const referer = headers['Referer'] || 'https://streambtw.live/';
+    const origin = headers['Origin'] || 'https://streambtw.live';
 
     return {
       id: `s2-${index}`,
@@ -103,13 +103,9 @@ const normalizeSource2 = (data) => {
         {
           name: 'Server 1 (HLS)',
           type: 'hls',
-          url: playable.m3u8_url,
-          headers: {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
-            'Accept': '*/*',
-            'Accept-Language': 'en-US,en;q=0.9',
-            'Connection': 'keep-alive'
-          }
+          // Route through proxy with dynamic headers from source
+          url: getProxiedUrl(playable.m3u8_url, referer, origin),
+          headers: {}
         },
         {
           name: 'Server 2 (Embed)',
