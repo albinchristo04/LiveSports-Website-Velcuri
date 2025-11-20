@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
 import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2, MonitorPlay } from 'lucide-react';
-import { getEventById } from '../services/api';
+import { getEventById, getRelatedEvents } from '../services/api';
 import AdUnit from '../components/AdUnit';
+import EventCard from '../components/EventCard';
 
 const Match = () => {
     const { state } = useLocation();
@@ -11,20 +12,29 @@ const Match = () => {
     const [event, setEvent] = useState(state?.event || null);
     const [activeStream, setActiveStream] = useState(state?.event?.streams[0] || null);
     const [loading, setLoading] = useState(!state?.event);
+    const [relatedEvents, setRelatedEvents] = useState([]);
 
     useEffect(() => {
-        if (!event && id) {
-            const loadEvent = async () => {
+        const loadData = async () => {
+            let currentEvent = event;
+
+            if (!currentEvent && id) {
                 setLoading(true);
-                const fetchedEvent = await getEventById(id);
-                if (fetchedEvent) {
-                    setEvent(fetchedEvent);
-                    setActiveStream(fetchedEvent.streams[0]);
+                currentEvent = await getEventById(id);
+                if (currentEvent) {
+                    setEvent(currentEvent);
+                    setActiveStream(currentEvent.streams[0]);
                 }
                 setLoading(false);
-            };
-            loadEvent();
-        }
+            }
+
+            if (currentEvent) {
+                const related = await getRelatedEvents(currentEvent.id, currentEvent.league);
+                setRelatedEvents(related);
+            }
+        };
+
+        loadData();
     }, [id, event]);
 
     if (loading) {
@@ -139,12 +149,21 @@ const Match = () => {
                 </div>
             </div>
 
-            {/* Related Matches / Bottom Ad */}
+            {/* Related Matches */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
                 <h3>Related Matches</h3>
-                <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem' }}>
-                    No related matches found at this time.
-                </div>
+                {relatedEvents.length > 0 ? (
+                    <div className="event-grid" style={{ marginTop: '1rem' }}>
+                        {relatedEvents.map(related => (
+                            <EventCard key={related.id} event={related} />
+                        ))}
+                    </div>
+                ) : (
+                    <div style={{ color: 'var(--text-secondary)', fontSize: '0.875rem', marginBottom: '1rem' }}>
+                        No related matches found at this time.
+                    </div>
+                )}
+
                 {/* Bottom Ad - 2nd Ads */}
                 <AdUnit slot="3714292026" />
             </div>

@@ -28,8 +28,20 @@ export const getEventById = async (id) => {
   return events.find(e => e.id === id);
 };
 
+export const getRelatedEvents = async (currentEventId, league) => {
+  if (!currentEventId || !league) return [];
+
+  // Try to find matches in the same league from both servers if possible, 
+  // but for simplicity and performance, we might just check the same server or default to Server 1.
+  // Let's fetch from Server 1 as it has more categorized events usually.
+  const events = await fetchEvents('server1');
+
+  return events
+    .filter(e => e.league === league && e.id !== currentEventId)
+    .slice(0, 6); // Return top 6 related
+};
+
 const normalizeSource1 = (data) => {
-  // Source 1: events.streams -> array of categories, each has streams array
   const events = [];
   const categories = data.events?.streams || [];
 
@@ -38,14 +50,13 @@ const normalizeSource1 = (data) => {
     const categoryEvents = category.streams || [];
 
     categoryEvents.forEach(event => {
-      // Filter out 24/7 streams (always_live)
       if (event.always_live) return;
 
       events.push({
         id: `s1-${event.id}`,
         title: event.name,
-        startTime: new Date(event.starts_at * 1000), // source 1 uses unix timestamp
-        league: categoryName, // or event.category_name
+        startTime: new Date(event.starts_at * 1000),
+        league: categoryName,
         thumbnail: event.poster,
         streams: [
           {
@@ -53,9 +64,12 @@ const normalizeSource1 = (data) => {
             type: 'hls',
             url: event.m3u8_url,
             headers: {
-              'Referer': 'https://ppv.to/',
               'Origin': 'https://ppv.to',
-              'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+              'Referer': 'https://ppv.to/',
+              'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
+              'Accept': '*/*',
+              'Accept-Language': 'en-US,en;q=0.9',
+              'Connection': 'keep-alive'
             }
           },
           {
@@ -74,7 +88,6 @@ const normalizeSource1 = (data) => {
 };
 
 const normalizeSource2 = (data) => {
-  // Source 2: items array
   const items = data.items || [];
 
   return items.map((item, index) => {
@@ -83,7 +96,7 @@ const normalizeSource2 = (data) => {
     return {
       id: `s2-${index}`,
       title: item.title,
-      startTime: new Date(), // Placeholder if no time provided
+      startTime: new Date(),
       league: item.sport,
       thumbnail: item.thumbnail,
       streams: [
@@ -91,7 +104,12 @@ const normalizeSource2 = (data) => {
           name: 'Server 1 (HLS)',
           type: 'hls',
           url: playable.m3u8_url,
-          headers: playable.headers || {}
+          headers: {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 Safari/537.36',
+            'Accept': '*/*',
+            'Accept-Language': 'en-US,en;q=0.9',
+            'Connection': 'keep-alive'
+          }
         },
         {
           name: 'Server 2 (Embed)',
@@ -107,6 +125,6 @@ const normalizeSource2 = (data) => {
 
 const isLive = (date) => {
   const now = new Date();
-  const diff = (now - date) / 1000 / 60; // minutes
+  const diff = (now - date) / 1000 / 60;
   return diff > -15 && diff < 180;
 };
