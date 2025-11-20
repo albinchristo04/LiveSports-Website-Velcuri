@@ -36,12 +36,6 @@ export const getRelatedEvents = async (currentEventId, league) => {
     .slice(0, 6);
 };
 
-const getProxiedUrl = (url, referer, origin) => {
-  if (!url) return '';
-  // Using corsproxy.io as a public proxy solution
-  return `https://corsproxy.io/?${encodeURIComponent(url)}`;
-};
-
 const normalizeSource1 = (data) => {
   const events = [];
   const categories = data.events?.streams || [];
@@ -61,17 +55,7 @@ const normalizeSource1 = (data) => {
         thumbnail: event.poster,
         streams: [
           {
-            name: 'Server 1 (HLS)',
-            type: 'hls',
-            // Route through proxy
-            url: getProxiedUrl(event.m3u8_url, 'https://ppv.to/', 'https://ppv.to'),
-            headers: {
-              'Referer': 'https://ppv.to/',
-              'Origin': 'https://ppv.to'
-            }
-          },
-          {
-            name: 'Server 2 (Embed)',
+            name: 'Server 1 (Embed)',
             type: 'iframe',
             url: event.iframe,
             headers: {}
@@ -90,9 +74,6 @@ const normalizeSource2 = (data) => {
 
   return items.map((item, index) => {
     const playable = item.playable_link || {};
-    const headers = playable.headers || {};
-    const referer = headers['Referer'] || 'https://streambtw.live/';
-    const origin = headers['Origin'] || 'https://streambtw.live';
 
     return {
       id: `s2-${index}`,
@@ -102,17 +83,7 @@ const normalizeSource2 = (data) => {
       thumbnail: item.thumbnail,
       streams: [
         {
-          name: 'Server 1 (HLS)',
-          type: 'hls',
-          // Route through proxy with dynamic headers from source
-          url: getProxiedUrl(playable.m3u8_url, referer, origin),
-          headers: {
-            'Referer': referer,
-            'Origin': origin
-          }
-        },
-        {
-          name: 'Server 2 (Embed)',
+          name: 'Server 1 (Embed)',
           type: 'iframe',
           url: playable.iframe_url,
           headers: {}
