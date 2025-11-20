@@ -10,15 +10,27 @@
   <meta name="description"
     content="Ver partidos de fútbol en vivo y en directo, Roja Directa, Tarjeta Roja TV, Pirlo TV, Elitegol, Beinsports, LaLiga, Premier League, Champions League gratis.">
   <script>
-    // Advanced Popup Blocker Script
+    // Advanced Popup Blocker & Focus Guard
     (function () {
+      // Override window.open (for same-origin attempts)
       const originalOpen = window.open;
       window.open = function (url, target, features) {
         console.log("Popup blocked:", url);
-        return null; // Block the popup
+        return null;
       };
-      // Prevent overriding
       Object.freeze(window.open);
+
+      // Focus Guard: Attempt to keep window in foreground
+      window.addEventListener('blur', function () {
+        setTimeout(function () {
+          window.focus();
+        }, 0);
+      });
+
+      // Mobile specific: Prevent some touch-based popups if possible
+      document.addEventListener('touchend', function (e) {
+        // This is passive monitoring, can't block much here without breaking scroll
+      }, { passive: false });
     })();
   </script>
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635539719400885"

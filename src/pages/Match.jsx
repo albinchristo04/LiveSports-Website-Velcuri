@@ -130,6 +130,7 @@ const Match = () => {
                                         frameBorder="0"
                                         allowFullScreen
                                         allow="autoplay; encrypted-media"
+                                        sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
                                         title="Live Stream"
                                     ></iframe>
                                 </div>
