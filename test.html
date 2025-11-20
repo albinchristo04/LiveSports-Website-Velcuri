@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clappr Player</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clappr/0.4.7/clappr.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+            padding: 30px;
+            text-align: center;
+            color: white;
+        }
+        
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        #player-wrapper {
+            padding: 30px;
+            background: #000;
+        }
+        
+        #player {
+            width: 100%;
+            height: 540px;
+            background: #000;
+        }
+        
+        .info {
+            padding: 25px 30px;
+            background: #f8f9fa;
+            border-top: 3px solid #667eea;
+        }
+        
+        .info-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 0.95em;
+        }
+        
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: #2a5298;
+            min-width: 100px;
+        }
+        
+        .info-value {
+            color: #495057;
+            word-break: break-all;
+        }
+        
+        .status {
+            margin-top: 15px;
+            padding: 12px;
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: #1565c0;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            
+            #player {
+                height: 300px;
+            }
+            
+            .info-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .info-label {
+                margin-bottom: 5px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎬 Clappr Video Player</h1>
+            <p>Streaming with Custom Headers</p>
+        </div>
+        
+        <div id="player-wrapper">
+            <div id="player"></div>
+        </div>
+        
+        <div class="info">
+            <div class="info-item">
+                <span class="info-label">Stream URL:</span>
+                <span class="info-value">https://gg.poocloud.in/thesimpsons/index.m3u8</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Referer:</span>
+                <span class="info-value">https://ppv.to</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">Origin:</span>
+                <span class="info-value">https://ppv.to</span>
+            </div>
+            <div class="status">
+                ⚠️ Note: Custom headers (Referer/Origin) may be blocked by CORS policies when loading cross-origin HLS streams directly from the browser. The player will attempt to load the stream, but server CORS configuration determines success.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Configure the player with browser-like headers
+        const player = new Clappr.Player({
+            source: 'https://gg.poocloud.in/thesimpsons/index.m3u8',
+            parentId: '#player',
+            width: '100%',
+            height: '100%',
+            autoPlay: false,
+            mute: false,
+            hlsUseNextLevel: true,
+            hlsPlayback: {
+                preload: true,
+                customHeaders: {
+                    'Referer': 'https://ppv.to',
+                    'Origin': 'https://ppv.to'
+                }
+            },
+            playback: {
+                playInline: true,
+                recycleVideo: true,
+                hlsjsConfig: {
+                    xhrSetup: function(xhr, url) {
+                        // Attempt to set custom headers
+                        try {
+                            xhr.setRequestHeader('Referer', 'https://ppv.to');
+                            xhr.setRequestHeader('Origin', 'https://ppv.to');
+                        } catch(e) {
+                            console.warn('Unable to set custom headers:', e);
+                        }
+                    }
+                }
+            }
+        });
+
+        // Event listeners
+        player.on(Clappr.Events.PLAYER_READY, function() {
+            console.log('Player is ready');
+        });
+
+        player.on(Clappr.Events.PLAYER_PLAY, function() {
+            console.log('Playback started');
+        });
+
+        player.on(Clappr.Events.PLAYER_ERROR, function(error) {
+            console.error('Player error:', error);
+        });
+    </script>
+</body>
+</html>
