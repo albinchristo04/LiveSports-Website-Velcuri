@@ -5,8 +5,8 @@ const LiveChat = () => {
     // NOTE: To make this chat fully functional for YOUR site, you should sign up at https://www.cbox.ws/
     // and replace the 'boxId' and 'boxtag' below with your own.
     // Currently using a demo/test ID or you can leave it as is if it works for testing.
-    const boxId = "3543466"; // Example ID
-    const boxTag = "4qk8l";  // Example Tag
+    const boxId = "959755"; // Example ID
+    const boxTag = "tY36Rt";  // Example Tag
 
     // If you don't have an ID yet, we can render a placeholder or a generic iframe.
     // For now, I'll render a Cbox iframe which is very common for sports sites.
