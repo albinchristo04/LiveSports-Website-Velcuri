@@ -6,6 +6,9 @@ import { getEventById, getRelatedEvents } from '../services/api';
 import AdUnit from '../components/AdUnit';
 import EventCard from '../components/EventCard';
 import SEO from '../components/SEO';
+import CountdownTimer from '../components/CountdownTimer';
+import ShareButtons from '../components/ShareButtons';
+import NewsSection from '../components/NewsSection';
 
 const Match = () => {
     const { state } = useLocation();
@@ -54,6 +57,8 @@ const Match = () => {
             </div>
         );
     }
+
+    const isUpcoming = new Date() < event.startTime;
 
     return (
         <div className="container">
@@ -109,13 +114,6 @@ const Match = () => {
                 </div>
 
                 <div className="action-buttons">
-                    <button className="glass-button gap-2" onClick={() => {
-                        navigator.clipboard.writeText(window.location.href);
-                        alert('Link copied to clipboard!');
-                    }}>
-                        <Share2 size={18} />
-                        Share
-                    </button>
                     <button className="glass-button gap-2" onClick={() => window.location.reload()}>
                         <RefreshCw size={18} />
                         Refresh
@@ -125,7 +123,15 @@ const Match = () => {
                         Report Issue
                     </button>
                 </div>
+
+                {/* Social Share Buttons */}
+                <ShareButtons title={event.title} />
             </div>
+
+            {/* Countdown Timer (if upcoming) */}
+            {isUpcoming && (
+                <CountdownTimer targetDate={event.startTime} />
+            )}
 
             {/* Available Streams */}
             <div className="glass-panel" style={{ padding: '1rem', marginBottom: '1.5rem' }}>
@@ -200,6 +206,9 @@ const Match = () => {
                 {/* Bottom Ad - 2nd Ads */}
                 <AdUnit slot="3714292026" />
             </div>
+
+            {/* Related News */}
+            <NewsSection query={event.title} />
         </div>
     );
 };
