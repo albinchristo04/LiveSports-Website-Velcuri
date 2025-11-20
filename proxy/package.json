@@ -1,0 +1,12 @@
+{
+    "name": "m3u8-proxy",
+    "version": "1.0.0",
+    "description": "Node.js M3U8 Proxy",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "express": "^4.18.2"
+    }
+}
