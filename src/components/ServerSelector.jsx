@@ -19,6 +19,14 @@ const ServerSelector = ({ selectedServer, onSelect }) => {
         <Server size={24} />
         <span>Server 2</span>
       </button>
+
+      <button
+        onClick={() => onSelect('server3')}
+        className={`glass-button server-btn ${selectedServer === 'server3' ? 'active' : ''}`}
+      >
+        <Server size={24} />
+        <span>Server 3</span>
+      </button>
     </div>
   );
 };

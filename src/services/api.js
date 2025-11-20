@@ -2,17 +2,24 @@ import { startOfDay, isAfter } from 'date-fns';
 
 const SOURCE_1_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/events_with_m3u8.json';
 const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/arda/refs/heads/main/streambtw_data.json';
+const SOURCE_3_URL = 'https://topembed.pw/api.php?format=json';
 
 export const fetchEvents = async (server) => {
   try {
-    const url = server === 'server1' ? SOURCE_1_URL : SOURCE_2_URL;
+    let url;
+    if (server === 'server1') url = SOURCE_1_URL;
+    else if (server === 'server2') url = SOURCE_2_URL;
+    else url = SOURCE_3_URL;
+
     const response = await fetch(url);
     const data = await response.json();
 
     if (server === 'server1') {
       return normalizeSource1(data);
-    } else {
+    } else if (server === 'server2') {
       return normalizeSource2(data);
+    } else {
+      return normalizeSource3(data);
     }
   } catch (error) {
     console.error('Error fetching events:', error);
@@ -23,13 +30,17 @@ export const fetchEvents = async (server) => {
 export const getEventById = async (id) => {
   if (!id) return null;
 
-  const isServer1 = id.startsWith('s1-');
-  const events = await fetchEvents(isServer1 ? 'server1' : 'server2');
+  let server = 'server3';
+  if (id.startsWith('s1-')) server = 'server1';
+  else if (id.startsWith('s2-')) server = 'server2';
+
+  const events = await fetchEvents(server);
   return events.find(e => e.id === id);
 };
 
 export const getRelatedEvents = async (currentEventId, league) => {
   if (!currentEventId || !league) return [];
+  // Default to server1 for related events for now, or could be dynamic
   const events = await fetchEvents('server1');
   return events
     .filter(e => e.league === league && e.id !== currentEventId)
@@ -92,6 +103,36 @@ const normalizeSource2 = (data) => {
       isLive: true
     };
   });
+};
+
+const normalizeSource3 = (data) => {
+  const events = [];
+  const eventsByDate = data.events || {};
+
+  Object.values(eventsByDate).forEach(dateEvents => {
+    dateEvents.forEach((event, index) => {
+      const streams = (event.channels || []).map((channel, i) => ({
+        name: `Link ${i + 1}`,
+        type: 'iframe',
+        url: channel,
+        headers: {
+          'Referer': 'https://topembed.pw/'
+        }
+      }));
+
+      events.push({
+        id: `s3-${event.unix_timestamp}-${index}`, // Generate a unique ID
+        title: event.match,
+        startTime: new Date(event.unix_timestamp * 1000),
+        league: `${event.sport} - ${event.tournament}`,
+        thumbnail: '', // No thumbnail provided in this API
+        streams: streams,
+        isLive: isLive(new Date(event.unix_timestamp * 1000))
+      });
+    });
+  });
+
+  return events.sort((a, b) => a.startTime - b.startTime);
 };
 
 const isLive = (date) => {
