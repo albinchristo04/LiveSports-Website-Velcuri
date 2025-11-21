@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEvents } from '../services/api';
+import ServerSelector from '../components/ServerSelector';
 import { Copy, Check } from 'lucide-react';
 
 const TelegramTool = () => {
+    const [server, setServer] = useState('server1');
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState(false);
@@ -10,7 +12,7 @@ const TelegramTool = () => {
     useEffect(() => {
         const loadEvents = async () => {
             setLoading(true);
-            const data = await fetchEvents('server1'); // Fetch from main server
+            const data = await fetchEvents(server);
 
             // Filter for today's events
             const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
@@ -23,7 +25,7 @@ const TelegramTool = () => {
             setLoading(false);
         };
         loadEvents();
-    }, []);
+    }, [server]);
 
     const generateTelegramText = () => {
         const header = `🔥 **TODAY'S MATCHES** 🔥\n\n`;
@@ -48,6 +50,10 @@ const TelegramTool = () => {
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
             <h1>Telegram Post Generator</h1>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>Generate a list of today's matches formatted for Telegram.</p>
+
+            <div style={{ marginBottom: '2rem' }}>
+                <ServerSelector selectedServer={server} onSelect={setServer} />
+            </div>
 
             {loading ? (
                 <p>Loading events...</p>
