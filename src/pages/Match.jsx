@@ -166,6 +166,10 @@ const Match = () => {
 
             <div className="match-layout">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
+                    {/* Ads Above Player */}
+                    <div id="ua-placement-3"></div>
+                    <div id="ua-placement-4"></div>
+
                     {/* Player Section */}
                     <div className="glass-panel player-wrapper">
                         {activeStream ? (
@@ -219,9 +223,7 @@ const Match = () => {
                     </div>
                 )}
 
-                {/* Bottom Ad - 2nd Ads */}
-                {/* Bottom Ad - 2nd Ads */}
-                <div id="ua-placement-3"></div>
+
             </div>
 
             {/* Related News */}
