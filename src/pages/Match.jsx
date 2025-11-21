@@ -10,7 +10,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import ShareButtons from '../components/ShareButtons';
 import NewsSection from '../components/NewsSection';
 import MatchStats from '../components/MatchStats';
-import LiveChat from '../components/LiveChat';
+
 
 const Match = () => {
     const { state } = useLocation();
@@ -103,7 +103,8 @@ const Match = () => {
             </header>
 
             {/* Top Ad - First1 */}
-            <AdUnit slot="3242297546" />
+            {/* Top Ad - First1 */}
+            <div id="ua-placement-1"></div>
 
             <Link to="/" className="back-link">
                 <ArrowLeft size={20} />
@@ -177,7 +178,7 @@ const Match = () => {
                                         frameBorder="0"
                                         allowFullScreen
                                         allow="autoplay; encrypted-media"
-                                        sandbox="allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation"
+                                        sandbox={`allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation ${activeStream.name === 'Server 3' ? 'allow-popups allow-popups-to-escape-sandbox' : ''}`}
                                         title="Live Stream"
                                     ></iframe>
                                 </div>
@@ -192,7 +193,8 @@ const Match = () => {
                     </div>
 
                     {/* Ad Below Player - 300x280 (Responsive) */}
-                    <AdUnit slot="8693123672" style={{ display: 'inline-block', width: '100%', minHeight: '280px' }} />
+                    {/* Ad Below Player - 300x280 (Responsive) */}
+                    <div id="ua-placement-2"></div>
 
                 </div>
             </div>
@@ -200,8 +202,7 @@ const Match = () => {
             {/* Match Stats */}
             <MatchStats query={event.title} />
 
-            {/* Live Chat */}
-            <LiveChat />
+
 
             {/* Related Matches */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
@@ -219,11 +220,15 @@ const Match = () => {
                 )}
 
                 {/* Bottom Ad - 2nd Ads */}
-                <AdUnit slot="3714292026" />
+                {/* Bottom Ad - 2nd Ads */}
+                <div id="ua-placement-3"></div>
             </div>
 
             {/* Related News */}
             <NewsSection query={event.title} />
+
+            {/* Anchor AD */}
+            <div id="ua-anchor"></div>
         </div>
     );
 };

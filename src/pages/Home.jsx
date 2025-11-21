@@ -44,7 +44,8 @@ const Home = () => {
             </header>
 
             {/* Top Ad - First1 */}
-            <AdUnit slot="3242297546" />
+            {/* Top Ad - First1 */}
+            <div id="ua-placement-1"></div>
 
             <ServerSelector selectedServer={server} onSelect={setServer} />
 
@@ -84,7 +85,7 @@ const Home = () => {
                                 {/* Ad interleaved between groups or after specific count */}
                                 {(groupIndex + 1) % 2 === 0 && (
                                     <div style={{ marginTop: '2rem' }}>
-                                        <AdUnit slot="3714292026" />
+                                        <div id="ua-placement-3"></div>
                                     </div>
                                 )}
                             </div>
@@ -99,7 +100,7 @@ const Home = () => {
 
                     {/* Bottom Ad - Autorelaxed */}
                     <div style={{ marginTop: '2rem' }}>
-                        <AdUnit slot="2266605680" format="autorelaxed" />
+                        <div id="ua-placement-4"></div>
                     </div>
                 </>
             )}
