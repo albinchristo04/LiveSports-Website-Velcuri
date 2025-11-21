@@ -10,6 +10,7 @@ import CountdownTimer from '../components/CountdownTimer';
 import ShareButtons from '../components/ShareButtons';
 import NewsSection from '../components/NewsSection';
 import MatchStats from '../components/MatchStats';
+import { reloadAdScript } from '../utils/adUtils';
 
 
 const Match = () => {
@@ -41,6 +42,7 @@ const Match = () => {
         };
 
         loadData();
+        reloadAdScript();
     }, [id, event]);
 
     if (loading) {

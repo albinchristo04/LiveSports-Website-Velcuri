@@ -5,6 +5,7 @@ import CategoryFilter from '../components/CategoryFilter';
 import EventCard from '../components/EventCard';
 import AdUnit from '../components/AdUnit';
 import { Loader2 } from 'lucide-react';
+import { reloadAdScript } from '../utils/adUtils';
 
 const Home = () => {
     const [server, setServer] = useState('server1');
@@ -20,6 +21,7 @@ const Home = () => {
             setLoading(false);
         };
         loadEvents();
+        reloadAdScript();
     }, [server]);
 
     const categories = ['All', ...new Set(events.map(e => e.league))];
