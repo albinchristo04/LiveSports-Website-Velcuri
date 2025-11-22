@@ -6,6 +6,7 @@ import TVChannels from './pages/TVChannels';
 import Privacy from './pages/Privacy';
 import DMCA from './pages/DMCA';
 import TelegramTool from './pages/TelegramTool';
+import LinkAggregator from './pages/LinkAggregator';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
 
@@ -21,6 +22,7 @@ function App() {
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/dmca" element={<DMCA />} />
             <Route path="/telegram-tool" element={<TelegramTool />} />
+            <Route path="/link-aggregator" element={<LinkAggregator />} />
           </Routes>
         </div>
         <Footer />
