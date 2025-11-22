@@ -53,7 +53,7 @@ const TVChannels = () => {
             </div>
 
             {/* Top Ad */}
-            <div id="ua-placement-1"></div>
+            <AdUnit slot="3242297546" />
 
             {/* Search and Filter */}
             <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
@@ -115,7 +115,7 @@ const TVChannels = () => {
                         ></iframe>
                     </div>
                     {/* Ad Below Player */}
-                    <div id="ua-placement-2"></div>
+                    <AdUnit slot="3714292026" />
                 </div>
             )}
 
@@ -160,7 +160,7 @@ const TVChannels = () => {
 
             {/* Bottom Ad */}
             <div style={{ marginTop: '2rem' }}>
-                <div id="ua-placement-3"></div>
+                <AdUnit slot="3714292026" />
             </div>
         </div>
     );
