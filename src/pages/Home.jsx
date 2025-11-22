@@ -6,6 +6,7 @@ import EventCard from '../components/EventCard';
 import AdUnit from '../components/AdUnit';
 import { Loader2 } from 'lucide-react';
 import { reloadAdScript } from '../utils/adUtils';
+import Navbar from '../components/Navbar';
 
 const Home = () => {
     const [server, setServer] = useState('server1');
@@ -40,10 +41,7 @@ const Home = () => {
 
     return (
         <div className="container">
-            <header className="app-header text-center">
-                <h1 className="app-title">Velcuri.io</h1>
-                <p>ROJADIRECTA TV - Ver fútbol en vivo gratis por internet</p>
-            </header>
+            <Navbar />
 
             {/* Top Ad - First1 */}
             {/* Top Ad - First1 */}

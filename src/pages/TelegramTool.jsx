@@ -48,6 +48,7 @@ const TelegramTool = () => {
 
     return (
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
+            <Navbar />
             <h1>Telegram Post Generator</h1>
             <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>Generate a list of today's matches formatted for Telegram.</p>
 

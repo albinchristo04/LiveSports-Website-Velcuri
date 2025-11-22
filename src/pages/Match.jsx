@@ -11,6 +11,7 @@ import ShareButtons from '../components/ShareButtons';
 import NewsSection from '../components/NewsSection';
 import MatchStats from '../components/MatchStats';
 import { reloadAdScript } from '../utils/adUtils';
+import Navbar from '../components/Navbar';
 
 
 const Match = () => {
@@ -98,11 +99,7 @@ const Match = () => {
             />
 
             {/* Site Header */}
-            <header className="app-header text-center" style={{ marginBottom: '1.5rem' }}>
-                <Link to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                    <h1 className="app-title">Velcuri.io</h1>
-                </Link>
-            </header>
+            <Navbar />
 
             {/* Top Ad - First1 */}
             {/* Top Ad - First1 */}

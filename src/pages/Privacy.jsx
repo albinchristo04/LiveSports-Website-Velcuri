@@ -1,16 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { ArrowLeft } from 'lucide-react';
+import Navbar from '../components/Navbar';
 
 const Privacy = () => {
     return (
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
-            <Link to="/" className="back-link" style={{ marginBottom: '2rem', display: 'inline-flex' }}>
-                <ArrowLeft size={20} />
-                Back to Home
-            </Link>
-
-            <div className="glass-panel" style={{ padding: '2rem' }}>
+            <Navbar />
+            <div className="glass-panel" style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h1 style={{ marginBottom: '1.5rem' }}>Privacy Policy</h1>
 
                 <p><strong>Last updated: November 20, 2025</strong></p>

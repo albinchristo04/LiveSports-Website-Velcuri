@@ -3,6 +3,7 @@ import { startOfDay, isAfter } from 'date-fns';
 const SOURCE_1_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/events_with_m3u8.json';
 const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/arda/refs/heads/main/streambtw_data.json';
 const SOURCE_3_URL = 'https://topembed.pw/api.php?format=json';
+const TV_CHANNELS_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/mins.json';
 
 export const fetchEvents = async (server) => {
   try {
@@ -23,6 +24,17 @@ export const fetchEvents = async (server) => {
     }
   } catch (error) {
     console.error('Error fetching events:', error);
+    return [];
+  }
+};
+
+export const fetchTVChannels = async () => {
+  try {
+    const response = await fetch(TV_CHANNELS_URL);
+    const data = await response.json();
+    return data.channels || [];
+  } catch (error) {
+    console.error('Error fetching TV channels:', error);
     return [];
   }
 };
