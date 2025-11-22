@@ -1,28 +1,43 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEvents } from '../services/api';
 import ServerSelector from '../components/ServerSelector';
+import Navbar from '../components/Navbar';
 import { Copy, Check } from 'lucide-react';
 
 const TelegramTool = () => {
     const [server, setServer] = useState('server1');
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         const loadEvents = async () => {
             setLoading(true);
-            const data = await fetchEvents(server);
+            setError(null);
+            try {
+                const data = await fetchEvents(server);
 
-            // Filter for today's events
-            const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-            const todaysEvents = data.filter(e => {
-                const eventDate = e.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-                return eventDate === today;
-            });
+                if (!data || !Array.isArray(data)) {
+                    throw new Error('Invalid data received from server');
+                }
 
-            setEvents(todaysEvents);
-            setLoading(false);
+                // Filter for today's events
+                const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                const todaysEvents = data.filter(e => {
+                    if (!e.startTime) return false;
+                    const eventDate = e.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                    return eventDate === today;
+                });
+
+                setEvents(todaysEvents);
+            } catch (err) {
+                console.error("Error loading events:", err);
+                setError("Failed to load events. Please try another server.");
+                setEvents([]);
+            } finally {
+                setLoading(false);
+            }
         };
         loadEvents();
     }, [server]);
@@ -58,6 +73,8 @@ const TelegramTool = () => {
 
             {loading ? (
                 <p>Loading events...</p>
+            ) : error ? (
+                <p style={{ color: 'red' }}>{error}</p>
             ) : (
                 <div className="glass-panel" style={{ padding: '1.5rem' }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>

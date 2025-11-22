@@ -2,7 +2,7 @@ import { startOfDay, isAfter } from 'date-fns';
 
 const SOURCE_1_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/events_with_m3u8.json';
 const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/arda/refs/heads/main/streambtw_data.json';
-const SOURCE_3_URL = 'https://topembed.pw/api.php?format=json';
+const SOURCE_3_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/sports_events.json';
 const TV_CHANNELS_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/mins.json';
 
 export const fetchEvents = async (server) => {
@@ -119,32 +119,55 @@ const normalizeSource2 = (data) => {
 
 const normalizeSource3 = (data) => {
   const events = [];
-  const eventsByDate = data.events || {};
+  const eventsByDay = data.events || {};
 
-  Object.values(eventsByDate).forEach(dateEvents => {
-    dateEvents.forEach((event, index) => {
-      const streams = (event.channels || []).map((channel, i) => ({
+  Object.entries(eventsByDay).forEach(([dayName, dayEvents]) => {
+    dayEvents.forEach((event, index) => {
+      const streams = (event.streams || []).map((streamUrl, i) => ({
         name: `Link ${i + 1}`,
         type: 'iframe',
-        url: channel,
+        url: streamUrl,
         headers: {
-          'Referer': 'https://topembed.pw/'
+          'Referer': 'https://sportzonline.top/'
         }
       }));
 
+      const startTime = getDateFromDayTime(dayName, event.time);
+
       events.push({
-        id: `s3-${event.unix_timestamp}-${index}`, // Generate a unique ID
-        title: event.match,
-        startTime: new Date(event.unix_timestamp * 1000),
-        league: `${event.sport} - ${event.tournament}`,
-        thumbnail: '', // No thumbnail provided in this API
+        id: `s3-${dayName}-${index}`,
+        title: event.event,
+        startTime: startTime,
+        league: 'Sports', // API doesn't provide league, default to Sports
+        thumbnail: '',
         streams: streams,
-        isLive: isLive(new Date(event.unix_timestamp * 1000))
+        isLive: isLive(startTime)
       });
     });
   });
 
   return events.sort((a, b) => a.startTime - b.startTime);
+};
+
+const getDateFromDayTime = (dayName, timeString) => {
+  const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
+  const targetDayIndex = days.indexOf(dayName.toUpperCase());
+
+  if (targetDayIndex === -1) return new Date(); // Fallback
+
+  const now = new Date();
+  const currentDayIndex = now.getDay();
+
+  let dayDiff = targetDayIndex - currentDayIndex;
+  if (dayDiff < 0) dayDiff += 7; // Target day is next week
+
+  const targetDate = new Date(now);
+  targetDate.setDate(now.getDate() + dayDiff);
+
+  const [hours, minutes] = timeString.split(':').map(Number);
+  targetDate.setHours(hours, minutes, 0, 0);
+
+  return targetDate;
 };
 
 const isLive = (date) => {
