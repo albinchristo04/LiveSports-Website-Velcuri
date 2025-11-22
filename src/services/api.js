@@ -96,7 +96,7 @@ const normalizeSource2 = (data) => {
   const matches = data.matches || [];
 
   return matches.map((match, index) => {
-    const streams = (match.stream_urls || []).map((url, i) => ({
+    const streams = (match.first_level_iframes || []).map((url, i) => ({
       name: `Stream ${i + 1}`,
       type: 'iframe',
       url: url,
