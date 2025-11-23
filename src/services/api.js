@@ -1,9 +1,33 @@
 import { startOfDay, isAfter } from 'date-fns';
 
 const SOURCE_1_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/events_with_m3u8.json';
-const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/ovogoaal_events.json';
-const SOURCE_3_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/sports_events.json';
+const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/reyevents.json';
+const SOURCE_3_URL = 'https://topembed.pw/api.php?format=json';
 const TV_CHANNELS_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/mins.json';
+
+const LANGUAGE_MAP = {
+  'pt': 'Portuguese',
+  'es': 'Spanish',
+  'fr': 'French',
+  'it': 'Italian',
+  'de': 'German',
+  'tr': 'Turkish',
+  'gb': 'English',
+  'en': 'English',
+  'nl': 'Dutch',
+  'ru': 'Russian',
+  'ar': 'Arabic',
+  'pl': 'Polish',
+  'ro': 'Romanian',
+  'hu': 'Hungarian',
+  'cz': 'Czech',
+  'sk': 'Slovak',
+  'bg': 'Bulgarian',
+  'ua': 'Ukrainian',
+  'hr': 'Croatian',
+  'sr': 'Serbian',
+  'gr': 'Greek'
+};
 
 export const fetchEvents = async (server) => {
   try {
@@ -93,23 +117,51 @@ const normalizeSource1 = (data) => {
 };
 
 const normalizeSource2 = (data) => {
-  const matches = data.matches || [];
+  const events = Array.isArray(data) ? data : [];
 
-  return matches.map((match, index) => {
-    const streams = (match.first_level_iframes || []).map((url, i) => ({
-      name: `Stream ${i + 1}`,
-      type: 'iframe',
-      url: url,
-      headers: {}
-    }));
+  return events.map((event, index) => {
+    const streams = [];
+    const iframes = event.iframes || [];
+    const channels = event.channels || [];
 
-    const startTime = getDateFromTime(match.time);
+    iframes.forEach((iframe, idx) => {
+      // Try to find language from channels array matching the index
+      // Assuming iframes and channels arrays are parallel
+      let langCode = 'en'; // Default
+      if (channels[idx] && channels[idx][1]) {
+        langCode = channels[idx][1];
+      }
+
+      const langName = LANGUAGE_MAP[langCode] || langCode.toUpperCase();
+
+      // Each iframe object might have multiple players (player1, player2, etc.)
+      Object.keys(iframe).forEach(key => {
+        if (key.startsWith('player')) {
+          const playerNum = key.replace('player', '');
+          streams.push({
+            name: `${langName} - Link ${playerNum}`,
+            type: 'iframe',
+            url: iframe[key],
+            headers: {
+              'Referer': 'https://bolaloca.my/' // Assuming this is the referer based on player URLs
+            }
+          });
+        }
+      });
+    });
+
+    // Parse date and time (DD-MM-YYYY HH:mm)
+    // Assuming API time is UTC+1 based on analysis
+    const [day, month, year] = event.date.split('-');
+    const [hours, minutes] = event.time.split(':');
+    const startTimeStr = `${year}-${month}-${day}T${hours}:${minutes}:00+01:00`;
+    const startTime = new Date(startTimeStr);
 
     return {
       id: `s2-${index}`,
-      title: match.title,
+      title: `${event.team1} vs ${event.team2}`,
       startTime: startTime,
-      league: match.category || 'Sports',
+      league: event.league,
       thumbnail: '',
       streams: streams,
       isLive: isLive(startTime)
@@ -119,67 +171,32 @@ const normalizeSource2 = (data) => {
 
 const normalizeSource3 = (data) => {
   const events = [];
-  const eventsByDay = data.events || {};
+  const eventsByDate = data.events || {};
 
-  Object.entries(eventsByDay).forEach(([dayName, dayEvents]) => {
-    dayEvents.forEach((event, index) => {
-      const streams = (event.streams || []).map((streamUrl, i) => ({
+  Object.values(eventsByDate).forEach(dateEvents => {
+    dateEvents.forEach((event, index) => {
+      const streams = (event.channels || []).map((channel, i) => ({
         name: `Link ${i + 1}`,
         type: 'iframe',
-        url: streamUrl,
+        url: channel,
         headers: {
-          'Referer': 'https://sportzonline.top/'
+          'Referer': 'https://topembed.pw/'
         }
       }));
 
-      const startTime = getDateFromDayTime(dayName, event.time);
-
       events.push({
-        id: `s3-${dayName}-${index}`,
-        title: event.event,
-        startTime: startTime,
-        league: 'Sports', // API doesn't provide league, default to Sports
+        id: `s3-${event.unix_timestamp}-${index}`,
+        title: event.match,
+        startTime: new Date(event.unix_timestamp * 1000),
+        league: `${event.sport} - ${event.tournament}`,
         thumbnail: '',
         streams: streams,
-        isLive: isLive(startTime)
+        isLive: isLive(new Date(event.unix_timestamp * 1000))
       });
     });
   });
 
   return events.sort((a, b) => a.startTime - b.startTime);
-};
-
-const getDateFromDayTime = (dayName, timeString) => {
-  const days = ['SUNDAY', 'MONDAY', 'TUESDAY', 'WEDNESDAY', 'THURSDAY', 'FRIDAY', 'SATURDAY'];
-  const targetDayIndex = days.indexOf(dayName.toUpperCase());
-
-  if (targetDayIndex === -1) return new Date(); // Fallback
-
-  const now = new Date();
-  const currentDayIndex = now.getDay();
-
-  let dayDiff = targetDayIndex - currentDayIndex;
-  if (dayDiff < 0) dayDiff += 7; // Target day is next week
-
-  const targetDate = new Date(now);
-  targetDate.setDate(now.getDate() + dayDiff);
-
-  const [hours, minutes] = timeString.split(':').map(Number);
-  targetDate.setHours(hours, minutes, 0, 0);
-
-  return targetDate;
-};
-
-const getDateFromTime = (timeString) => {
-  if (!timeString) return new Date();
-
-  const now = new Date();
-  const targetDate = new Date(now);
-
-  const [hours, minutes] = timeString.split(':').map(Number);
-  targetDate.setHours(hours, minutes, 0, 0);
-
-  return targetDate;
 };
 
 const isLive = (date) => {
