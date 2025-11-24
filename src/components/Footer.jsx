@@ -11,6 +11,23 @@ const Footer = () => {
             color: 'var(--text-secondary)',
             fontSize: '0.9rem'
         }}>
+            <div style={{ marginBottom: '2rem' }}>
+                <a
+                    href="https://albinchristo04.github.io/livesportsapi.github.io/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="glass-button"
+                    style={{
+                        background: 'linear-gradient(45deg, var(--accent-color), #8b5cf6)',
+                        border: 'none',
+                        padding: '0.75rem 2rem',
+                        fontWeight: 'bold',
+                        textDecoration: 'none'
+                    }}
+                >
+                    Buy the script
+                </a>
+            </div>
             <div style={{ marginBottom: '1rem' }}>
                 <Link to="/" style={{ margin: '0 0.5rem', color: 'inherit', textDecoration: 'none' }}>Home</Link>
                 <span style={{ opacity: 0.3 }}>|</span>
