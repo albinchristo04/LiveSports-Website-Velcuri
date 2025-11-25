@@ -98,8 +98,8 @@ const Match = () => {
             {/* Site Header */}
             <Navbar />
 
-            {/* Top Ad - First1 */}
-            <AdUnit />
+            {/* Top Ad - Placement 1 */}
+            <AdUnit placementId="1" />
 
             <Link to="/" className="back-link">
                 <ArrowLeft size={20} />
@@ -159,12 +159,16 @@ const Match = () => {
                 </div>
             </div>
 
+            {/* Pre-Player Ad - Placement 2 */}
+            <div style={{ marginBottom: '1.5rem' }}>
+                <AdUnit placementId="2" style={{ minHeight: '300px' }} />
+            </div>
+
             <div className="match-layout">
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
-                    {/* Ads Above Player */}
+                    {/* Ads Above Player - Placement 3 */}
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                        <AdUnit />
-                        <AdUnit />
+                        <AdUnit placementId="3" />
                     </div>
 
                     {/* Player Section */}
@@ -193,8 +197,8 @@ const Match = () => {
                         )}
                     </div>
 
-                    {/* Ad Below Player */}
-                    <AdUnit />
+                    {/* Ad Below Player - Placement 4 */}
+                    <AdUnit placementId="4" style={{ minHeight: '300px' }} />
 
                 </div>
             </div>
@@ -222,7 +226,7 @@ const Match = () => {
             <NewsSection query={event.title} />
 
             {/* Anchor AD */}
-            <div id="ua-anchor"></div>
+            <AdUnit type="anchor" />
         </div>
     );
 };

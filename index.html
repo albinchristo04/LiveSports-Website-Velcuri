@@ -22,7 +22,7 @@
 
       // Mobile specific: Prevent some touch-based popups if possible
       document.addEventListener('touchend', function (e) {
-        // This is passive monitoring, can't block much here without breaking scroll
+        // This is passive monitoring, can't break much here without breaking scroll
       }, { passive: false });
     })();
   </script>
@@ -35,8 +35,10 @@
 
     gtag('config', 'G-FFS7KE4D3H');
   </script>
-  <!-- Universal Ads Script -->
-  <script async src="https://cdn.jsdelivr.net/gh/Tipblogg/nasrev-cdn/universal-ads.min.js"></script>
+  <!-- Universal Ads Script - Load synchronously for proper initialization -->
+  <script src="https://cdn.jsdelivr.net/gh/Tipblogg/nasrev-cdn/universal-ads.min.js"></script>
+  <!-- Video Ads Script -->
+  <script src="https://cdn.jsdelivr.net/gh/Tipblogg/nasrev-cdn/nas-video.js" async></script>
 </head>
 
 <body>

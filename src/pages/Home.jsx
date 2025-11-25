@@ -41,8 +41,8 @@ const Home = () => {
         <div className="container">
             <Navbar />
 
-            {/* Top Ad - First1 */}
-            <AdUnit />
+            {/* Top Ad */}
+            <AdUnit placementId="1" />
 
             <ServerSelector selectedServer={server} onSelect={setServer} />
 
@@ -79,10 +79,10 @@ const Home = () => {
                                     ))}
                                 </div>
 
-                                {/* Ad interleaved between groups or after specific count */}
+                                {/* Ad interleaved between groups */}
                                 {(groupIndex + 1) % 2 === 0 && (
                                     <div style={{ marginTop: '2rem' }}>
-                                        <AdUnit />
+                                        <AdUnit placementId="2" />
                                     </div>
                                 )}
                             </div>
@@ -95,9 +95,9 @@ const Home = () => {
                         )}
                     </div>
 
-                    {/* Bottom Ad - Autorelaxed */}
+                    {/* Bottom Ad */}
                     <div style={{ marginTop: '2rem' }}>
-                        <AdUnit />
+                        <AdUnit placementId="3" />
                     </div>
                 </>
             )}

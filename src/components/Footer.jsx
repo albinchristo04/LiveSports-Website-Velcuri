@@ -18,7 +18,7 @@ const Footer = () => {
                 margin: '0 auto 2rem auto',
                 padding: '0 1rem'
             }}>
-                <AdUnit style={{
+                <AdUnit placementId="4" style={{
                     minHeight: '280px',
                     background: 'rgba(255, 255, 255, 0.03)',
                     border: '1px solid var(--glass-border)'
