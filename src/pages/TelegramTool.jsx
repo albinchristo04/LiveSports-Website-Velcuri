@@ -9,7 +9,7 @@ const TelegramTool = () => {
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [selectedEvents, setSelectedEvents] = useState(new Set());
+    const [copied, setCopied] = useState(false);
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -31,8 +31,6 @@ const TelegramTool = () => {
                 });
 
                 setEvents(todaysEvents);
-                // Select all by default
-                setSelectedEvents(new Set(todaysEvents.map(e => e.id)));
             } catch (err) {
                 console.error("Error loading events:", err);
                 setError("Failed to load events. Please try another server.");
@@ -44,38 +42,14 @@ const TelegramTool = () => {
         loadEvents();
     }, [server]);
 
-    const toggleEvent = (id) => {
-        const newSelected = new Set(selectedEvents);
-        if (newSelected.has(id)) {
-            newSelected.delete(id);
-        } else {
-            newSelected.add(id);
-        }
-        setSelectedEvents(newSelected);
-    };
-
-    const selectAll = () => {
-        setSelectedEvents(new Set(events.map(e => e.id)));
-    };
-
-    const deselectAll = () => {
-        setSelectedEvents(new Set());
-    };
-
     const generateTelegramText = () => {
         const header = `🔥 **TODAY'S MATCHES** 🔥\n\n`;
-        const eventList = events
-            .filter(e => selectedEvents.has(e.id))
-            .map(e => {
-                const time = e.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                const link = `${window.location.origin}/match/${e.id}`;
-                return `⚽ **${e.title}**\n🏆 ${e.league}\n⏰ ${time}\n📺 Watch: ${link}\n`;
-            }).join('\n');
+        const eventList = events.map(e => {
+            const time = e.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+            const link = `${window.location.origin}/match/${e.id}`;
+            return `⚽ **${e.title}**\n🏆 ${e.league}\n⏰ ${time}\n📺 Watch: ${link}\n`;
+        }).join('\n');
         const footer = `\n📢 Join us: https://t.me/+brOxYHl33qljZTQ1`;
-
-        if (selectedEvents.size === 0) {
-            return "Please select at least one event.";
-        }
 
         return header + eventList + footer;
     };
@@ -102,91 +76,30 @@ const TelegramTool = () => {
             ) : error ? (
                 <p style={{ color: 'red' }}>{error}</p>
             ) : (
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem' }}>
-                    <div className="glass-panel" style={{ padding: '1.5rem', maxHeight: '600px', overflowY: 'auto' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                            <h3>Select Events ({selectedEvents.size})</h3>
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
-                                <button
-                                    onClick={selectAll}
-                                    style={{ background: 'none', border: 'none', color: 'var(--accent-color)', cursor: 'pointer', fontSize: '0.8rem' }}
-                                >
-                                    All
-                                </button>
-                                <button
-                                    onClick={deselectAll}
-                                    style={{ background: 'none', border: 'none', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.8rem' }}
-                                >
-                                    None
-                                </button>
-                            </div>
-                        </div>
-
-                        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            {events.map(event => (
-                                <div
-                                    key={event.id}
-                                    onClick={() => toggleEvent(event.id)}
-                                    style={{
-                                        padding: '0.75rem',
-                                        borderRadius: '8px',
-                                        background: selectedEvents.has(event.id) ? 'rgba(59, 130, 246, 0.1)' : 'rgba(255, 255, 255, 0.05)',
-                                        border: `1px solid ${selectedEvents.has(event.id) ? 'var(--accent-color)' : 'transparent'}`,
-                                        cursor: 'pointer',
-                                        transition: 'all 0.2s'
-                                    }}
-                                >
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                                        <div style={{
-                                            width: '18px',
-                                            height: '18px',
-                                            borderRadius: '4px',
-                                            border: '2px solid var(--text-secondary)',
-                                            display: 'flex',
-                                            alignItems: 'center',
-                                            justifyContent: 'center',
-                                            background: selectedEvents.has(event.id) ? 'var(--accent-color)' : 'transparent',
-                                            borderColor: selectedEvents.has(event.id) ? 'var(--accent-color)' : 'var(--text-secondary)'
-                                        }}>
-                                            {selectedEvents.has(event.id) && <Check size={12} color="white" />}
-                                        </div>
-                                        <div>
-                                            <div style={{ fontWeight: 'bold', fontSize: '0.9rem' }}>{event.title}</div>
-                                            <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                                                {event.league} • {event.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
+                <div className="glass-panel" style={{ padding: '1.5rem' }}>
+                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+                        <h3>Preview</h3>
+                        <button className="glass-button gap-2" onClick={handleCopy}>
+                            {copied ? <Check size={18} color="#4ade80" /> : <Copy size={18} />}
+                            {copied ? 'Copied!' : 'Copy to Clipboard'}
+                        </button>
                     </div>
 
-                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                            <h3>Preview</h3>
-                            <button className="glass-button gap-2" onClick={handleCopy} disabled={selectedEvents.size === 0}>
-                                {copied ? <Check size={18} color="#4ade80" /> : <Copy size={18} />}
-                                {copied ? 'Copied!' : 'Copy'}
-                            </button>
-                        </div>
-
-                        <textarea
-                            readOnly
-                            value={generateTelegramText()}
-                            style={{
-                                width: '100%',
-                                height: '500px',
-                                background: 'rgba(0,0,0,0.3)',
-                                color: 'var(--text-primary)',
-                                border: '1px solid var(--glass-border)',
-                                borderRadius: '8px',
-                                padding: '1rem',
-                                fontFamily: 'monospace',
-                                resize: 'none'
-                            }}
-                        />
-                    </div>
+                    <textarea
+                        readOnly
+                        value={generateTelegramText()}
+                        style={{
+                            width: '100%',
+                            height: '400px',
+                            background: 'rgba(0,0,0,0.3)',
+                            color: 'var(--text-primary)',
+                            border: '1px solid var(--glass-border)',
+                            borderRadius: '8px',
+                            padding: '1rem',
+                            fontFamily: 'monospace',
+                            resize: 'vertical'
+                        }}
+                    />
                 </div>
             )}
         </div>
