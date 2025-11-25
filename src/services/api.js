@@ -2,7 +2,7 @@ import { startOfDay, isAfter } from 'date-fns';
 
 const SOURCE_1_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/events_with_m3u8.json';
 const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/heads/main/reyevents.json';
-const SOURCE_3_URL = 'https://topembed.pw/api.php?format=json';
+const SOURCE_3_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/sports_events.json';
 const TV_CHANNELS_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/mins.json';
 
 const LANGUAGE_MAP = {
