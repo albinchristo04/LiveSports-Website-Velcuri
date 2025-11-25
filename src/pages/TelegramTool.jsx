@@ -10,6 +10,7 @@ const TelegramTool = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [copied, setCopied] = useState(false);
+    const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -22,15 +23,16 @@ const TelegramTool = () => {
                     throw new Error('Invalid data received from server');
                 }
 
-                // Filter for today's events
-                const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-                const todaysEvents = data.filter(e => {
+                // Filter for selected date's events
+                const selected = new Date(selectedDate);
+                const selectedDateStr = selected.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+                const dateEvents = data.filter(e => {
                     if (!e.startTime) return false;
                     const eventDate = e.startTime.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
-                    return eventDate === today;
+                    return eventDate === selectedDateStr;
                 });
 
-                setEvents(todaysEvents);
+                setEvents(dateEvents);
             } catch (err) {
                 console.error("Error loading events:", err);
                 setError("Failed to load events. Please try another server.");
@@ -40,10 +42,12 @@ const TelegramTool = () => {
             }
         };
         loadEvents();
-    }, [server]);
+    }, [server, selectedDate]);
 
     const generateTelegramText = () => {
-        const header = `🔥 **TODAY'S MATCHES** 🔥\n\n`;
+        const dateObj = new Date(selectedDate);
+        const dateStr = dateObj.toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' });
+        const header = `🔥 **${dateStr.toUpperCase()} MATCHES** 🔥\n\n`;
         const eventList = events.map(e => {
             const time = e.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
             const link = `${window.location.origin}/match/${e.id}`;
@@ -65,10 +69,30 @@ const TelegramTool = () => {
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
             <Navbar />
             <h1>Telegram Post Generator</h1>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>Generate a list of today's matches formatted for Telegram.</p>
+            <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>Generate a list of matches formatted for Telegram.</p>
 
             <div style={{ marginBottom: '2rem' }}>
                 <ServerSelector selectedServer={server} onSelect={setServer} />
+            </div>
+
+            <div className="glass-panel" style={{ padding: '1.5rem', marginBottom: '2rem' }}>
+                <label style={{ display: 'block', marginBottom: '0.5rem', fontWeight: '500' }}>
+                    Select Date:
+                </label>
+                <input
+                    type="date"
+                    value={selectedDate}
+                    onChange={(e) => setSelectedDate(e.target.value)}
+                    style={{
+                        width: '100%',
+                        padding: '0.75rem',
+                        background: 'rgba(0,0,0,0.3)',
+                        color: 'var(--text-primary)',
+                        border: '1px solid var(--glass-border)',
+                        borderRadius: '8px',
+                        fontSize: '1rem'
+                    }}
+                />
             </div>
 
             {loading ? (
