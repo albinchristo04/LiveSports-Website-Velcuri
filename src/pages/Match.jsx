@@ -99,7 +99,7 @@ const Match = () => {
             <Navbar />
 
             {/* Top Ad - First1 */}
-            <AdUnit slot="3242297546" />
+            <AdUnit />
 
             <Link to="/" className="back-link">
                 <ArrowLeft size={20} />
@@ -163,8 +163,8 @@ const Match = () => {
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', width: '100%' }}>
                     {/* Ads Above Player */}
                     <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1rem' }}>
-                        <AdUnit slot="3714292026" style={{ display: 'block', width: '100%' }} />
-                        <AdUnit slot="8693123672" style={{ display: 'inline-block', width: '300px', height: '280px' }} />
+                        <AdUnit />
+                        <AdUnit />
                     </div>
 
                     {/* Player Section */}
@@ -194,7 +194,7 @@ const Match = () => {
                     </div>
 
                     {/* Ad Below Player */}
-                    <AdUnit slot="3714292026" />
+                    <AdUnit />
 
                 </div>
             </div>

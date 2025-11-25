@@ -1,29 +1,37 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
-const AdUnit = ({ slot, style, format = 'auto', responsive = 'true', layoutKey }) => {
-    const adRef = useRef(null);
-
+const AdUnit = ({ style, className = '' }) => {
     useEffect(() => {
-        try {
-            if (window.adsbygoogle) {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            }
-        } catch (e) {
-            console.error('AdSense error:', e);
+        // Universal ads will auto-initialize
+        if (window.universalAds) {
+            window.universalAds.init();
         }
     }, []);
 
     return (
-        <div className="ad-container" style={{ margin: '1rem 0', textAlign: 'center', overflow: 'hidden' }}>
-            <ins
-                className="adsbygoogle"
-                style={style || { display: 'block' }}
-                data-ad-client="ca-pub-9635539719400885"
-                data-ad-slot={slot}
-                data-ad-format={format}
-                data-full-width-responsive={responsive}
-                data-ad-layout-key={layoutKey}
-            ></ins>
+        <div
+            className={`ad-container ${className}`}
+            style={{
+                margin: '1.5rem 0',
+                textAlign: 'center',
+                minHeight: '250px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.02)',
+                borderRadius: '8px',
+                padding: '1rem',
+                ...style
+            }}
+        >
+            <div
+                className="universal-ad"
+                style={{
+                    width: '100%',
+                    minHeight: '250px',
+                    display: 'block'
+                }}
+            ></div>
         </div>
     );
 };

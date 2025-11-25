@@ -5,6 +5,21 @@ const SOURCE_2_URL = 'https://raw.githubusercontent.com/albinchristo04/ptv/refs/
 const SOURCE_3_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/sports_events.json';
 const TV_CHANNELS_URL = 'https://raw.githubusercontent.com/albinchristo04/mayiru/refs/heads/main/mins.json';
 
+// HD Channel Language Mapping for Server 3
+const HD_CHANNEL_LANGUAGE_MAP = {
+  'hd1': 'English',
+  'hd2': 'English',
+  'hd3': 'German',
+  'hd4': 'French',
+  'hd5': 'English',
+  'hd6': 'Spanish',
+  'hd7': 'Italian',
+  'hd8': 'Italian',
+  'hd9': 'German',
+  'hd10': 'Arabic',
+  'hd11': 'English'
+};
+
 const LANGUAGE_MAP = {
   'pt': 'Portuguese',
   'es': 'Spanish',
@@ -171,27 +186,63 @@ const normalizeSource2 = (data) => {
 
 const normalizeSource3 = (data) => {
   const events = [];
-  const eventsByDate = data.events || {};
+  const eventsByDay = data.events || {};
 
-  Object.values(eventsByDate).forEach(dateEvents => {
-    dateEvents.forEach((event, index) => {
-      const streams = (event.channels || []).map((channel, i) => ({
-        name: `Link ${i + 1}`,
-        type: 'iframe',
-        url: channel,
-        headers: {
-          'Referer': 'https://topembed.pw/'
-        }
-      }));
+  // Helper function to extract HD channel identifier from URL
+  const getHDChannelFromUrl = (url) => {
+    const match = url.match(/\/hd\/(hd\d+)\.php/);
+    return match ? match[1] : null;
+  };
+
+  // Helper function to parse time and create date object
+  const parseEventTime = (timeStr, dayOfWeek) => {
+    const [hours, minutes] = timeStr.split(':');
+    const now = new Date();
+    const currentDay = now.getDay(); // 0 = Sunday, 1 = Monday, etc.
+
+    // Map day names to day numbers
+    const dayMap = {
+      'SUNDAY': 0, 'MONDAY': 1, 'TUESDAY': 2, 'WEDNESDAY': 3,
+      'THURSDAY': 4, 'FRIDAY': 5, 'SATURDAY': 6
+    };
+
+    const targetDay = dayMap[dayOfWeek.toUpperCase()];
+    let daysUntilTarget = targetDay - currentDay;
+    if (daysUntilTarget < 0) daysUntilTarget += 7;
+
+    const eventDate = new Date(now);
+    eventDate.setDate(now.getDate() + daysUntilTarget);
+    eventDate.setHours(parseInt(hours), parseInt(minutes), 0, 0);
+
+    return eventDate;
+  };
+
+  Object.entries(eventsByDay).forEach(([dayOfWeek, dayEvents]) => {
+    dayEvents.forEach((event, index) => {
+      const streams = (event.streams || []).map((streamUrl, i) => {
+        const hdChannel = getHDChannelFromUrl(streamUrl);
+        const language = hdChannel ? HD_CHANNEL_LANGUAGE_MAP[hdChannel] : null;
+
+        return {
+          name: language ? `${language} - ${hdChannel.toUpperCase()}` : `Link ${i + 1}`,
+          type: 'iframe',
+          url: streamUrl,
+          headers: {
+            'Referer': 'https://sportzonline.top/'
+          }
+        };
+      });
+
+      const startTime = parseEventTime(event.time, dayOfWeek);
 
       events.push({
-        id: `s3-${event.unix_timestamp}-${index}`,
-        title: event.match,
-        startTime: new Date(event.unix_timestamp * 1000),
-        league: `${event.sport} - ${event.tournament}`,
+        id: `s3-${dayOfWeek}-${event.time}-${index}`,
+        title: event.event,
+        startTime: startTime,
+        league: event.event.includes(':') ? event.event.split(':')[0] : 'Sports',
         thumbnail: '',
         streams: streams,
-        isLive: isLive(new Date(event.unix_timestamp * 1000))
+        isLive: isLive(startTime)
       });
     });
   });

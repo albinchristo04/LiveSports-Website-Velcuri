@@ -42,7 +42,7 @@ const Home = () => {
             <Navbar />
 
             {/* Top Ad - First1 */}
-            <AdUnit slot="3242297546" />
+            <AdUnit />
 
             <ServerSelector selectedServer={server} onSelect={setServer} />
 
@@ -82,7 +82,7 @@ const Home = () => {
                                 {/* Ad interleaved between groups or after specific count */}
                                 {(groupIndex + 1) % 2 === 0 && (
                                     <div style={{ marginTop: '2rem' }}>
-                                        <AdUnit slot="3714292026" />
+                                        <AdUnit />
                                     </div>
                                 )}
                             </div>
@@ -97,7 +97,7 @@ const Home = () => {
 
                     {/* Bottom Ad - Autorelaxed */}
                     <div style={{ marginTop: '2rem' }}>
-                        <AdUnit slot="3714292026" />
+                        <AdUnit />
                     </div>
                 </>
             )}

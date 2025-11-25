@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import AdUnit from './AdUnit';
 
 const Footer = () => {
     return (
@@ -11,6 +12,19 @@ const Footer = () => {
             color: 'var(--text-secondary)',
             fontSize: '0.9rem'
         }}>
+            {/* Footer Ad - Prominent placement for maximum visibility */}
+            <div style={{
+                maxWidth: '1200px',
+                margin: '0 auto 2rem auto',
+                padding: '0 1rem'
+            }}>
+                <AdUnit style={{
+                    minHeight: '280px',
+                    background: 'rgba(255, 255, 255, 0.03)',
+                    border: '1px solid var(--glass-border)'
+                }} />
+            </div>
+
             <div style={{ marginBottom: '2rem' }}>
                 <a
                     href="https://albinchristo04.github.io/livesportsapi.github.io/"
