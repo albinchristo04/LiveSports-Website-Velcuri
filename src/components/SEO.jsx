@@ -1,21 +1,32 @@
 import React, { useEffect } from 'react';
 
-const SEO = ({ title, description, schema }) => {
+const SEO = ({ title, description, schema, image }) => {
     useEffect(() => {
         // Update Title
         if (title) {
             document.title = title;
         }
 
-        // Update Description
-        if (description) {
-            let metaDescription = document.querySelector('meta[name="description"]');
-            if (!metaDescription) {
-                metaDescription = document.createElement('meta');
-                metaDescription.name = 'description';
-                document.head.appendChild(metaDescription);
+        // Helper to update or create meta tag
+        const updateMeta = (name, content, attribute = 'name') => {
+            if (!content) return;
+            let element = document.querySelector(`meta[${attribute}="${name}"]`);
+            if (!element) {
+                element = document.createElement('meta');
+                element.setAttribute(attribute, name);
+                document.head.appendChild(element);
             }
-            metaDescription.content = description;
+            element.content = content;
+        };
+
+        // Update Description
+        updateMeta('description', description);
+
+        // Update Open Graph / Twitter Image
+        if (image) {
+            updateMeta('og:image', image, 'property');
+            updateMeta('twitter:image', image);
+            updateMeta('twitter:card', 'summary_large_image');
         }
 
         // Inject Schema.org JSON-LD
@@ -33,7 +44,7 @@ const SEO = ({ title, description, schema }) => {
         return () => {
             // Cleanup schema on unmount if needed, but usually fine to leave until next update
         };
-    }, [title, description, schema]);
+    }, [title, description, schema, image]);
 
     return null;
 };

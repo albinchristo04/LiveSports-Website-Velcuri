@@ -68,6 +68,7 @@ const Match = () => {
             <SEO
                 title={`${event.title} - Live Stream | ROJADIRECTA`}
                 description={`Watch ${event.title} live stream online for free. ${event.league} match coverage.`}
+                image={event.thumbnail}
                 schema={{
                     "@context": "https://schema.org",
                     "@type": "BroadcastEvent",
@@ -78,6 +79,7 @@ const Match = () => {
                         "name": "Online"
                     },
                     "description": `Live coverage of ${event.title} in ${event.league}`,
+                    "image": event.thumbnail,
                     "broadcastOfEvent": {
                         "@type": "SportsEvent",
                         "name": event.title,
