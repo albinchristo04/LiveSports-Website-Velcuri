@@ -142,27 +142,7 @@ const TwitterTool = () => {
                                     className="glass-button"
                                     onClick={() => {
                                         navigator.clipboard.writeText(generateTweet(event));
-                                        // Optional: Show toast
-                                    }}
-                                    title="Copy Tweet Text"
-                                >
-                                    <Copy size={18} />
-                                </button>
-                                <button
-                                    className="glass-button"
-                                    style={{ background: '#1DA1F2', borderColor: '#1DA1F2', color: 'white' }}
-                                    onClick={() => handleTweet(event)}
-                                >
-                                    <Twitter size={18} style={{ marginRight: '0.5rem' }} />
-                                    Tweet Now
-                                </button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            )}
-        </div>
     );
 };
 
-export default TwitterTool;
+                                export default TwitterTool;
