@@ -76,12 +76,6 @@ const TwitterTool = () => {
         return `🚨 LIVE NOW: ${event.title} \n\n🏆 ${event.league}\n📺 Watch Here ➡️ ${link}\n\n${hashtags}`;
     };
 
-    const handleTweet = (event) => {
-        const text = generateTweet(event);
-        const url = `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-        window.open(url, '_blank');
-    };
-
     return (
         <div className="container" style={{ padding: '2rem', maxWidth: '1000px' }}>
             <Navbar />
@@ -142,7 +136,35 @@ const TwitterTool = () => {
                                     className="glass-button"
                                     onClick={() => {
                                         navigator.clipboard.writeText(generateTweet(event));
+                                    }}
+                                    title="Copy Tweet Text"
+                                >
+                                    <Copy size={18} />
+                                </button>
+                                <a
+                                    className="glass-button"
+                                    style={{
+                                        background: '#1DA1F2',
+                                        borderColor: '#1DA1F2',
+                                        color: 'white',
+                                        textDecoration: 'none',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                    href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(generateTweet(event))}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    <Twitter size={18} style={{ marginRight: '0.5rem' }} />
+                                    Tweet Now
+                                </a>
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
+        </div>
     );
 };
 
-                                export default TwitterTool;
+export default TwitterTool;
