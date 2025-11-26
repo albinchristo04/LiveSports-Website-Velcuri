@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Tv, Home, Shield, FileText, Send, Link as LinkIcon } from 'lucide-react';
+import { Menu, X, Tv, Home, Shield, FileText, Send, Link as LinkIcon, Video } from 'lucide-react';
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -8,6 +8,7 @@ const Navbar = () => {
 
     const navLinks = [
         { name: 'Home', path: '/', icon: <Home size={18} /> },
+        { name: 'Highlights', path: '/highlights', icon: <Video size={18} /> },
         { name: 'TV Channels', path: '/tv-channels', icon: <Tv size={18} /> },
         { name: 'Privacy', path: '/privacy', icon: <Shield size={18} /> },
         { name: 'DMCA', path: '/dmca', icon: <FileText size={18} /> },

@@ -7,6 +7,8 @@ import Privacy from './pages/Privacy';
 import DMCA from './pages/DMCA';
 import TelegramTool from './pages/TelegramTool';
 import LinkAggregator from './pages/LinkAggregator';
+import Highlights from './pages/Highlights';
+import TwitterTool from './pages/TwitterTool';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
 
@@ -23,6 +25,8 @@ function App() {
             <Route path="/dmca" element={<DMCA />} />
             <Route path="/telegram-tool" element={<TelegramTool />} />
             <Route path="/link-aggregator" element={<LinkAggregator />} />
+            <Route path="/highlights" element={<Highlights />} />
+            <Route path="/twitter-tool" element={<TwitterTool />} />
           </Routes>
         </div>
         <Footer />
