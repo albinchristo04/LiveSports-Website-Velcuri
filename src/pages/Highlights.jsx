@@ -12,17 +12,35 @@ const Highlights = () => {
     useEffect(() => {
         const fetchHighlights = async () => {
             try {
-                // Using a common free token for ScoreBat API v3 or the public feed if available.
-                // If this token doesn't work, the user might need to sign up for a free API key at https://www.scorebat.com/video-api/
+                // Using the free-feed endpoint which is required for free tokens.
+                // If this token fails, please register at https://www.scorebat.com/video-api/ for a free token.
                 const response = await fetch('https://www.scorebat.com/video-api/v3/feed/?token=MTc1ODc_MTY1MTY1MTY1XzU1');
+
                 if (!response.ok) {
-                    throw new Error('Failed to fetch highlights');
+                    // Fallback to free-feed if the main feed fails (often due to token type)
+                    const freeResponse = await fetch('https://www.scorebat.com/video-api/v3/free-feed/?token=MTc1ODc_MTY1MTY1MTY1XzU1');
+                    if (!freeResponse.ok) {
+                        throw new Error(`API Error: ${freeResponse.status}`);
+                    }
+                    const data = await freeResponse.json();
+                    setHighlights(data.response || []);
+                    return;
                 }
+
                 const data = await response.json();
                 setHighlights(data.response || []);
             } catch (err) {
                 console.error("Error fetching highlights:", err);
-                setError("Failed to load highlights. Please try again later.");
+                setError(
+                    <div style={{ textAlign: 'center' }}>
+                        <p>Failed to load highlights.</p>
+                        <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                            Please verify your API token in <code>src/pages/Highlights.jsx</code>.
+                            <br />
+                            You can get a free token from <a href="https://www.scorebat.com/video-api/" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-color)' }}>ScoreBat</a>.
+                        </p>
+                    </div>
+                );
             } finally {
                 setLoading(false);
             }
