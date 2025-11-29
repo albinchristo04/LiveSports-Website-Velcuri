@@ -1,62 +1,59 @@
 import React, { useState, useEffect } from 'react';
-import { Loader2, Play, Calendar, ExternalLink } from 'lucide-react';
+import { Loader2, Play, Calendar, ExternalLink, RefreshCw } from 'lucide-react';
 import Navbar from '../components/Navbar';
-import Footer from '../components/Footer';
 import AdUnit from '../components/AdUnit';
 
 const Highlights = () => {
     const [highlights, setHighlights] = useState([]);
-    useEffect(() => {
-        const fetchHighlights = async () => {
-            try {
-                // Using the user-provided token
-                const token = 'MjU2NTIyXzE3NjQxNjk4MjdfMWY4NWQ5MWM4NjFhOTFjNGI0NmEyNjQ2MDg3ZjIxOWFhZTBkMzAxYw==';
-                const response = await fetch(`https://www.scorebat.com/video-api/v3/feed/?token=${token}`);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-                if (!response.ok) {
-                    // Fallback to free-feed if the main feed fails
-                    const freeResponse = await fetch(`https://www.scorebat.com/video-api/v3/free-feed/?token=${token}`);
-                    if (!freeResponse.ok) {
-                        throw new Error(`API Error: ${freeResponse.status}`);
-                    }
-                    const data = await freeResponse.json();
-                    setHighlights(data.response || []);
-                    return;
+    const fetchHighlights = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            // Using the user-provided token
+            const token = 'MjU2NTIyXzE3NjQxNjk4MjdfMWY4NWQ5MWM4NjFhOTFjNGI0NmEyNjQ2MDg3ZjIxOWFhZTBkMzAxYw==';
+            const response = await fetch(`https://www.scorebat.com/video-api/v3/feed/?token=${token}`);
+
+            if (!response.ok) {
+                // Fallback to free-feed if the main feed fails
+                console.warn("Main feed failed, trying free feed...");
+                const freeResponse = await fetch(`https://www.scorebat.com/video-api/v3/free-feed/?token=${token}`);
+                if (!freeResponse.ok) {
+                    throw new Error(`API Error: ${freeResponse.status}`);
                 }
-
-                const data = await response.json();
+                const data = await freeResponse.json();
                 setHighlights(data.response || []);
-            } catch (err) {
-                console.error("Error fetching highlights:", err);
-                setError(
-                    <div style={{ textAlign: 'center' }}>
-                        <p>Failed to load highlights.</p>
-                        <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
-                            Please verify your API token in <code>src/pages/Highlights.jsx</code>.
-                            <br />
-                            You can get a free token from <a href="https://www.scorebat.com/video-api/" target="_blank" rel="noreferrer" style={{ color: 'var(--accent-color)' }}>ScoreBat</a>.
-                        </p>
-                    </div>
-                );
-            } finally {
-                setLoading(false);
+                return;
             }
-        };
 
+            const data = await response.json();
+            setHighlights(data.response || []);
+        } catch (err) {
+            console.error("Error fetching highlights:", err);
+            setError(
+                <div style={{ textAlign: 'center' }}>
+                    <p>Failed to load highlights.</p>
+                    <p style={{ fontSize: '0.9rem', marginTop: '0.5rem' }}>
+                        Please check your internet connection or try again later.
+                    </p>
+                </div>
+            );
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
         fetchHighlights();
     }, []);
 
-    // Function to extract embed URL or use the embed string directly
-    // ScoreBat returns an 'embed' string which is an HTML iframe. 
-    // We can either render it dangerously or try to parse it. 
-    // For simplicity and correctness with their API, rendering the HTML is often required, 
-    // but we need to be careful. ScoreBat's embed code is usually safe <iframe> tags.
-
     return (
-        <div className="container">
+        <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
             <Navbar />
 
-            <div className="content-wrapper" style={{ padding: '0 1.5rem', maxWidth: '1200px', margin: '0 auto' }}>
+            <div className="content-wrapper" style={{ padding: '0 1.5rem', maxWidth: '1200px', margin: '0 auto', flex: 1, width: '100%' }}>
                 <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
                     <h1 style={{
                         fontSize: '2.5rem',
@@ -76,12 +73,30 @@ const Highlights = () => {
                 <AdUnit placementId="highlights-top" />
 
                 {loading ? (
-                    <div className="flex justify-center items-center" style={{ height: '400px' }}>
+                    <div className="flex justify-center items-center" style={{ height: '400px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Loader2 className="loading-spinner" size={48} color="#3b82f6" />
                     </div>
                 ) : error ? (
-                    <div className="text-center" style={{ padding: '3rem', color: 'var(--text-secondary)' }}>
+                    <div className="text-center" style={{ padding: '3rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
                         {error}
+                        <button
+                            onClick={fetchHighlights}
+                            className="glass-button"
+                            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem' }}
+                        >
+                            <RefreshCw size={16} /> Retry
+                        </button>
+                    </div>
+                ) : highlights.length === 0 ? (
+                    <div className="text-center" style={{ padding: '3rem', color: 'var(--text-secondary)' }}>
+                        <p>No highlights found at the moment.</p>
+                        <button
+                            onClick={fetchHighlights}
+                            className="glass-button"
+                            style={{ marginTop: '1rem', display: 'inline-flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem' }}
+                        >
+                            <RefreshCw size={16} /> Refresh
+                        </button>
                     </div>
                 ) : (
                     <div className="highlights-grid" style={{
@@ -100,7 +115,6 @@ const Highlights = () => {
                                 flexDirection: 'column'
                             }}>
                                 <div className="video-container" style={{ position: 'relative', paddingTop: '56.25%', background: '#000' }}>
-                                    {/* We will use the thumbnail and link to the match page or render embed if user clicks */}
                                     <img
                                         src={item.thumbnail}
                                         alt={item.title}
@@ -178,8 +192,6 @@ const Highlights = () => {
                     <AdUnit placementId="highlights-bottom" />
                 </div>
             </div>
-
-            <Footer />
         </div>
     );
 };

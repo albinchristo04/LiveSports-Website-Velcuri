@@ -2,13 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { fetchEvents } from '../services/api';
 import ServerSelector from '../components/ServerSelector';
 import Navbar from '../components/Navbar';
-import { Twitter, RefreshCw, Copy, Check } from 'lucide-react';
+import { Twitter, RefreshCw, Copy, Check, Loader2 } from 'lucide-react';
 
 const TwitterTool = () => {
     const [server, setServer] = useState('server1');
     const [events, setEvents] = useState([]);
     const [loading, setLoading] = useState(true);
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
+    const [trendingKeywords, setTrendingKeywords] = useState({});
+    const [loadingKeywords, setLoadingKeywords] = useState({});
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -34,6 +36,49 @@ const TwitterTool = () => {
         };
         loadEvents();
     }, [server, selectedDate]);
+
+    const fetchTrendingKeywords = async (event) => {
+        if (trendingKeywords[event.id]) return; // Already fetched
+
+        setLoadingKeywords(prev => ({ ...prev, [event.id]: true }));
+        try {
+            const query = `${event.title} ${event.league}`;
+            const encodedQuery = encodeURIComponent(query);
+            // Use allorigins to bypass CORS for Google News RSS
+            const rssUrl = `https://news.google.com/rss/search?q=${encodedQuery}&hl=en-US&gl=US&ceid=US:en`;
+            const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+
+            const response = await fetch(proxyUrl);
+            const data = await response.json();
+
+            if (data.contents) {
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+                const items = xmlDoc.querySelectorAll("item title");
+
+                // Extract unique words from titles
+                const words = new Set();
+                items.forEach(item => {
+                    const title = item.textContent;
+                    // Simple extraction: split by space, remove common words/chars
+                    title.split(/\s+/).forEach(word => {
+                        const cleanWord = word.replace(/[^a-zA-Z0-9]/g, '');
+                        if (cleanWord.length > 4 && !['video', 'watch', 'live', 'stream', 'highlight', 'goal'].includes(cleanWord.toLowerCase())) {
+                            words.add(`#${cleanWord}`);
+                        }
+                    });
+                });
+
+                // Take top 5 random keywords to avoid spamming too much
+                const keywords = Array.from(words).slice(0, 5).join(' ');
+                setTrendingKeywords(prev => ({ ...prev, [event.id]: keywords }));
+            }
+        } catch (err) {
+            console.error("Error fetching keywords:", err);
+        } finally {
+            setLoadingKeywords(prev => ({ ...prev, [event.id]: false }));
+        }
+    };
 
     const generateHashtags = (event) => {
         const cleanName = (name) => name.replace(/[^a-zA-Z0-9]/g, '');
@@ -65,6 +110,11 @@ const TwitterTool = () => {
         hashtags.push('#LiveMatch');
         hashtags.push('#LiveStream');
         hashtags.push('#Football');
+
+        // Add dynamically fetched keywords
+        if (trendingKeywords[event.id]) {
+            hashtags.push(trendingKeywords[event.id]);
+        }
 
         return hashtags.join(' ');
     };
@@ -129,6 +179,27 @@ const TwitterTool = () => {
                                 <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)' }}>
                                     {event.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                                 </div>
+                                {!trendingKeywords[event.id] && !loadingKeywords[event.id] && (
+                                    <button
+                                        onClick={() => fetchTrendingKeywords(event)}
+                                        style={{
+                                            marginTop: '0.5rem',
+                                            fontSize: '0.8rem',
+                                            color: 'var(--accent-color)',
+                                            background: 'none',
+                                            border: 'none',
+                                            cursor: 'pointer',
+                                            textDecoration: 'underline'
+                                        }}
+                                    >
+                                        Fetch Trending Tags
+                                    </button>
+                                )}
+                                {loadingKeywords[event.id] && (
+                                    <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                        <Loader2 size={12} className="loading-spinner" /> Fetching tags...
+                                    </div>
+                                )}
                             </div>
 
                             <div style={{ display: 'flex', gap: '0.5rem' }}>
