@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { fetchEvents } from '../services/api';
 import ServerSelector from '../components/ServerSelector';
 import Navbar from '../components/Navbar';
-import { Twitter, RefreshCw, Copy, Check, Loader2 } from 'lucide-react';
+import { Twitter, RefreshCw, Copy, Check, Loader2, Download, Image as ImageIcon } from 'lucide-react';
 
 const TwitterTool = () => {
     const [server, setServer] = useState('server1');
@@ -11,6 +11,7 @@ const TwitterTool = () => {
     const [selectedDate, setSelectedDate] = useState(new Date().toISOString().split('T')[0]);
     const [trendingKeywords, setTrendingKeywords] = useState({});
     const [loadingKeywords, setLoadingKeywords] = useState({});
+    const canvasRef = useRef(null);
 
     useEffect(() => {
         const loadEvents = async () => {
@@ -123,7 +124,87 @@ const TwitterTool = () => {
         const link = `${window.location.origin}/match/${event.id}`;
         const hashtags = generateHashtags(event);
 
-        return `🚨 LIVE NOW: ${event.title} \n\n🏆 ${event.league}\n📺 Watch Here ➡️ ${link}\n\n${hashtags}`;
+        // Format Date: January 3, 2023
+        const dateOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+        const formattedDate = event.startTime.toLocaleDateString('en-US', dateOptions);
+
+        // Format Time: 7:45 PM, UK
+        // Assuming event.startTime is already a Date object in local time, we convert to UK time string
+        const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/London' };
+        const formattedTime = event.startTime.toLocaleTimeString('en-US', timeOptions);
+
+        return `${event.title} live stream, TV channel, Start time and how to watch online.\n\nMatch details⤵️\n\n🆚 ${event.title}\n🗓️ ${formattedDate}\n⏰ ${formattedTime}, UK\n🏆 ${event.league}\n\n📺 Watch Here ➡️ ${link}\n\n${hashtags}`;
+    };
+
+    const downloadImage = (event) => {
+        const canvas = canvasRef.current;
+        const ctx = canvas.getContext('2d');
+
+        // Set canvas size
+        canvas.width = 1200;
+        canvas.height = 675;
+
+        // Background
+        const gradient = ctx.createLinearGradient(0, 0, 1200, 675);
+        gradient.addColorStop(0, '#1e293b');
+        gradient.addColorStop(1, '#0f172a');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 1200, 675);
+
+        // Decorative elements
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+        ctx.beginPath();
+        ctx.arc(1000, 100, 300, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(200, 600, 200, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Text Styles
+        ctx.fillStyle = '#ffffff';
+        ctx.textAlign = 'center';
+
+        // League
+        ctx.font = 'bold 40px Inter, sans-serif';
+        ctx.fillStyle = '#3b82f6'; // Accent color
+        ctx.fillText(event.league.toUpperCase(), 600, 150);
+
+        // VS
+        ctx.font = 'bold 80px Inter, sans-serif';
+        ctx.fillStyle = '#ffffff';
+        const teams = event.title.split(' vs ');
+        if (teams.length === 2) {
+            ctx.fillText(teams[0], 600, 280);
+            ctx.font = 'italic 40px Inter, sans-serif';
+            ctx.fillStyle = '#94a3b8';
+            ctx.fillText('VS', 600, 340);
+            ctx.font = 'bold 80px Inter, sans-serif';
+            ctx.fillStyle = '#ffffff';
+            ctx.fillText(teams[1], 600, 420);
+        } else {
+            ctx.fillText(event.title, 600, 337);
+        }
+
+        // Date & Time
+        const dateOptions = { weekday: 'long', month: 'long', day: 'numeric' };
+        const timeOptions = { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'Europe/London' };
+        const dateStr = event.startTime.toLocaleDateString('en-US', dateOptions);
+        const timeStr = event.startTime.toLocaleTimeString('en-US', timeOptions) + ' UK';
+
+        ctx.font = '500 36px Inter, sans-serif';
+        ctx.fillStyle = '#e2e8f0';
+        ctx.fillText(`${dateStr} • ${timeStr}`, 600, 550);
+
+        // Footer / Domain
+        ctx.font = 'bold 30px Inter, sans-serif';
+        ctx.fillStyle = '#3b82f6';
+        ctx.fillText('Velcuri.io', 600, 620);
+
+        // Download
+        const link = document.createElement('a');
+        link.download = `${event.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_match_card.png`;
+        link.href = canvas.toDataURL('image/png');
+        link.click();
     };
 
     return (
@@ -160,6 +241,9 @@ const TwitterTool = () => {
                     <ServerSelector selectedServer={server} onSelect={setServer} />
                 </div>
             </div>
+
+            {/* Hidden Canvas for Image Generation */}
+            <canvas ref={canvasRef} style={{ display: 'none' }} />
 
             {loading ? (
                 <div style={{ textAlign: 'center', padding: '2rem' }}>Loading events...</div>
@@ -202,7 +286,16 @@ const TwitterTool = () => {
                                 )}
                             </div>
 
-                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                            <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                                <button
+                                    className="glass-button"
+                                    onClick={() => downloadImage(event)}
+                                    title="Download Match Card"
+                                    style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}
+                                >
+                                    <ImageIcon size={18} />
+                                    <span className="hidden-mobile">Image</span>
+                                </button>
                                 <button
                                     className="glass-button"
                                     onClick={() => {
