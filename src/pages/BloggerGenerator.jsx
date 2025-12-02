@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { fetchEvents } from '../services/api';
-import { Copy, Check, RefreshCw, Server, Code } from 'lucide-react';
+import { Copy, Check, RefreshCw, Server, Code, Shield } from 'lucide-react';
 
 const BloggerGenerator = () => {
     const [server, setServer] = useState('server1');
@@ -9,6 +8,38 @@ const BloggerGenerator = () => {
     const [selectedMatch, setSelectedMatch] = useState(null);
     const [generatedCode, setGeneratedCode] = useState('');
     const [copied, setCopied] = useState(false);
+    const [includePopupBlocker, setIncludePopupBlocker] = useState(true);
+
+    // Mock API call - replace with your actual API
+    const fetchEvents = async (serverName) => {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve([
+                    {
+                        id: 1,
+                        league: 'LaLiga',
+                        title: 'Barcelona vs Real Madrid',
+                        startTime: new Date().toISOString(),
+                        isLive: true,
+                        streams: [
+                            { name: 'Spanish - Link 1', url: 'https://example.com/stream1' },
+                            { name: 'Spanish - Link 2', url: 'https://example.com/stream2' },
+                        ]
+                    },
+                    {
+                        id: 2,
+                        league: 'Premier League',
+                        title: 'Manchester United vs Liverpool',
+                        startTime: new Date().toISOString(),
+                        isLive: false,
+                        streams: [
+                            { name: 'English - Link 1', url: 'https://example.com/stream3' },
+                        ]
+                    }
+                ]);
+            }, 500);
+        });
+    };
 
     useEffect(() => {
         loadMatches();
@@ -22,6 +53,104 @@ const BloggerGenerator = () => {
         setSelectedMatch(null);
         setGeneratedCode('');
     };
+
+    const popupBlockerScript = `
+<!-- Popup Blocker & Ad Protection -->
+<script>
+(function() {
+    'use strict';
+    
+    // Block popup windows
+    var originalOpen = window.open;
+    var popupCount = 0;
+    var lastPopupTime = 0;
+    
+    window.open = function() {
+        var now = Date.now();
+        // Allow first popup or popups after 3 seconds
+        if (popupCount === 0 || (now - lastPopupTime) > 3000) {
+            popupCount++;
+            lastPopupTime = now;
+            return originalOpen.apply(this, arguments);
+        }
+        console.log('Popup blocked');
+        return null;
+    };
+    
+    // Block redirect attempts
+    var originalAssign = window.location.assign;
+    var originalReplace = window.location.replace;
+    var userInitiated = false;
+    
+    document.addEventListener('click', function() {
+        userInitiated = true;
+        setTimeout(function() { userInitiated = false; }, 100);
+    }, true);
+    
+    window.location.assign = function(url) {
+        if (!userInitiated && url !== window.location.href) {
+            console.log('Redirect blocked:', url);
+            return;
+        }
+        return originalAssign.call(window.location, url);
+    };
+    
+    window.location.replace = function(url) {
+        if (!userInitiated && url !== window.location.href) {
+            console.log('Redirect blocked:', url);
+            return;
+        }
+        return originalReplace.call(window.location, url);
+    };
+    
+    // Prevent automatic redirects
+    var originalSetTimeout = window.setTimeout;
+    var originalSetInterval = window.setInterval;
+    
+    window.setTimeout = function(callback, delay) {
+        if (typeof callback === 'string' && callback.includes('location')) {
+            console.log('Suspicious setTimeout blocked');
+            return;
+        }
+        return originalSetTimeout.apply(this, arguments);
+    };
+    
+    window.setInterval = function(callback, delay) {
+        if (typeof callback === 'string' && callback.includes('location')) {
+            console.log('Suspicious setInterval blocked');
+            return;
+        }
+        return originalSetInterval.apply(this, arguments);
+    };
+    
+    // Block beforeunload popups (except user-initiated)
+    window.addEventListener('beforeunload', function(e) {
+        if (!userInitiated) {
+            e.preventDefault();
+            e.returnValue = '';
+            return '';
+        }
+    });
+    
+    // Prevent overlay ads
+    var checkOverlays = setInterval(function() {
+        var overlays = document.querySelectorAll('div[style*="position: fixed"], div[style*="position:fixed"]');
+        overlays.forEach(function(overlay) {
+            var style = window.getComputedStyle(overlay);
+            var zIndex = parseInt(style.zIndex);
+            if (zIndex > 9999 && !overlay.classList.contains('video-container')) {
+                overlay.style.display = 'none';
+                console.log('Overlay blocked');
+            }
+        });
+    }, 1000);
+    
+    // Clean up after 30 seconds
+    setTimeout(function() { clearInterval(checkOverlays); }, 30000);
+    
+    console.log('Popup blocker activated');
+})();
+</script>`;
 
     const generateCode = (match) => {
         const streams = match.streams || [];
@@ -145,6 +274,7 @@ function changeStream(url, btn) {
     btn.classList.add('active');
 }
 </script>
+${includePopupBlocker ? popupBlockerScript : ''}
 <!-- Match Content End -->
 `;
         setGeneratedCode(code);
@@ -162,35 +292,51 @@ function changeStream(url, btn) {
         <div className="container" style={{ paddingBottom: '4rem' }}>
             <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
                 <h1 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Code size={32} color="var(--accent-color)" />
+                    <Code size={32} color="var(--accent-blue)" />
                     Blogger Post Generator
                 </h1>
 
                 <div style={{ marginBottom: '2rem' }}>
                     <h3 style={{ marginBottom: '1rem' }}>1. Select Server</h3>
-                    <div className="flex gap-4">
+                    <div className="flex gap-md" style={{ flexWrap: 'wrap' }}>
                         {['server1', 'server2', 'server3'].map(s => (
                             <button
                                 key={s}
                                 onClick={() => setServer(s)}
-                                className={`glass-button ${server === s ? 'active' : ''}`}
+                                className="btn btn-glass"
                                 style={{
-                                    borderColor: server === s ? 'var(--accent-color)' : 'var(--glass-border)',
+                                    borderColor: server === s ? 'var(--accent-blue)' : 'var(--glass-border)',
                                     background: server === s ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)'
                                 }}
                             >
-                                <Server size={18} style={{ marginRight: '0.5rem' }} />
+                                <Server size={18} />
                                 {s.toUpperCase()}
                             </button>
                         ))}
                     </div>
                 </div>
 
+                <div style={{ marginBottom: '2rem', padding: '1rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid var(--accent-blue)' }}>
+                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', userSelect: 'none' }}>
+                        <input 
+                            type="checkbox" 
+                            checked={includePopupBlocker}
+                            onChange={(e) => setIncludePopupBlocker(e.target.checked)}
+                            style={{ width: '18px', height: '18px', cursor: 'pointer' }}
+                        />
+                        <Shield size={20} color="var(--accent-blue)" />
+                        <span style={{ fontWeight: '600' }}>Include Popup Blocker & Ad Protection</span>
+                    </label>
+                    <p style={{ marginTop: '0.5rem', marginLeft: '2.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
+                        Blocks unwanted popups, redirects, and overlay ads for better user experience
+                    </p>
+                </div>
+
                 <div style={{ marginBottom: '2rem' }}>
                     <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
                         <h3>2. Select Match</h3>
-                        <button onClick={loadMatches} className="glass-button" title="Refresh Matches">
-                            <RefreshCw size={18} className={loading ? 'loading-spinner' : ''} />
+                        <button onClick={loadMatches} className="btn btn-glass" title="Refresh Matches">
+                            <RefreshCw size={18} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
                         </button>
                     </div>
 
@@ -206,15 +352,23 @@ function changeStream(url, btn) {
                                     style={{
                                         padding: '1rem',
                                         cursor: 'pointer',
-                                        border: selectedMatch?.id === match.id ? '1px solid var(--accent-color)' : '1px solid var(--glass-border)',
-                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.1)' : 'var(--bg-card)'
+                                        border: selectedMatch?.id === match.id ? '2px solid var(--accent-blue)' : '1px solid var(--glass-border)',
+                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.1)' : 'var(--bg-card)',
+                                        transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    <div style={{ fontSize: '0.9rem', color: 'var(--accent-color)', marginBottom: '0.25rem' }}>{match.league}</div>
-                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>{match.title}</div>
+                                    <div style={{ fontSize: '0.9rem', color: 'var(--accent-blue)', marginBottom: '0.25rem', fontWeight: '700' }}>
+                                        {match.league}
+                                    </div>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1rem' }}>
+                                        {match.title}
+                                    </div>
                                     <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
                                         {new Date(match.startTime).toLocaleString()}
                                     </div>
+                                    {match.isLive && (
+                                        <span className="badge badge-live" style={{ marginTop: '0.5rem' }}>LIVE</span>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -223,15 +377,18 @@ function changeStream(url, btn) {
 
                 {generatedCode && (
                     <div>
-                        <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
+                        <div className="flex justify-between items-center" style={{ marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
                             <h3>3. Generated HTML Code</h3>
                             <button
                                 onClick={copyToClipboard}
-                                className="glass-button"
-                                style={{ background: copied ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255, 255, 255, 0.05)' }}
+                                className="btn btn-primary"
+                                style={{ 
+                                    background: copied ? '#10b981' : 'var(--accent-blue)',
+                                    boxShadow: copied ? '0 0 20px rgba(16, 185, 129, 0.5)' : '0 0 20px var(--glow-blue)'
+                                }}
                             >
                                 {copied ? <Check size={18} /> : <Copy size={18} />}
-                                <span style={{ marginLeft: '0.5rem' }}>{copied ? 'Copied!' : 'Copy Code'}</span>
+                                <span>{copied ? 'Copied!' : 'Copy Code'}</span>
                             </button>
                         </div>
                         <textarea
@@ -243,15 +400,24 @@ function changeStream(url, btn) {
                                 background: '#0f172a',
                                 color: '#f8fafc',
                                 border: '1px solid var(--glass-border)',
-                                borderRadius: '8px',
+                                borderRadius: '12px',
                                 padding: '1rem',
                                 fontFamily: 'monospace',
-                                resize: 'vertical'
+                                fontSize: '0.875rem',
+                                resize: 'vertical',
+                                lineHeight: '1.5'
                             }}
                         />
                     </div>
                 )}
             </div>
+            
+            <style>{`
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 };
