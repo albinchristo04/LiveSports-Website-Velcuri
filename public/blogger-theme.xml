@@ -4,12 +4,14 @@
 <head>
     <meta content='width=device-width,initial-scale=1' name='viewport'/>
     <title><data:blog.pageTitle/></title>
+    <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap' rel='stylesheet'/>
     <b:skin><![CDATA[
 /* 
    Blogger Theme based on Velcuri.io Design
    ----------------------------------------
 */
 
+/* Reset & Variables */
 :root {
   --bg-dark: #0f172a;
   --bg-card: rgba(30, 41, 59, 0.7);
@@ -24,6 +26,7 @@
 
 body {
   margin: 0;
+  padding: 0;
   font-family: var(--font-family);
   background-color: var(--bg-dark);
   color: var(--text-primary);
@@ -31,6 +34,7 @@ body {
   background-image:
     radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 20%),
     radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 20%);
+  background-attachment: fixed;
 }
 
 * {
@@ -38,6 +42,24 @@ body {
 }
 
 a { text-decoration: none; color: inherit; }
+
+/* Layout Utilities */
+.container {
+  max-width: var(--container-width);
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.items-center { align-items: center; }
+.justify-center { justify-content: center; }
+.justify-between { justify-content: space-between; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.grid { display: grid; }
+.text-center { text-align: center; }
 
 /* Glassmorphism */
 .glass-panel {
@@ -50,7 +72,35 @@ a { text-decoration: none; color: inherit; }
   margin-bottom: 2rem;
 }
 
-/* Match Specific Styles */
+.glass-button {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(4px);
+  border: 1px solid var(--glass-border);
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  font-size: 1rem;
+  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: var(--accent-color);
+  box-shadow: 0 0 15px var(--accent-glow);
+}
+
+/* Typography */
+h1 { font-size: 2.5rem; margin-bottom: 1rem; font-weight: 800; }
+h2 { font-size: 2rem; margin-bottom: 0.75rem; }
+h3 { font-size: 1.25rem; margin-bottom: 0.5rem; }
+p { color: var(--text-secondary); line-height: 1.6; }
+
+/* Match Specific Styles (Used in Generated Post) */
 .match-container {
     max-width: 1000px;
     margin: 0 auto;
@@ -59,66 +109,98 @@ a { text-decoration: none; color: inherit; }
 
 .match-header {
     text-align: center;
+    padding: 2rem;
 }
 
 .match-info h1 {
-    font-size: 2rem;
-    margin: 10px 0;
+    font-size: 2.5rem;
+    margin: 1rem 0;
     background: linear-gradient(to right, #60a5fa, #a855f7);
     -webkit-background-clip: text;
     color: transparent;
+    line-height: 1.2;
 }
 
 .league-tag {
     color: #60a5fa;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    font-weight: 600;
-    font-size: 0.9rem;
+    font-weight: 700;
+    font-size: 1rem;
+    display: inline-block;
+    margin-bottom: 0.5rem;
 }
 
 .match-meta {
     display: flex;
     justify-content: center;
-    gap: 15px;
+    gap: 1.5rem;
     align-items: center;
-    margin-top: 10px;
+    margin-top: 1.5rem;
     color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+.time-tag {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 .live-badge {
     background: #dc2626;
     color: white;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 0.8rem;
-    font-weight: bold;
+    padding: 0.25rem 0.75rem;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: 800;
+    box-shadow: 0 0 10px rgba(220, 38, 38, 0.5);
     animation: pulse 2s infinite;
+    display: inline-block;
+}
+
+.player-section {
+    padding: 2rem;
+    margin-top: 2rem;
+}
+
+.server-list {
+    margin-bottom: 1.5rem;
+}
+
+.server-list h3 {
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
 }
 
 .stream-buttons {
     display: flex;
-    gap: 10px;
+    gap: 1rem;
     flex-wrap: wrap;
-    margin: 15px 0;
-    justify-content: center;
+    margin-bottom: 1.5rem;
 }
 
 .stream-btn {
-    padding: 10px 20px;
-    background: rgba(255,255,255,0.05);
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
     border: 1px solid var(--glass-border);
     color: var(--text-secondary);
     cursor: pointer;
-    border-radius: 8px;
+    border-radius: 12px;
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 0.75rem;
     transition: all 0.3s ease;
+    font-weight: 500;
+    font-family: var(--font-family);
 }
 
 .stream-btn:hover {
-    background: rgba(255,255,255,0.1);
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
 }
 
 .stream-btn.active {
@@ -133,9 +215,10 @@ a { text-decoration: none; color: inherit; }
     padding-bottom: 56.25%; /* 16:9 */
     height: 0;
     background: #000;
-    border-radius: 12px;
+    border-radius: 16px;
     overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    border: 1px solid var(--glass-border);
 }
 
 .video-container iframe {
@@ -147,18 +230,21 @@ a { text-decoration: none; color: inherit; }
 }
 
 .ad-container {
-    margin: 20px 0;
+    margin: 2rem 0;
     text-align: center;
     min-height: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 12px;
+    padding: 1rem;
 }
 
 .social-links {
     display: flex;
-    gap: 15px;
-    margin-top: 30px;
+    gap: 1rem;
+    margin-top: 3rem;
     justify-content: center;
     flex-wrap: wrap;
 }
@@ -166,21 +252,30 @@ a { text-decoration: none; color: inherit; }
 .discord-btn, .telegram-btn {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 12px 24px;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 1rem 2rem;
     border-radius: 12px;
     text-decoration: none;
-    font-weight: bold;
+    font-weight: 600;
     color: white;
-    transition: transform 0.2s;
+    transition: all 0.2s ease;
+    min-width: 200px;
 }
 
-.discord-btn { background: #5865F2; }
-.telegram-btn { background: #0088cc; }
+.discord-btn { 
+    background: #5865F2; 
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.3);
+}
+
+.telegram-btn { 
+    background: #0088cc; 
+    box-shadow: 0 4px 15px rgba(0, 136, 204, 0.3);
+}
 
 .discord-btn:hover, .telegram-btn:hover {
     transform: translateY(-2px);
-    opacity: 0.9;
+    filter: brightness(1.1);
 }
 
 @keyframes pulse {
@@ -191,14 +286,39 @@ a { text-decoration: none; color: inherit; }
 
 /* Blogger Layout Overrides */
 .blog-posts { margin: 0; }
-.post-outer { margin-bottom: 0; }
-.post-title { display: none; } /* Hide default blogger titles as we have our own */
-.post-body { font-size: 1rem; line-height: 1.6; }
+.post-outer { margin-bottom: 0; border: none; }
+.post-title { display: none; } /* Hide default blogger titles */
+.post-body { font-size: 1rem; line-height: 1.6; padding: 0; }
+.date-header { display: none; }
+.post-footer { display: none; }
+.blog-pager { display: none; }
+.feed-links { display: none; }
+
+/* Header/Footer Placeholders (if needed for the blog itself) */
+.blog-header {
+    text-align: center;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.blog-title {
+    font-size: 3rem;
+    font-weight: 800;
+    background: linear-gradient(to right, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+    color: transparent;
+    margin: 0;
+}
 
     ]]></b:skin>
 </head>
 <body>
     <div class='container'>
+        <!-- Simple Header for the Blog -->
+        <header class='blog-header'>
+            <h1 class='blog-title'><data:blog.title/></h1>
+        </header>
+
         <b:section class='main' id='main' showaddelement='yes'>
             <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
                 <b:includable id='main' var='top'>
@@ -215,6 +335,11 @@ a { text-decoration: none; color: inherit; }
                 </b:includable>
             </b:widget>
         </b:section>
+        
+        <!-- Footer -->
+        <footer style="text-align: center; padding: 2rem; color: var(--text-secondary); border-top: 1px solid var(--glass-border); margin-top: 3rem;">
+            <p>&copy; <script>document.write(new Date().getFullYear())</script> Velcuri.io. All rights reserved.</p>
+        </footer>
     </div>
 </body>
 </html>
