@@ -9,6 +9,7 @@ import TelegramTool from './pages/TelegramTool';
 import LinkAggregator from './pages/LinkAggregator';
 import Highlights from './pages/Highlights';
 import TwitterTool from './pages/TwitterTool';
+import BloggerGenerator from './pages/BloggerGenerator';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
 
@@ -27,6 +28,7 @@ function App() {
             <Route path="/link-aggregator" element={<LinkAggregator />} />
             <Route path="/highlights" element={<Highlights />} />
             <Route path="/twitter-tool" element={<TwitterTool />} />
+            <Route path="/blogger-generator" element={<BloggerGenerator />} />
           </Routes>
         </div>
         <Footer />

@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:version='2' class='v2' expr:dir='data:blog.languageDirection' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+    <meta content='width=device-width,initial-scale=1' name='viewport'/>
+    <title><data:blog.pageTitle/></title>
+    <b:skin><![CDATA[
+/* 
+   Blogger Theme based on Velcuri.io Design
+   ----------------------------------------
+*/
+
+:root {
+  --bg-dark: #0f172a;
+  --bg-card: rgba(30, 41, 59, 0.7);
+  --text-primary: #f8fafc;
+  --text-secondary: #94a3b8;
+  --accent-color: #3b82f6;
+  --accent-glow: rgba(59, 130, 246, 0.5);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --font-family: 'Inter', system-ui, sans-serif;
+  --container-width: 1200px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--bg-dark);
+  color: var(--text-primary);
+  min-height: 100vh;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.15) 0%, transparent 20%),
+    radial-gradient(circle at 90% 80%, rgba(139, 92, 246, 0.15) 0%, transparent 20%);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a { text-decoration: none; color: inherit; }
+
+/* Glassmorphism */
+.glass-panel {
+  background: var(--bg-card);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+/* Match Specific Styles */
+.match-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.match-header {
+    text-align: center;
+}
+
+.match-info h1 {
+    font-size: 2rem;
+    margin: 10px 0;
+    background: linear-gradient(to right, #60a5fa, #a855f7);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.league-tag {
+    color: #60a5fa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.match-meta {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    align-items: center;
+    margin-top: 10px;
+    color: var(--text-secondary);
+}
+
+.live-badge {
+    background: #dc2626;
+    color: white;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+.stream-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin: 15px 0;
+    justify-content: center;
+}
+
+.stream-btn {
+    padding: 10px 20px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--glass-border);
+    color: var(--text-secondary);
+    cursor: pointer;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.stream-btn:hover {
+    background: rgba(255,255,255,0.1);
+}
+
+.stream-btn.active {
+    background: rgba(59, 130, 246, 0.2);
+    border-color: var(--accent-color);
+    color: white;
+    box-shadow: 0 0 15px var(--accent-glow);
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 */
+    height: 0;
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.ad-container {
+    margin: 20px 0;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.discord-btn, .telegram-btn {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-weight: bold;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.discord-btn { background: #5865F2; }
+.telegram-btn { background: #0088cc; }
+
+.discord-btn:hover, .telegram-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.7; }
+    100% { opacity: 1; }
+}
+
+/* Blogger Layout Overrides */
+.blog-posts { margin: 0; }
+.post-outer { margin-bottom: 0; }
+.post-title { display: none; } /* Hide default blogger titles as we have our own */
+.post-body { font-size: 1rem; line-height: 1.6; }
+
+    ]]></b:skin>
+</head>
+<body>
+    <div class='container'>
+        <b:section class='main' id='main' showaddelement='yes'>
+            <b:widget id='Blog1' locked='true' title='Blog Posts' type='Blog'>
+                <b:includable id='main' var='top'>
+                    <b:loop values='data:posts' var='post'>
+                        <b:include data='post' name='post'/>
+                    </b:loop>
+                </b:includable>
+                <b:includable id='post' var='post'>
+                    <div class='post-outer'>
+                        <div class='post-body entry-content'>
+                            <data:post.body/>
+                        </div>
+                    </div>
+                </b:includable>
+            </b:widget>
+        </b:section>
+    </div>
+</body>
+</html>
