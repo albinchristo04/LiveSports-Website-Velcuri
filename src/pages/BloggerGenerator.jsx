@@ -34,7 +34,10 @@ const BloggerGenerator = () => {
 
         const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
 
-        const code = `<!-- Match Content Start -->
+        const code = `<!-- AdSense Script - Load Once -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+
+<!-- Match Content Start -->
 <div class="match-container">
     <div class="match-header glass-panel">
         <div class="match-info">
@@ -51,17 +54,13 @@ const BloggerGenerator = () => {
     </div>
 
     <!-- Ad Unit 1 - Top -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="2965148688"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <div class="player-section glass-panel">
@@ -73,17 +72,13 @@ const BloggerGenerator = () => {
         </div>
 
         <!-- Ad Unit 2 - Above Player -->
-        <div class="ad-container">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; min-width: 300px; width: 100%;"
                  data-ad-client="ca-pub-7025462814384100"
                  data-ad-slot="9462166476"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
 
         <div class="video-container">
@@ -91,32 +86,24 @@ const BloggerGenerator = () => {
         </div>
         
         <!-- Ad Unit 3 - Below Player -->
-        <div class="ad-container">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; min-width: 300px; width: 100%;"
                  data-ad-client="ca-pub-7025462814384100"
                  data-ad-slot="3088329811"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
     </div>
 
     <!-- Ad Unit 4 - Mid Content -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="2965148688"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <div class="social-links">
@@ -133,31 +120,23 @@ const BloggerGenerator = () => {
     </div>
 
     <!-- Ad Unit 5 - Before Footer -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="3910456892"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <!-- Ad Unit 6 - Bottom -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="9462166476"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 </div>
 
@@ -168,10 +147,17 @@ function changeStream(url, btn) {
     btn.classList.add('active');
 }
 
-// Force AdSense ads to load
-window.addEventListener('load', function() {
-    (adsbygoogle = window.adsbygoogle || []).push({});
-});
+// Initialize AdSense ads after page load
+setTimeout(function() {
+    var ads = document.querySelectorAll('.adsbygoogle');
+    for (var i = 0; i < ads.length; i++) {
+        try {
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.log('Ad load error:', e);
+        }
+    }
+}, 100);
 </script>
 <!-- Match Content End -->`;
 
