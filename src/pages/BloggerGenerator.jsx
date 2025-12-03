@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Copy, Check, RefreshCw, Server, Code, Shield } from 'lucide-react';
+import { Copy, Check, RefreshCw, Server, Code } from 'lucide-react';
 
 const BloggerGenerator = () => {
     const [server, setServer] = useState('server1');
@@ -8,37 +8,37 @@ const BloggerGenerator = () => {
     const [selectedMatch, setSelectedMatch] = useState(null);
     const [generatedCode, setGeneratedCode] = useState('');
     const [copied, setCopied] = useState(false);
-    const [includePopupBlocker, setIncludePopupBlocker] = useState(true);
 
-    // Mock API call - replace with your actual API
+    // Mock fetchEvents function - replace with your actual API
     const fetchEvents = async (serverName) => {
-        return new Promise((resolve) => {
-            setTimeout(() => {
-                resolve([
-                    {
-                        id: 1,
-                        league: 'LaLiga',
-                        title: 'Barcelona vs Real Madrid',
-                        startTime: new Date().toISOString(),
-                        isLive: true,
-                        streams: [
-                            { name: 'Spanish - Link 1', url: 'https://example.com/stream1' },
-                            { name: 'Spanish - Link 2', url: 'https://example.com/stream2' },
-                        ]
-                    },
-                    {
-                        id: 2,
-                        league: 'Premier League',
-                        title: 'Manchester United vs Liverpool',
-                        startTime: new Date().toISOString(),
-                        isLive: false,
-                        streams: [
-                            { name: 'English - Link 1', url: 'https://example.com/stream3' },
-                        ]
-                    }
-                ]);
-            }, 500);
-        });
+        // Simulated API response
+        return [
+            {
+                id: 1,
+                league: 'La Liga',
+                title: 'Barcelona vs Atlético Madrid',
+                startTime: new Date('2025-12-09T20:00:00'),
+                isLive: true,
+                streams: [
+                    { name: 'English - HD2', url: 'https://sportzonline.top/channels/hd/hd2.php' },
+                    { name: 'Spanish - HD6', url: 'https://sportzonline.top/channels/hd/hd6.php' },
+                    { name: 'German - HD9', url: 'https://sportzonline.top/channels/hd/hd9.php' },
+                    { name: 'Link 4', url: 'https://sportzonline.top/channels/pt/eleven1.php' },
+                    { name: 'Link 5', url: 'https://sportzonline.top/channels/bra/br2.php' }
+                ]
+            },
+            {
+                id: 2,
+                league: 'Premier League',
+                title: 'Manchester United vs Liverpool',
+                startTime: new Date('2025-12-10T18:30:00'),
+                isLive: false,
+                streams: [
+                    { name: 'English - HD1', url: 'https://sportzonline.top/channels/hd/hd1.php' },
+                    { name: 'English - HD2', url: 'https://sportzonline.top/channels/hd/hd2.php' }
+                ]
+            }
+        ];
     };
 
     useEffect(() => {
@@ -54,104 +54,6 @@ const BloggerGenerator = () => {
         setGeneratedCode('');
     };
 
-    const popupBlockerScript = `
-<!-- Popup Blocker & Ad Protection -->
-<script>
-(function() {
-    'use strict';
-    
-    // Block popup windows
-    var originalOpen = window.open;
-    var popupCount = 0;
-    var lastPopupTime = 0;
-    
-    window.open = function() {
-        var now = Date.now();
-        // Allow first popup or popups after 3 seconds
-        if (popupCount === 0 || (now - lastPopupTime) > 3000) {
-            popupCount++;
-            lastPopupTime = now;
-            return originalOpen.apply(this, arguments);
-        }
-        console.log('Popup blocked');
-        return null;
-    };
-    
-    // Block redirect attempts
-    var originalAssign = window.location.assign;
-    var originalReplace = window.location.replace;
-    var userInitiated = false;
-    
-    document.addEventListener('click', function() {
-        userInitiated = true;
-        setTimeout(function() { userInitiated = false; }, 100);
-    }, true);
-    
-    window.location.assign = function(url) {
-        if (!userInitiated && url !== window.location.href) {
-            console.log('Redirect blocked:', url);
-            return;
-        }
-        return originalAssign.call(window.location, url);
-    };
-    
-    window.location.replace = function(url) {
-        if (!userInitiated && url !== window.location.href) {
-            console.log('Redirect blocked:', url);
-            return;
-        }
-        return originalReplace.call(window.location, url);
-    };
-    
-    // Prevent automatic redirects
-    var originalSetTimeout = window.setTimeout;
-    var originalSetInterval = window.setInterval;
-    
-    window.setTimeout = function(callback, delay) {
-        if (typeof callback === 'string' && callback.includes('location')) {
-            console.log('Suspicious setTimeout blocked');
-            return;
-        }
-        return originalSetTimeout.apply(this, arguments);
-    };
-    
-    window.setInterval = function(callback, delay) {
-        if (typeof callback === 'string' && callback.includes('location')) {
-            console.log('Suspicious setInterval blocked');
-            return;
-        }
-        return originalSetInterval.apply(this, arguments);
-    };
-    
-    // Block beforeunload popups (except user-initiated)
-    window.addEventListener('beforeunload', function(e) {
-        if (!userInitiated) {
-            e.preventDefault();
-            e.returnValue = '';
-            return '';
-        }
-    });
-    
-    // Prevent overlay ads
-    var checkOverlays = setInterval(function() {
-        var overlays = document.querySelectorAll('div[style*="position: fixed"], div[style*="position:fixed"]');
-        overlays.forEach(function(overlay) {
-            var style = window.getComputedStyle(overlay);
-            var zIndex = parseInt(style.zIndex);
-            if (zIndex > 9999 && !overlay.classList.contains('video-container')) {
-                overlay.style.display = 'none';
-                console.log('Overlay blocked');
-            }
-        });
-    }, 1000);
-    
-    // Clean up after 30 seconds
-    setTimeout(function() { clearInterval(checkOverlays); }, 30000);
-    
-    console.log('Popup blocker activated');
-})();
-</script>`;
-
     const generateCode = (match) => {
         const streams = match.streams || [];
         const streamButtons = streams.map((stream, index) => {
@@ -163,8 +65,7 @@ const BloggerGenerator = () => {
 
         const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
 
-        const code = `
-<!-- Match Content Start -->
+        const code = `<!-- Match Content Start -->
 <div class="match-container">
     <div class="match-header glass-panel">
         <div class="match-info">
@@ -180,10 +81,9 @@ const BloggerGenerator = () => {
         </div>
     </div>
 
-    <!-- Ad Unit 1 -->
+    <!-- Ad Unit 1 - Top -->
     <div class="ad-container">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-        <!-- bxads53 -->
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-7025462814384100"
@@ -203,10 +103,9 @@ const BloggerGenerator = () => {
             </div>
         </div>
 
-        <!-- Ad Unit 2 (Above Player) -->
+        <!-- Ad Unit 2 - Above Player -->
         <div class="ad-container">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-            <!-- bxads4 -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-7025462814384100"
@@ -219,13 +118,12 @@ const BloggerGenerator = () => {
         </div>
 
         <div class="video-container">
-            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" scrolling="no"></iframe>
+            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-presentation allow-forms" scrolling="no"></iframe>
         </div>
         
-        <!-- Ad Unit 3 (Below Player) -->
+        <!-- Ad Unit 3 - Below Player -->
         <div class="ad-container">
             <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-            <!-- bxads3 -->
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="ca-pub-7025462814384100"
@@ -236,6 +134,20 @@ const BloggerGenerator = () => {
                  (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
         </div>
+    </div>
+
+    <!-- Ad Unit 4 - Mid Content -->
+    <div class="ad-container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7025462814384100"
+             data-ad-slot="2965148688"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
     </div>
 
     <div class="social-links">
@@ -251,14 +163,27 @@ const BloggerGenerator = () => {
         </a>
     </div>
 
-    <!-- Ad Unit 4 -->
+    <!-- Ad Unit 5 - Before Footer -->
     <div class="ad-container">
         <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-        <!-- bxads -->
         <ins class="adsbygoogle"
              style="display:block"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="3910456892"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Ad Unit 6 - Bottom -->
+    <div class="ad-container">
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-client="ca-pub-7025462814384100"
+             data-ad-slot="9462166476"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
         <script>
@@ -273,10 +198,14 @@ function changeStream(url, btn) {
     document.querySelectorAll('.stream-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }
+
+// Force AdSense ads to load
+window.addEventListener('load', function() {
+    (adsbygoogle = window.adsbygoogle || []).push({});
+});
 </script>
-${includePopupBlocker ? popupBlockerScript : ''}
-<!-- Match Content End -->
-`;
+<!-- Match Content End -->`;
+
         setGeneratedCode(code);
         setSelectedMatch(match);
         setCopied(false);
@@ -289,24 +218,54 @@ ${includePopupBlocker ? popupBlockerScript : ''}
     };
 
     return (
-        <div className="container" style={{ paddingBottom: '4rem' }}>
-            <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
-                <h1 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Code size={32} color="var(--accent-blue)" />
+        <div style={{ 
+            maxWidth: '1200px', 
+            margin: '0 auto', 
+            padding: '2rem 1rem', 
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            minHeight: '100vh'
+        }}>
+            <div style={{ 
+                background: 'rgba(255, 255, 255, 0.1)', 
+                backdropFilter: 'blur(10px)',
+                borderRadius: '20px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '2rem',
+                marginBottom: '2rem',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                color: 'white'
+            }}>
+                <h1 style={{ 
+                    marginBottom: '1.5rem', 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '1rem',
+                    fontSize: '2rem'
+                }}>
+                    <Code size={32} />
                     Blogger Post Generator
                 </h1>
 
                 <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem' }}>1. Select Server</h3>
-                    <div className="flex gap-md" style={{ flexWrap: 'wrap' }}>
+                    <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem' }}>1. Select Server</h3>
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                         {['server1', 'server2', 'server3'].map(s => (
                             <button
                                 key={s}
                                 onClick={() => setServer(s)}
-                                className="btn btn-glass"
                                 style={{
-                                    borderColor: server === s ? 'var(--accent-blue)' : 'var(--glass-border)',
-                                    background: server === s ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)'
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.75rem 1.5rem',
+                                    background: server === s ? 'rgba(59, 130, 246, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                                    border: `2px solid ${server === s ? '#3b82f6' : 'rgba(255, 255, 255, 0.2)'}`,
+                                    borderRadius: '10px',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    fontWeight: '600'
                                 }}
                             >
                                 <Server size={18} />
@@ -316,58 +275,78 @@ ${includePopupBlocker ? popupBlockerScript : ''}
                     </div>
                 </div>
 
-                <div style={{ marginBottom: '2rem', padding: '1rem', background: 'rgba(59, 130, 246, 0.1)', borderRadius: '12px', border: '1px solid var(--accent-blue)' }}>
-                    <label style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', cursor: 'pointer', userSelect: 'none' }}>
-                        <input 
-                            type="checkbox" 
-                            checked={includePopupBlocker}
-                            onChange={(e) => setIncludePopupBlocker(e.target.checked)}
-                            style={{ width: '18px', height: '18px', cursor: 'pointer' }}
-                        />
-                        <Shield size={20} color="var(--accent-blue)" />
-                        <span style={{ fontWeight: '600' }}>Include Popup Blocker & Ad Protection</span>
-                    </label>
-                    <p style={{ marginTop: '0.5rem', marginLeft: '2.5rem', fontSize: '0.875rem', color: 'var(--text-secondary)' }}>
-                        Blocks unwanted popups, redirects, and overlay ads for better user experience
-                    </p>
-                </div>
-
                 <div style={{ marginBottom: '2rem' }}>
-                    <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
-                        <h3>2. Select Match</h3>
-                        <button onClick={loadMatches} className="btn btn-glass" title="Refresh Matches">
+                    <div style={{ 
+                        display: 'flex', 
+                        justifyContent: 'space-between', 
+                        alignItems: 'center',
+                        marginBottom: '1rem'
+                    }}>
+                        <h3 style={{ fontSize: '1.2rem' }}>2. Select Match</h3>
+                        <button 
+                            onClick={loadMatches} 
+                            style={{
+                                padding: '0.5rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderRadius: '8px',
+                                color: 'white',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                            title="Refresh Matches"
+                        >
                             <RefreshCw size={18} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
                         </button>
                     </div>
 
                     {loading ? (
-                        <div className="text-center" style={{ padding: '2rem' }}>Loading matches...</div>
+                        <div style={{ textAlign: 'center', padding: '2rem' }}>Loading matches...</div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem', maxHeight: '400px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                        <div style={{ 
+                            display: 'grid', 
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', 
+                            gap: '1rem', 
+                            maxHeight: '400px', 
+                            overflowY: 'auto',
+                            paddingRight: '0.5rem'
+                        }}>
                             {matches.map(match => (
                                 <div
                                     key={match.id}
                                     onClick={() => generateCode(match)}
-                                    className="glass-panel"
                                     style={{
                                         padding: '1rem',
                                         cursor: 'pointer',
-                                        border: selectedMatch?.id === match.id ? '2px solid var(--accent-blue)' : '1px solid var(--glass-border)',
-                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.1)' : 'var(--bg-card)',
+                                        border: selectedMatch?.id === match.id ? '2px solid #3b82f6' : '1px solid rgba(255, 255, 255, 0.2)',
+                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                        borderRadius: '10px',
                                         transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    <div style={{ fontSize: '0.9rem', color: 'var(--accent-blue)', marginBottom: '0.25rem', fontWeight: '700' }}>
+                                    <div style={{ fontSize: '0.9rem', color: '#60a5fa', marginBottom: '0.25rem', fontWeight: '600' }}>
                                         {match.league}
                                     </div>
-                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1rem' }}>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
                                         {match.title}
                                     </div>
-                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                    <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.7)' }}>
                                         {new Date(match.startTime).toLocaleString()}
                                     </div>
                                     {match.isLive && (
-                                        <span className="badge badge-live" style={{ marginTop: '0.5rem' }}>LIVE</span>
+                                        <div style={{
+                                            display: 'inline-block',
+                                            marginTop: '0.5rem',
+                                            padding: '0.25rem 0.75rem',
+                                            background: '#dc2626',
+                                            borderRadius: '999px',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 'bold'
+                                        }}>
+                                            LIVE
+                                        </div>
                                     )}
                                 </div>
                             ))}
@@ -377,18 +356,31 @@ ${includePopupBlocker ? popupBlockerScript : ''}
 
                 {generatedCode && (
                     <div>
-                        <div className="flex justify-between items-center" style={{ marginBottom: '1rem', flexWrap: 'wrap', gap: '1rem' }}>
-                            <h3>3. Generated HTML Code</h3>
+                        <div style={{ 
+                            display: 'flex', 
+                            justifyContent: 'space-between', 
+                            alignItems: 'center',
+                            marginBottom: '1rem'
+                        }}>
+                            <h3 style={{ fontSize: '1.2rem' }}>3. Generated HTML Code (6 Ad Units)</h3>
                             <button
                                 onClick={copyToClipboard}
-                                className="btn btn-primary"
-                                style={{ 
-                                    background: copied ? '#10b981' : 'var(--accent-blue)',
-                                    boxShadow: copied ? '0 0 20px rgba(16, 185, 129, 0.5)' : '0 0 20px var(--glow-blue)'
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.75rem 1.5rem',
+                                    background: copied ? 'rgba(34, 197, 94, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: '600',
+                                    transition: 'all 0.3s ease'
                                 }}
                             >
                                 {copied ? <Check size={18} /> : <Copy size={18} />}
-                                <span>{copied ? 'Copied!' : 'Copy Code'}</span>
+                                {copied ? 'Copied!' : 'Copy Code'}
                             </button>
                         </div>
                         <textarea
@@ -396,10 +388,10 @@ ${includePopupBlocker ? popupBlockerScript : ''}
                             readOnly
                             style={{
                                 width: '100%',
-                                height: '300px',
+                                height: '400px',
                                 background: '#0f172a',
                                 color: '#f8fafc',
-                                border: '1px solid var(--glass-border)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
                                 borderRadius: '12px',
                                 padding: '1rem',
                                 fontFamily: 'monospace',
@@ -408,10 +400,24 @@ ${includePopupBlocker ? popupBlockerScript : ''}
                                 lineHeight: '1.5'
                             }}
                         />
+                        <div style={{ 
+                            marginTop: '1rem', 
+                            padding: '1rem', 
+                            background: 'rgba(59, 130, 246, 0.1)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(59, 130, 246, 0.3)'
+                        }}>
+                            <p style={{ margin: 0, fontSize: '0.9rem' }}>
+                                ✅ <strong>6 Ad Units Included:</strong> Top Banner, Above Player, Below Player, Mid Content, Before Footer, Bottom Banner
+                            </p>
+                            <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem' }}>
+                                📦 All ads are in contained boxes with proper styling for Blogger
+                            </p>
+                        </div>
                     </div>
                 )}
             </div>
-            
+
             <style>{`
                 @keyframes spin {
                     from { transform: rotate(0deg); }
