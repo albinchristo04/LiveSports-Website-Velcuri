@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { fetchEvents } from '../services/api';
 import { Copy, Check, RefreshCw, Server, Code } from 'lucide-react';
 
 const BloggerGenerator = () => {
@@ -8,38 +9,6 @@ const BloggerGenerator = () => {
     const [selectedMatch, setSelectedMatch] = useState(null);
     const [generatedCode, setGeneratedCode] = useState('');
     const [copied, setCopied] = useState(false);
-
-    // Mock fetchEvents function - replace with your actual API
-    const fetchEvents = async (serverName) => {
-        // Simulated API response
-        return [
-            {
-                id: 1,
-                league: 'La Liga',
-                title: 'Barcelona vs Atlético Madrid',
-                startTime: new Date('2025-12-09T20:00:00'),
-                isLive: true,
-                streams: [
-                    { name: 'English - HD2', url: 'https://sportzonline.top/channels/hd/hd2.php' },
-                    { name: 'Spanish - HD6', url: 'https://sportzonline.top/channels/hd/hd6.php' },
-                    { name: 'German - HD9', url: 'https://sportzonline.top/channels/hd/hd9.php' },
-                    { name: 'Link 4', url: 'https://sportzonline.top/channels/pt/eleven1.php' },
-                    { name: 'Link 5', url: 'https://sportzonline.top/channels/bra/br2.php' }
-                ]
-            },
-            {
-                id: 2,
-                league: 'Premier League',
-                title: 'Manchester United vs Liverpool',
-                startTime: new Date('2025-12-10T18:30:00'),
-                isLive: false,
-                streams: [
-                    { name: 'English - HD1', url: 'https://sportzonline.top/channels/hd/hd1.php' },
-                    { name: 'English - HD2', url: 'https://sportzonline.top/channels/hd/hd2.php' }
-                ]
-            }
-        ];
-    };
 
     useEffect(() => {
         loadMatches();
