@@ -12,6 +12,7 @@ import TwitterTool from './pages/TwitterTool';
 import BloggerGenerator from './pages/BloggerGenerator';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
+import EffectiveGateAd from './components/EffectiveGateAd';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
             <Route path="/blogger-generator" element={<BloggerGenerator />} />
           </Routes>
         </div>
+        <EffectiveGateAd />
         <Footer />
       </div>
       <FloatingSocial />

@@ -34,7 +34,9 @@ const BloggerGenerator = () => {
 
         const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
 
-        const code = `
+        const code = `<!-- AdSense Script - Load Once -->
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+
 <!-- Match Content Start -->
 <div class="match-container">
     <div class="match-header glass-panel">
@@ -51,19 +53,14 @@ const BloggerGenerator = () => {
         </div>
     </div>
 
-    <!-- Ad Unit 1 -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-        <!-- bxads53 -->
+    <!-- Ad Unit 1 - Top -->
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="2965148688"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
     </div>
 
     <div class="player-section glass-panel">
@@ -74,39 +71,39 @@ const BloggerGenerator = () => {
             </div>
         </div>
 
-        <!-- Ad Unit 2 (Above Player) -->
-        <div class="ad-container">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-            <!-- bxads4 -->
+        <!-- Ad Unit 2 - Above Player -->
+        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; min-width: 300px; width: 100%;"
                  data-ad-client="ca-pub-7025462814384100"
                  data-ad-slot="9462166476"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
 
         <div class="video-container">
-            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" scrolling="no"></iframe>
+            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-presentation allow-forms" scrolling="no"></iframe>
         </div>
         
-        <!-- Ad Unit 3 (Below Player) -->
-        <div class="ad-container">
-            <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-            <!-- bxads3 -->
+        <!-- Ad Unit 3 - Below Player -->
+        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:block; min-width: 300px; width: 100%;"
                  data-ad-client="ca-pub-7025462814384100"
                  data-ad-slot="3088329811"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
-            <script>
-                 (adsbygoogle = window.adsbygoogle || []).push({});
-            </script>
         </div>
+    </div>
+
+    <!-- Ad Unit 4 - Mid Content -->
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block; min-width: 300px; width: 100%;"
+             data-ad-client="ca-pub-7025462814384100"
+             data-ad-slot="2965148688"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
     </div>
 
     <div class="social-links">
@@ -122,19 +119,24 @@ const BloggerGenerator = () => {
         </a>
     </div>
 
-    <!-- Ad Unit 4 -->
-    <div class="ad-container">
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
-        <!-- bxads -->
+    <!-- Ad Unit 5 - Before Footer -->
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
-             style="display:block"
+             style="display:block; min-width: 300px; width: 100%;"
              data-ad-client="ca-pub-7025462814384100"
              data-ad-slot="3910456892"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-        <script>
-             (adsbygoogle = window.adsbygoogle || []).push({});
-        </script>
+    </div>
+
+    <!-- Ad Unit 6 - Bottom -->
+    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
+        <ins class="adsbygoogle"
+             style="display:block; min-width: 300px; width: 100%;"
+             data-ad-client="ca-pub-7025462814384100"
+             data-ad-slot="9462166476"
+             data-ad-format="auto"
+             data-full-width-responsive="true"></ins>
     </div>
 </div>
 
@@ -144,9 +146,37 @@ function changeStream(url, btn) {
     document.querySelectorAll('.stream-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }
+
+// Initialize AdSense ads - Push each ad unit individually
+(function() {
+    var adsLoaded = false;
+    
+    function loadAds() {
+        if (adsLoaded) return;
+        adsLoaded = true;
+        
+        var ads = document.querySelectorAll('.adsbygoogle');
+        ads.forEach(function(ad) {
+            if (!ad.getAttribute('data-adsbygoogle-status')) {
+                try {
+                    (adsbygoogle = window.adsbygoogle || []).push({});
+                } catch (e) {
+                    console.log('Ad load error:', e);
+                }
+            }
+        });
+    }
+    
+    // Load ads after DOM is ready
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadAds);
+    } else {
+        setTimeout(loadAds, 100);
+    }
+})();
 </script>
-<!-- Match Content End -->
-`;
+<!-- Match Content End -->`;
+
         setGeneratedCode(code);
         setSelectedMatch(match);
         setCopied(false);
@@ -159,27 +189,57 @@ function changeStream(url, btn) {
     };
 
     return (
-        <div className="container" style={{ paddingBottom: '4rem' }}>
-            <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem' }}>
-                <h1 style={{ marginBottom: '1.5rem', display: 'flex', alignItems: 'center', gap: '1rem' }}>
-                    <Code size={32} color="var(--accent-color)" />
+        <div style={{
+            maxWidth: '1200px',
+            margin: '0 auto',
+            padding: '2rem 1rem',
+            fontFamily: 'system-ui, -apple-system, sans-serif',
+            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+            minHeight: '100vh'
+        }}>
+            <div style={{
+                background: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                borderRadius: '20px',
+                border: '1px solid rgba(255, 255, 255, 0.2)',
+                padding: '2rem',
+                marginBottom: '2rem',
+                boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
+                color: 'white'
+            }}>
+                <h1 style={{
+                    marginBottom: '1.5rem',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '1rem',
+                    fontSize: '2rem'
+                }}>
+                    <Code size={32} />
                     Blogger Post Generator
                 </h1>
 
                 <div style={{ marginBottom: '2rem' }}>
-                    <h3 style={{ marginBottom: '1rem' }}>1. Select Server</h3>
-                    <div className="flex gap-4">
+                    <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem' }}>1. Select Server</h3>
+                    <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                         {['server1', 'server2', 'server3'].map(s => (
                             <button
                                 key={s}
                                 onClick={() => setServer(s)}
-                                className={`glass-button ${server === s ? 'active' : ''}`}
                                 style={{
-                                    borderColor: server === s ? 'var(--accent-color)' : 'var(--glass-border)',
-                                    background: server === s ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)'
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.75rem 1.5rem',
+                                    background: server === s ? 'rgba(59, 130, 246, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                                    border: `2px solid ${server === s ? '#3b82f6' : 'rgba(255, 255, 255, 0.2)'}`,
+                                    borderRadius: '10px',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    transition: 'all 0.3s ease',
+                                    fontWeight: '600'
                                 }}
                             >
-                                <Server size={18} style={{ marginRight: '0.5rem' }} />
+                                <Server size={18} />
                                 {s.toUpperCase()}
                             </button>
                         ))}
@@ -187,34 +247,78 @@ function changeStream(url, btn) {
                 </div>
 
                 <div style={{ marginBottom: '2rem' }}>
-                    <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
-                        <h3>2. Select Match</h3>
-                        <button onClick={loadMatches} className="glass-button" title="Refresh Matches">
-                            <RefreshCw size={18} className={loading ? 'loading-spinner' : ''} />
+                    <div style={{
+                        display: 'flex',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                        marginBottom: '1rem'
+                    }}>
+                        <h3 style={{ fontSize: '1.2rem' }}>2. Select Match</h3>
+                        <button
+                            onClick={loadMatches}
+                            style={{
+                                padding: '0.5rem 1rem',
+                                background: 'rgba(255, 255, 255, 0.1)',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderRadius: '8px',
+                                color: 'white',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '0.5rem'
+                            }}
+                            title="Refresh Matches"
+                        >
+                            <RefreshCw size={18} style={{ animation: loading ? 'spin 1s linear infinite' : 'none' }} />
                         </button>
                     </div>
 
                     {loading ? (
-                        <div className="text-center" style={{ padding: '2rem' }}>Loading matches...</div>
+                        <div style={{ textAlign: 'center', padding: '2rem' }}>Loading matches...</div>
                     ) : (
-                        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem', maxHeight: '400px', overflowY: 'auto', paddingRight: '0.5rem' }}>
+                        <div style={{
+                            display: 'grid',
+                            gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+                            gap: '1rem',
+                            maxHeight: '400px',
+                            overflowY: 'auto',
+                            paddingRight: '0.5rem'
+                        }}>
                             {matches.map(match => (
                                 <div
                                     key={match.id}
                                     onClick={() => generateCode(match)}
-                                    className="glass-panel"
                                     style={{
                                         padding: '1rem',
                                         cursor: 'pointer',
-                                        border: selectedMatch?.id === match.id ? '1px solid var(--accent-color)' : '1px solid var(--glass-border)',
-                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.1)' : 'var(--bg-card)'
+                                        border: selectedMatch?.id === match.id ? '2px solid #3b82f6' : '1px solid rgba(255, 255, 255, 0.2)',
+                                        background: selectedMatch?.id === match.id ? 'rgba(59, 130, 246, 0.2)' : 'rgba(255, 255, 255, 0.05)',
+                                        borderRadius: '10px',
+                                        transition: 'all 0.3s ease'
                                     }}
                                 >
-                                    <div style={{ fontSize: '0.9rem', color: 'var(--accent-color)', marginBottom: '0.25rem' }}>{match.league}</div>
-                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem' }}>{match.title}</div>
-                                    <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                                    <div style={{ fontSize: '0.9rem', color: '#60a5fa', marginBottom: '0.25rem', fontWeight: '600' }}>
+                                        {match.league}
+                                    </div>
+                                    <div style={{ fontWeight: 'bold', marginBottom: '0.5rem', fontSize: '1.1rem' }}>
+                                        {match.title}
+                                    </div>
+                                    <div style={{ fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.7)' }}>
                                         {new Date(match.startTime).toLocaleString()}
                                     </div>
+                                    {match.isLive && (
+                                        <div style={{
+                                            display: 'inline-block',
+                                            marginTop: '0.5rem',
+                                            padding: '0.25rem 0.75rem',
+                                            background: '#dc2626',
+                                            borderRadius: '999px',
+                                            fontSize: '0.75rem',
+                                            fontWeight: 'bold'
+                                        }}>
+                                            LIVE
+                                        </div>
+                                    )}
                                 </div>
                             ))}
                         </div>
@@ -223,15 +327,31 @@ function changeStream(url, btn) {
 
                 {generatedCode && (
                     <div>
-                        <div className="flex justify-between items-center" style={{ marginBottom: '1rem' }}>
-                            <h3>3. Generated HTML Code</h3>
+                        <div style={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            marginBottom: '1rem'
+                        }}>
+                            <h3 style={{ fontSize: '1.2rem' }}>3. Generated HTML Code (6 Ad Units)</h3>
                             <button
                                 onClick={copyToClipboard}
-                                className="glass-button"
-                                style={{ background: copied ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255, 255, 255, 0.05)' }}
+                                style={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    gap: '0.5rem',
+                                    padding: '0.75rem 1.5rem',
+                                    background: copied ? 'rgba(34, 197, 94, 0.3)' : 'rgba(255, 255, 255, 0.1)',
+                                    border: '1px solid rgba(255, 255, 255, 0.2)',
+                                    borderRadius: '8px',
+                                    color: 'white',
+                                    cursor: 'pointer',
+                                    fontWeight: '600',
+                                    transition: 'all 0.3s ease'
+                                }}
                             >
                                 {copied ? <Check size={18} /> : <Copy size={18} />}
-                                <span style={{ marginLeft: '0.5rem' }}>{copied ? 'Copied!' : 'Copy Code'}</span>
+                                {copied ? 'Copied!' : 'Copy Code'}
                             </button>
                         </div>
                         <textarea
@@ -239,19 +359,42 @@ function changeStream(url, btn) {
                             readOnly
                             style={{
                                 width: '100%',
-                                height: '300px',
+                                height: '400px',
                                 background: '#0f172a',
                                 color: '#f8fafc',
-                                border: '1px solid var(--glass-border)',
-                                borderRadius: '8px',
+                                border: '1px solid rgba(255, 255, 255, 0.2)',
+                                borderRadius: '12px',
                                 padding: '1rem',
                                 fontFamily: 'monospace',
-                                resize: 'vertical'
+                                fontSize: '0.875rem',
+                                resize: 'vertical',
+                                lineHeight: '1.5'
                             }}
                         />
+                        <div style={{
+                            marginTop: '1rem',
+                            padding: '1rem',
+                            background: 'rgba(59, 130, 246, 0.1)',
+                            borderRadius: '8px',
+                            border: '1px solid rgba(59, 130, 246, 0.3)'
+                        }}>
+                            <p style={{ margin: 0, fontSize: '0.9rem' }}>
+                                ✅ <strong>6 Ad Units Included:</strong> Top Banner, Above Player, Below Player, Mid Content, Before Footer, Bottom Banner
+                            </p>
+                            <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem' }}>
+                                📦 All ads are in contained boxes with proper styling for Blogger
+                            </p>
+                        </div>
                     </div>
                 )}
             </div>
+
+            <style>{`
+                @keyframes spin {
+                    from { transform: rotate(0deg); }
+                    to { transform: rotate(360deg); }
+                }
+            `}</style>
         </div>
     );
 };
