@@ -26,6 +26,52 @@ const AdUnit = ({
 
     const slotId = getAdSlotId(placementId);
 
+    // Special handling for Placement 3 (Above Player) - Replace AdSense with new ad codes
+    if (placementId === '3') {
+        return (
+            <div
+                className={`ad-container ${className}`}
+                style={{
+                    display: 'flex',
+                    gap: '1rem',
+                    flexWrap: 'wrap',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    margin: '1.5rem 0',
+                    width: '100%',
+                    ...style
+                }}
+            >
+                {/* Ad 1: HighPerformanceFormat */}
+                <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '8px', padding: '0.5rem' }}>
+                    <IframeAdWrapper width="300px" height="250px">
+                        {`
+                            <script type="text/javascript">
+                                atOptions = {
+                                    'key' : 'ce3f21e18814632d95fc9d6c33f8e7ed',
+                                    'format' : 'iframe',
+                                    'height' : 250,
+                                    'width' : 300,
+                                    'params' : {}
+                                };
+                            </script>
+                            <script type="text/javascript" src="//www.highperformanceformat.com/ce3f21e18814632d95fc9d6c33f8e7ed/invoke.js"></script>
+                        `}
+                    </IframeAdWrapper>
+                </div>
+
+                {/* Ad 2: EffectiveGateCPM */}
+                <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '8px', padding: '0.5rem' }}>
+                    <IframeAdWrapper width="300px" height="250px">
+                        {`
+                            <script type="text/javascript" src="//pl28225632.effectivegatecpm.com/2b/60/97/2b6097036a8e2e631220dc32c8100cb6.js"></script>
+                        `}
+                    </IframeAdWrapper>
+                </div>
+            </div>
+        );
+    }
+
     useEffect(() => {
         // Ensure the AdSense script is loaded
         const loadScript = () => {
@@ -94,6 +140,35 @@ const AdUnit = ({
                 data-ad-format={isFooter ? undefined : "auto"}
                 data-full-width-responsive={isFooter ? "false" : "true"}></ins>
         </div>
+    );
+};
+
+// Helper component for isolating ad scripts
+const IframeAdWrapper = ({ children, width = '300px', height = '250px' }) => {
+    const iframeRef = useRef(null);
+
+    useEffect(() => {
+        const iframe = iframeRef.current;
+        if (iframe) {
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><style>body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;background:transparent;}</style></head>
+                <body>${children}</body>
+                </html>
+            `);
+            doc.close();
+        }
+    }, [children]);
+
+    return (
+        <iframe
+            ref={iframeRef}
+            style={{ border: 'none', width, height, overflow: 'hidden' }}
+            title="Ad"
+        />
     );
 };
 
