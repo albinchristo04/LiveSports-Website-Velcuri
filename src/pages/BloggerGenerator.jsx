@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { fetchEvents } from '../services/api';
-import { Copy, Check, RefreshCw, Server, Code } from 'lucide-react';
+import { Copy, Check, RefreshCw, Server, Code, Smartphone } from 'lucide-react';
 
 const BloggerGenerator = () => {
     const [server, setServer] = useState('server1');
@@ -30,14 +30,76 @@ const BloggerGenerator = () => {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 ${stream.name || `Server ${index + 1}`}
             </button>`;
-        }).join('\n');
+        }).join('\n                ');
 
         const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
 
         const code = `<!-- AdSense Script - Load Once -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
 
-<!-- Match Content Start -->
+<!-- Match Content Start - Mobile Optimized -->
+<style>
+/* Mobile-specific overrides for this post */
+@media (max-width: 768px) {
+    .match-container {
+        padding: 0 !important;
+    }
+    
+    .match-header.glass-panel,
+    .player-section.glass-panel {
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 1rem !important;
+    }
+    
+    .video-container {
+        margin-left: -1rem !important;
+        margin-right: -1rem !important;
+        width: calc(100% + 2rem) !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        padding: 0 !important;
+    }
+    
+    .stream-buttons {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+    }
+    
+    .stream-btn {
+        width: 100% !important;
+        justify-content: flex-start !important;
+        padding: 1rem !important;
+    }
+    
+    .social-links {
+        padding: 0 1rem !important;
+        flex-direction: column !important;
+        gap: 1rem !important;
+    }
+    
+    .discord-btn,
+    .telegram-btn {
+        width: 100% !important;
+    }
+    
+    .ad-container {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+        border-radius: 0 !important;
+    }
+    
+    .match-meta {
+        flex-direction: column !important;
+        gap: 0.5rem !important;
+        align-items: flex-start !important;
+    }
+}
+</style>
+
 <div class="match-container">
     <div class="match-header glass-panel">
         <div class="match-info">
@@ -212,10 +274,24 @@ function changeStream(url, btn) {
                     display: 'flex',
                     alignItems: 'center',
                     gap: '1rem',
-                    fontSize: '2rem'
+                    fontSize: '2rem',
+                    flexWrap: 'wrap'
                 }}>
                     <Code size={32} />
                     Blogger Post Generator
+                    <span style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '0.5rem',
+                        fontSize: '0.875rem',
+                        background: 'rgba(34, 197, 94, 0.2)',
+                        padding: '0.5rem 1rem',
+                        borderRadius: '999px',
+                        border: '1px solid rgba(34, 197, 94, 0.4)'
+                    }}>
+                        <Smartphone size={16} />
+                        Mobile Optimized
+                    </span>
                 </h1>
 
                 <div style={{ marginBottom: '2rem' }}>
@@ -331,9 +407,11 @@ function changeStream(url, btn) {
                             display: 'flex',
                             justifyContent: 'space-between',
                             alignItems: 'center',
-                            marginBottom: '1rem'
+                            marginBottom: '1rem',
+                            flexWrap: 'wrap',
+                            gap: '1rem'
                         }}>
-                            <h3 style={{ fontSize: '1.2rem' }}>3. Generated HTML Code (6 Ad Units)</h3>
+                            <h3 style={{ fontSize: '1.2rem' }}>3. Generated HTML Code</h3>
                             <button
                                 onClick={copyToClipboard}
                                 style={{
@@ -378,11 +456,12 @@ function changeStream(url, btn) {
                             borderRadius: '8px',
                             border: '1px solid rgba(59, 130, 246, 0.3)'
                         }}>
-                            <p style={{ margin: 0, fontSize: '0.9rem' }}>
-                                ✅ <strong>6 Ad Units Included:</strong> Top Banner, Above Player, Below Player, Mid Content, Before Footer, Bottom Banner
+                            <p style={{ margin: 0, fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                <Smartphone size={16} />
+                                <strong>Mobile Optimized:</strong> Full-width player, responsive buttons, optimized spacing
                             </p>
                             <p style={{ margin: '0.5rem 0 0 0', fontSize: '0.9rem' }}>
-                                📦 All ads are in contained boxes with proper styling for Blogger
+                                ✅ 6 Ad Units Included • 📱 Works perfectly on all devices
                             </p>
                         </div>
                     </div>
