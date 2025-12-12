@@ -1,4 +1,31 @@
-import React, { useEffect, useRef } from 'react';
+// Helper component for isolating ad scripts
+const IframeAdWrapper = ({ children, width = '300px', height = '250px' }) => {
+    const iframeRef = useRef(null);
+
+    useEffect(() => {
+        const iframe = iframeRef.current;
+        if (iframe) {
+            const doc = iframe.contentWindow.document;
+            doc.open();
+            doc.write(`
+                <!DOCTYPE html>
+                <html>
+                <head><style>body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;background:transparent;}</style></head>
+                <body>${children}</body>
+                </html>
+            `);
+            doc.close();
+        }
+    }, [children]);
+
+    return (
+        <iframe
+            ref={iframeRef}
+            style={{ border: 'none', width, height, overflow: 'hidden' }}
+            title="Ad"
+        />
+    );
+};
 
 const AdUnit = ({
     placementId = '1',
@@ -55,16 +82,17 @@ const AdUnit = ({
                                     'params' : {}
                                 };
                             </script>
-                            <script type="text/javascript" src="//www.highperformanceformat.com/ce3f21e18814632d95fc9d6c33f8e7ed/invoke.js"></script>
+                            <script type="text/javascript" src="https://www.highperformanceformat.com/ce3f21e18814632d95fc9d6c33f8e7ed/invoke.js"></script>
                         `}
                     </IframeAdWrapper>
                 </div>
 
-                {/* Ad 2: EffectiveGateCPM */}
+                {/* Ad 2: EffectiveGateCPM - Container */}
                 <div style={{ background: 'rgba(255, 255, 255, 0.03)', borderRadius: '8px', padding: '0.5rem' }}>
                     <IframeAdWrapper width="300px" height="250px">
                         {`
-                            <script type="text/javascript" src="//pl28225632.effectivegatecpm.com/2b/60/97/2b6097036a8e2e631220dc32c8100cb6.js"></script>
+                           <script async="async" data-cfasync="false" src="https://pl28221775.effectivegatecpm.com/109e5b336e522aab42d32897f53e6f7a/invoke.js"></script>
+                           <div id="container-109e5b336e522aab42d32897f53e6f7a"></div>
                         `}
                     </IframeAdWrapper>
                 </div>
@@ -72,6 +100,7 @@ const AdUnit = ({
         );
     }
 
+    // Default AdSense rendering for other placements
     useEffect(() => {
         // Ensure the AdSense script is loaded
         const loadScript = () => {
@@ -140,35 +169,6 @@ const AdUnit = ({
                 data-ad-format={isFooter ? undefined : "auto"}
                 data-full-width-responsive={isFooter ? "false" : "true"}></ins>
         </div>
-    );
-};
-
-// Helper component for isolating ad scripts
-const IframeAdWrapper = ({ children, width = '300px', height = '250px' }) => {
-    const iframeRef = useRef(null);
-
-    useEffect(() => {
-        const iframe = iframeRef.current;
-        if (iframe) {
-            const doc = iframe.contentWindow.document;
-            doc.open();
-            doc.write(`
-                <!DOCTYPE html>
-                <html>
-                <head><style>body{margin:0;padding:0;display:flex;justify-content:center;align-items:center;background:transparent;}</style></head>
-                <body>${children}</body>
-                </html>
-            `);
-            doc.close();
-        }
-    }, [children]);
-
-    return (
-        <iframe
-            ref={iframeRef}
-            style={{ border: 'none', width, height, overflow: 'hidden' }}
-            title="Ad"
-        />
     );
 };
 
