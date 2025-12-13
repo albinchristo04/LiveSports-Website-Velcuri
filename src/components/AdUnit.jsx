@@ -1,3 +1,5 @@
+import React, { useEffect, useRef } from 'react';
+
 // Helper component for isolating ad scripts
 const IframeAdWrapper = ({ children, width = '300px', height = '250px' }) => {
     const iframeRef = useRef(null);
