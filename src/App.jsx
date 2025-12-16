@@ -12,6 +12,7 @@ import TwitterTool from './pages/TwitterTool';
 import BloggerGenerator from './pages/BloggerGenerator';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
+import Embed from './pages/Embed';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
             <Route path="/" element={<Home />} />
             <Route path="/tv-channels" element={<TVChannels />} />
             <Route path="/match/:id" element={<Match />} />
+            <Route path="/embed/:id/:index" element={<Embed />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/dmca" element={<DMCA />} />
             <Route path="/telegram-tool" element={<TelegramTool />} />

@@ -239,6 +239,85 @@ const Match = () => {
                     {/* Ad Below Player - Placement 4 */}
                     <AdUnit placementId="4" style={{ minHeight: '300px' }} />
 
+                    {/* Embed Links Section */}
+                    <div className="glass-panel" style={{ padding: '1.5rem' }}>
+                        <h3 style={{ marginBottom: '1rem', fontSize: '1.1rem' }}>Embed Links</h3>
+                        <p style={{ color: 'var(--text-secondary)', marginBottom: '1rem', fontSize: '0.9rem' }}>
+                            Use the links below to embed this match on your website. Each link includes the necessary ad configuration.
+                        </p>
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            {event.streams.map((stream, idx) => {
+                                const embedUrl = `${window.location.origin}/embed/${event.id}/${idx}`;
+                                const iframeCode = `<iframe src="${embedUrl}" width="100%" height="500" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" scrolling="no"></iframe>`;
+
+                                return (
+                                    <div key={idx} style={{ background: 'rgba(255,255,255,0.03)', padding: '1rem', borderRadius: '8px', border: '1px solid var(--glass-border)' }}>
+                                        <div style={{ marginBottom: '0.75rem', fontWeight: 600, color: 'var(--accent-color)' }}>
+                                            {stream.name || `Server ${idx + 1}`}
+                                        </div>
+
+                                        {/* Direct URL */}
+                                        <div style={{ marginBottom: '0.75rem' }}>
+                                            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Direct URL</div>
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <input
+                                                    readOnly
+                                                    value={embedUrl}
+                                                    style={{
+                                                        flex: 1,
+                                                        background: 'rgba(0,0,0,0.3)',
+                                                        border: '1px solid var(--glass-border)',
+                                                        color: 'var(--text-primary)',
+                                                        padding: '0.5rem',
+                                                        borderRadius: '4px',
+                                                        fontSize: '0.875rem'
+                                                    }}
+                                                    onClick={(e) => e.target.select()}
+                                                />
+                                                <button
+                                                    className="glass-button"
+                                                    style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+                                                    onClick={() => navigator.clipboard.writeText(embedUrl)}
+                                                >
+                                                    Copy
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        {/* Iframe Code */}
+                                        <div>
+                                            <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>Embed Code</div>
+                                            <div style={{ display: 'flex', gap: '0.5rem' }}>
+                                                <input
+                                                    readOnly
+                                                    value={iframeCode}
+                                                    style={{
+                                                        flex: 1,
+                                                        background: 'rgba(0,0,0,0.3)',
+                                                        border: '1px solid var(--glass-border)',
+                                                        color: 'var(--text-primary)',
+                                                        padding: '0.5rem',
+                                                        borderRadius: '4px',
+                                                        fontSize: '0.875rem',
+                                                        fontFamily: 'monospace'
+                                                    }}
+                                                    onClick={(e) => e.target.select()}
+                                                />
+                                                <button
+                                                    className="glass-button"
+                                                    style={{ padding: '0.5rem 1rem', fontSize: '0.875rem' }}
+                                                    onClick={() => navigator.clipboard.writeText(iframeCode)}
+                                                >
+                                                    Copy
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
