@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Loader2, Play, Calendar, ExternalLink, RefreshCw } from 'lucide-react';
 import Navbar from '../components/Navbar';
 import AdUnit from '../components/AdUnit';
+import SEO from '../components/SEO';
 
 const Highlights = () => {
     const [highlights, setHighlights] = useState([]);
@@ -51,6 +52,10 @@ const Highlights = () => {
 
     return (
         <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+            <SEO
+                title="Football Highlights - Latest Goals & Match Replays | ROJADIRECTA"
+                description="Watch the latest football highlights, goals, and match replays from top leagues including Premier League, La Liga, and Champions League."
+            />
             <Navbar />
 
             <div className="content-wrapper" style={{ padding: '0 1.5rem', maxWidth: '1200px', margin: '0 auto', flex: 1, width: '100%' }}>

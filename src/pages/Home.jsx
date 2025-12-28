@@ -5,7 +5,7 @@ import CategoryFilter from '../components/CategoryFilter';
 import EventCard from '../components/EventCard';
 import AdUnit from '../components/AdUnit';
 import { Loader2 } from 'lucide-react';
-import Navbar from '../components/Navbar';
+import SEO from '../components/SEO';
 
 const Home = () => {
     const [server, setServer] = useState('server1');
@@ -39,7 +39,27 @@ const Home = () => {
 
     return (
         <div className="container">
+            <SEO
+                title="ROJADIRECTA TV - Live Sports Streaming | Watch Football Live"
+                description="Watch live sports events for free on ROJADIRECTA TV. Live football, basketball, tennis and more from top leagues worldwide."
+            />
             <Navbar />
+
+            <div style={{ textAlign: 'center', margin: '2rem 0' }}>
+                <h1 style={{
+                    fontSize: '2.5rem',
+                    fontWeight: '800',
+                    background: 'linear-gradient(to right, #60a5fa, #a855f7)',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    marginBottom: '0.5rem'
+                }}>
+                    Live Sports Events
+                </h1>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>
+                    Stream your favorite matches live in HD
+                </p>
+            </div>
 
             {/* Top Ad */}
             <AdUnit placementId="1" />

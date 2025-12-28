@@ -1,9 +1,14 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import SEO from '../components/SEO';
 
 const Privacy = () => {
     return (
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
+            <SEO
+                title="Privacy Policy - ROJADIRECTA TV"
+                description="Read our privacy policy to understand how we collect, use, and protect your information on ROJADIRECTA TV."
+            />
             <Navbar />
             <div className="glass-panel" style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h1 style={{ marginBottom: '1.5rem' }}>Privacy Policy</h1>

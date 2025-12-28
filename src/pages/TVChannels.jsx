@@ -3,6 +3,7 @@ import { fetchTVChannels } from '../services/api';
 import Navbar from '../components/Navbar';
 import { Search, Tv, Loader2, Play } from 'lucide-react';
 import AdUnit from '../components/AdUnit';
+import SEO from '../components/SEO';
 
 const TVChannels = () => {
     const [channels, setChannels] = useState([]);
@@ -41,6 +42,10 @@ const TVChannels = () => {
 
     return (
         <div className="container">
+            <SEO
+                title="Live TV Channels - Watch Sports, News & Movies Online | ROJADIRECTA"
+                description="Stream live TV channels from around the world. Watch sports, news, entertainment, and movies for free on ROJADIRECTA TV."
+            />
             <Navbar />
 
             <div className="glass-panel" style={{ padding: '2rem', marginBottom: '2rem', textAlign: 'center' }}>

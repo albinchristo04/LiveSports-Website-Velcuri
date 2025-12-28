@@ -1,9 +1,14 @@
 import React from 'react';
 import Navbar from '../components/Navbar';
+import SEO from '../components/SEO';
 
 const DMCA = () => {
     return (
         <div className="container" style={{ padding: '2rem', maxWidth: '800px' }}>
+            <SEO
+                title="DMCA Policy - ROJADIRECTA TV"
+                description="Our DMCA policy regarding copyright infringement and takedown notices on ROJADIRECTA TV."
+            />
             <Navbar />
             <div className="glass-panel" style={{ padding: '2rem', marginTop: '2rem' }}>
                 <h1 style={{ marginBottom: '1.5rem' }}>DMCA Policy</h1>
