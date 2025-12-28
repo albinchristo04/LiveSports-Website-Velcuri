@@ -35,7 +35,7 @@ const BloggerGenerator = () => {
         const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
 
         const code = `<!-- AdSense Script - Load Once -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7025462814384100" crossorigin="anonymous"></script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635539719400885" crossorigin="anonymous"></script>
 
 <!-- Match Content Start - Mobile Optimized -->
 <style>
@@ -119,8 +119,8 @@ const BloggerGenerator = () => {
     <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
              style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-7025462814384100"
-             data-ad-slot="2965148688"
+             data-ad-client="ca-pub-9635539719400885"
+             data-ad-slot="8985770044"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
     </div>
@@ -137,8 +137,8 @@ const BloggerGenerator = () => {
         <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
                  style="display:block; min-width: 300px; width: 100%;"
-                 data-ad-client="ca-pub-7025462814384100"
-                 data-ad-slot="9462166476"
+                 data-ad-client="ca-pub-9635539719400885"
+                 data-ad-slot="5984202189"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>
@@ -151,8 +151,8 @@ const BloggerGenerator = () => {
         <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
             <ins class="adsbygoogle"
                  style="display:block; min-width: 300px; width: 100%;"
-                 data-ad-client="ca-pub-7025462814384100"
-                 data-ad-slot="3088329811"
+                 data-ad-client="ca-pub-9635539719400885"
+                 data-ad-slot="2379999099"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
         </div>
@@ -162,8 +162,8 @@ const BloggerGenerator = () => {
     <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
              style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-7025462814384100"
-             data-ad-slot="2965148688"
+             data-ad-client="ca-pub-9635539719400885"
+             data-ad-slot="8985770044"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
     </div>
@@ -185,8 +185,8 @@ const BloggerGenerator = () => {
     <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
              style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-7025462814384100"
-             data-ad-slot="3910456892"
+             data-ad-client="ca-pub-9635539719400885"
+             data-ad-slot="8985770044"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
     </div>
@@ -195,8 +195,8 @@ const BloggerGenerator = () => {
     <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
         <ins class="adsbygoogle"
              style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-7025462814384100"
-             data-ad-slot="9462166476"
+             data-ad-client="ca-pub-9635539719400885"
+             data-ad-slot="5984202189"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
     </div>
