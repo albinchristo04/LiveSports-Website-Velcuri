@@ -6,16 +6,6 @@
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/tv-channels</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://velcuri.io/highlights</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://velcuri.io/velcuri</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
@@ -62,6 +52,36 @@
     </url>
     <url>
         <loc>https://velcuri.io/ver-futbol-online</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/rojadirecta-en-vivo</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/rojadirecta-tv-en-vivo</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/tarjeta-roja-tv</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/tarjeta-roja-directa</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/tarjeta-roja-futbol-en-vivo</loc>
+        <changefreq>daily</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://velcuri.io/pirlo-tv-futbol-en-vivo-gratis</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>

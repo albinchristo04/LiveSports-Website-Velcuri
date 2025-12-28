@@ -32,6 +32,15 @@ function fetchData(url) {
     });
 }
 
+function pingBing(sitemapUrl) {
+    const pingUrl = `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
+    https.get(pingUrl, (res) => {
+        console.log(`Pinged Bing: ${res.statusCode}`);
+    }).on('error', (err) => {
+        console.error('Error pinging Bing:', err);
+    });
+}
+
 async function generateSitemaps() {
     const baseUrl = 'https://velcuri.io';
     const publicDir = path.join('c:/Users/albin/Velcuri.io/LiveSports-Website-Velcuri', 'public');
@@ -42,6 +51,11 @@ async function generateSitemaps() {
         'pirlotv-futbol-en-vivo', 'futbol-en-vivo-gratis', 'ver-futbol-online'
     ];
 
+    const bingHubs = [
+        'rojadirecta-en-vivo', 'rojadirecta-tv-en-vivo', 'tarjeta-roja-tv',
+        'tarjeta-roja-directa', 'tarjeta-roja-futbol-en-vivo', 'pirlo-tv-futbol-en-vivo-gratis'
+    ];
+
     // 1. Generate Hubs Sitemap
     let hubsXml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -49,19 +63,9 @@ async function generateSitemaps() {
         <loc>${baseUrl}/</loc>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
-    </url>
-    <url>
-        <loc>${baseUrl}/tv-channels</loc>
-        <changefreq>daily</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>${baseUrl}/highlights</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.8</priority>
     </url>`;
 
-    hubs.forEach(hub => {
+    [...hubs, ...bingHubs].forEach(hub => {
         hubsXml += `
     <url>
         <loc>${baseUrl}/${hub}</loc>
@@ -73,7 +77,35 @@ async function generateSitemaps() {
     hubsXml += '\n</urlset>';
     fs.writeFileSync(path.join(publicDir, 'sitemap-hubs.xml'), hubsXml);
 
-    // 2. Generate Matches Sitemap
+    // 2. Generate Rojadirecta Sitemap
+    let rojaXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    ['rojadirecta-tv', 'rojadirecta-en-vivo', 'rojadirecta-tv-en-vivo'].forEach(hub => {
+        rojaXml += `
+    <url>
+        <loc>${baseUrl}/${hub}</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>`;
+    });
+    rojaXml += '\n</urlset>';
+    fs.writeFileSync(path.join(publicDir, 'sitemap-rojadirecta.xml'), rojaXml);
+
+    // 3. Generate Tarjeta Roja Sitemap
+    let tarjetaXml = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`;
+    ['tarjeta-roja-tv', 'tarjeta-roja-directa', 'tarjeta-roja-futbol-en-vivo'].forEach(hub => {
+        tarjetaXml += `
+    <url>
+        <loc>${baseUrl}/${hub}</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>`;
+    });
+    tarjetaXml += '\n</urlset>';
+    fs.writeFileSync(path.join(publicDir, 'sitemap-tarjeta-roja.xml'), tarjetaXml);
+
+    // 4. Generate Matches Sitemap
     try {
         const data = await fetchData(SOURCE_1_URL);
         const events = [];
@@ -112,11 +144,17 @@ async function generateSitemaps() {
         console.error('Error fetching events for sitemap:', err);
     }
 
-    // 3. Generate Sitemap Index
+    // 5. Generate Sitemap Index
     const indexXml = `<?xml version="1.0" encoding="UTF-8"?>
 <sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <sitemap>
         <loc>${baseUrl}/sitemap-hubs.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>${baseUrl}/sitemap-rojadirecta.xml</loc>
+    </sitemap>
+    <sitemap>
+        <loc>${baseUrl}/sitemap-tarjeta-roja.xml</loc>
     </sitemap>
     <sitemap>
         <loc>${baseUrl}/sitemap-matches.xml</loc>
@@ -125,6 +163,9 @@ async function generateSitemaps() {
     fs.writeFileSync(path.join(publicDir, 'sitemap-index.xml'), indexXml);
 
     console.log('Sitemaps generated successfully!');
+
+    // Ping Bing
+    pingBing(`${baseUrl}/sitemap-index.xml`);
 }
 
 generateSitemaps();

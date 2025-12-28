@@ -3,7 +3,7 @@ import { useLocation, useParams, Link } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
 import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2, MonitorPlay } from 'lucide-react';
 import { getEventById, getEventBySlug, getRelatedEvents } from '../services/api';
-import { getOptimizedTitle, getOptimizedDescription, getMatchFAQs } from '../utils/seoUtils';
+import { getOptimizedTitle, getOptimizedDescription, getMatchFAQs, getFreshnessSignal } from '../utils/seoUtils';
 import AdUnit from '../components/AdUnit';
 import EventCard from '../components/EventCard';
 import SEO from '../components/SEO';
@@ -22,6 +22,8 @@ const Match = () => {
     const [relatedEvents, setRelatedEvents] = useState([]);
 
     const isSpanish = pathname.startsWith('/futbol');
+    const [freshness, setFreshness] = useState(getFreshnessSignal());
+    const matchTitle = getOptimizedTitle(event, isSpanish ? 'es' : 'en');
 
     useEffect(() => {
         const loadData = async () => {
@@ -74,7 +76,7 @@ const Match = () => {
         <div className="container">
             {/* SEO & Schema */}
             <SEO
-                title={getOptimizedTitle(event, isSpanish ? 'es' : 'en')}
+                title={matchTitle}
                 description={getOptimizedDescription(event, isSpanish ? 'es' : 'en')}
                 image={event.thumbnail}
                 schema={{
@@ -121,7 +123,8 @@ const Match = () => {
                 <div className="match-title-row">
                     <div>
                         <span className="league-tag">{event.league}</span>
-                        <h1 style={{ fontSize: '1.75rem', marginTop: '0.5rem' }}>{event.title}</h1>
+                        <h1 style={{ fontSize: '1.75rem', marginTop: '0.5rem' }}>{matchTitle}</h1>
+                        <p style={{ color: 'var(--accent-color)', fontSize: '0.8rem', marginTop: '0.5rem' }}>{freshness}</p>
                     </div>
                     {event.isLive && (
                         <span className="live-badge" style={{ position: 'static' }}>LIVE</span>

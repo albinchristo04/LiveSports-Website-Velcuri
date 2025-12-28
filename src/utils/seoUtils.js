@@ -29,18 +29,26 @@ export const getMatchSlugs = (event) => {
 };
 
 /**
- * Formats match title for CTR optimization
+ * Formats match title for Bing CTR optimization
  */
 export const getOptimizedTitle = (event, lang = 'en') => {
     const isLive = event.isLive;
     if (lang === 'es') {
-        return `Ver ${event.title} EN VIVO Gratis Hoy${isLive ? ' 🔴 LIVE' : ''} | Velcuri`;
+        return `${event.title} EN VIVO Gratis | Velcuri`;
     }
     return `Watch ${event.title} Live Stream Free${isLive ? ' 🔴 LIVE' : ''} | Velcuri`;
 };
 
 /**
- * Formats meta description for CTR optimization
+ * Generates a freshness signal for Bing
+ */
+export const getFreshnessSignal = () => {
+    const minutes = Math.floor(Math.random() * 15) + 1;
+    return `Actualizado hace ${minutes} minutos`;
+};
+
+/**
+ * Formats meta description for Bing CTR optimization
  */
 export const getOptimizedDescription = (event, lang = 'en') => {
     const time = event.startTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 
-const SEO = ({ title, description, schema, image }) => {
+const SEO = ({ title, description, schema, image, noCanonical }) => {
     useEffect(() => {
         // Update Title
         if (title) {
@@ -30,14 +30,18 @@ const SEO = ({ title, description, schema, image }) => {
         }
 
         // Update Canonical Link
-        const canonical = document.querySelector('link[rel="canonical"]');
-        if (canonical) {
-            canonical.setAttribute('href', window.location.href);
+        const existingCanonical = document.querySelector('link[rel="canonical"]');
+        if (noCanonical) {
+            if (existingCanonical) existingCanonical.remove();
         } else {
-            const link = document.createElement('link');
-            link.setAttribute('rel', 'canonical');
-            link.setAttribute('href', window.location.href);
-            document.head.appendChild(link);
+            if (existingCanonical) {
+                existingCanonical.setAttribute('href', window.location.href);
+            } else {
+                const link = document.createElement('link');
+                link.setAttribute('rel', 'canonical');
+                link.setAttribute('href', window.location.href);
+                document.head.appendChild(link);
+            }
         }
 
         // Inject Schema.org JSON-LD

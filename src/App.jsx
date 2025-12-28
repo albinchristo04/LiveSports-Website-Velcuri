@@ -44,6 +44,14 @@ function App() {
             <Route path="/futbol-en-vivo-gratis" element={<SEOPage />} />
             <Route path="/ver-futbol-online" element={<SEOPage />} />
 
+            {/* Bing-Specific Exact Match Hubs */}
+            <Route path="/rojadirecta-en-vivo" element={<SEOPage />} />
+            <Route path="/rojadirecta-tv-en-vivo" element={<SEOPage />} />
+            <Route path="/tarjeta-roja-tv" element={<SEOPage />} />
+            <Route path="/tarjeta-roja-directa" element={<SEOPage />} />
+            <Route path="/tarjeta-roja-futbol-en-vivo" element={<SEOPage />} />
+            <Route path="/pirlo-tv-futbol-en-vivo-gratis" element={<SEOPage />} />
+
             <Route path="/embed/:id/:index" element={<Embed />} />
             <Route path="/privacy" element={<Privacy />} />
             <Route path="/dmca" element={<DMCA />} />
