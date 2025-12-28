@@ -43,7 +43,7 @@ function pingBing(sitemapUrl) {
 
 async function generateSitemaps() {
     const baseUrl = 'https://velcuri.io';
-    const publicDir = path.join('c:/Users/albin/Velcuri.io/LiveSports-Website-Velcuri', 'public');
+    const publicDir = path.join(process.cwd(), 'public');
 
     const hubs = [
         'velcuri', 'velcuri-io', 'velcuri-streaming',
