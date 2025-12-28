@@ -1,0 +1,35 @@
+name: SEO & Sitemap Automation
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Runs once a day at midnight UTC
+  workflow_dispatch: # Allows manual trigger
+
+jobs:
+  update-seo:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Generate Sitemaps & Ping Bing
+        run: node scripts/generate-sitemaps.cjs
+
+      - name: Commit and Push Changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add public/sitemap-*.xml
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: automated sitemap update [skip ci]" && git push)
