@@ -54,3 +54,5 @@ User-agent: meta-externalagent
 Disallow: /
 
 # END Cloudflare Managed Content
+
+Sitemap: https://velcuri.io/sitemap-index.xml

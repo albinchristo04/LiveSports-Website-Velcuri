@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useLocation, useParams, Link } from 'react-router-dom';
 import VideoPlayer from '../components/VideoPlayer';
 import { ArrowLeft, Share2, AlertTriangle, RefreshCw, Loader2, MonitorPlay } from 'lucide-react';
-import { getEventById, getRelatedEvents } from '../services/api';
+import { getEventById, getEventBySlug, getRelatedEvents } from '../services/api';
+import { getOptimizedTitle, getOptimizedDescription, getMatchFAQs } from '../utils/seoUtils';
 import AdUnit from '../components/AdUnit';
 import EventCard from '../components/EventCard';
 import SEO from '../components/SEO';
@@ -13,20 +14,27 @@ import MatchStats from '../components/MatchStats';
 import Navbar from '../components/Navbar';
 
 const Match = () => {
-    const { state } = useLocation();
-    const { id } = useParams();
+    const { state, pathname } = useLocation();
+    const { id, slug } = useParams();
     const [event, setEvent] = useState(state?.event || null);
     const [activeStream, setActiveStream] = useState(state?.event?.streams[0] || null);
     const [loading, setLoading] = useState(!state?.event);
     const [relatedEvents, setRelatedEvents] = useState([]);
 
+    const isSpanish = pathname.startsWith('/futbol');
+
     useEffect(() => {
         const loadData = async () => {
             let currentEvent = event;
 
-            if (!currentEvent && id) {
+            if (!currentEvent) {
                 setLoading(true);
-                currentEvent = await getEventById(id);
+                if (id) {
+                    currentEvent = await getEventById(id);
+                } else if (slug) {
+                    currentEvent = await getEventBySlug(slug);
+                }
+
                 if (currentEvent) {
                     setEvent(currentEvent);
                     setActiveStream(currentEvent.streams[0]);
@@ -41,7 +49,7 @@ const Match = () => {
         };
 
         loadData();
-    }, [id, event]);
+    }, [id, slug, event]);
 
     if (loading) {
         return (
@@ -66,8 +74,8 @@ const Match = () => {
         <div className="container">
             {/* SEO & Schema */}
             <SEO
-                title={`${event.title} - Live Stream | ROJADIRECTA`}
-                description={`Watch ${event.title} live stream online for free. ${event.league} match coverage.`}
+                title={getOptimizedTitle(event, isSpanish ? 'es' : 'en')}
+                description={getOptimizedDescription(event, isSpanish ? 'es' : 'en')}
                 image={event.thumbnail}
                 schema={{
                     "@context": "https://schema.org",
@@ -78,7 +86,7 @@ const Match = () => {
                         "@type": "Place",
                         "name": "Online"
                     },
-                    "description": `Live coverage of ${event.title} in ${event.league}`,
+                    "description": getOptimizedDescription(event, isSpanish ? 'es' : 'en'),
                     "image": event.thumbnail,
                     "broadcastOfEvent": {
                         "@type": "SportsEvent",
@@ -318,6 +326,30 @@ const Match = () => {
                         </div>
                     </div>
 
+                </div>
+            </div>
+
+            {/* FAQ Section */}
+            <div className="glass-panel" style={{ padding: '2rem', marginTop: '1.5rem' }}>
+                <h3 style={{ marginBottom: '1.5rem' }}>{isSpanish ? 'Preguntas Frecuentes' : 'Frequently Asked Questions'}</h3>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                    {getMatchFAQs(event, isSpanish ? 'es' : 'en').map((faq, idx) => (
+                        <div key={idx}>
+                            <h4 style={{ color: 'var(--accent-color)', marginBottom: '0.5rem' }}>{faq.q}</h4>
+                            <p style={{ color: 'var(--text-secondary)' }}>{faq.a}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+
+            {/* Internal Link Pressure (Spanish-biased) */}
+            <div className="glass-panel" style={{ padding: '1.5rem', marginTop: '1.5rem' }}>
+                <h3>{isSpanish ? 'Más Fútbol en Vivo' : 'More Live Football'}</h3>
+                <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginTop: '1rem' }}>
+                    <Link to="/rojadirecta-tv" className="glass-button">RojaDirecta TV</Link>
+                    <Link to="/pirlotv-futbol-en-vivo" className="glass-button">Pirlo TV</Link>
+                    <Link to="/futbol-en-vivo-gratis" className="glass-button">Fútbol en Vivo</Link>
+                    <Link to="/ver-futbol-online" className="glass-button">Ver Fútbol Online</Link>
                 </div>
             </div>
 

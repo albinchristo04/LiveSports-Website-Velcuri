@@ -78,6 +78,8 @@ export const fetchTVChannels = async () => {
   }
 };
 
+import { generateSlug } from '../utils/seoUtils';
+
 export const getEventById = async (id) => {
   if (!id) return null;
 
@@ -87,6 +89,22 @@ export const getEventById = async (id) => {
 
   const events = await fetchEvents(server);
   return events.find(e => e.id === id);
+};
+
+export const getEventBySlug = async (slug) => {
+  if (!slug) return null;
+
+  // We need to check all servers since we don't know which one it belongs to
+  const allServers = ['server1', 'server2', 'server3'];
+  for (const server of allServers) {
+    const events = await fetchEvents(server);
+    const event = events.find(e => {
+      const baseSlug = generateSlug(e.title);
+      return slug === `${baseSlug}-live-stream` || slug === `${baseSlug}-en-vivo`;
+    });
+    if (event) return event;
+  }
+  return null;
 };
 
 export const getRelatedEvents = async (currentEventId, league) => {

@@ -3,8 +3,11 @@ import { Play, Calendar, Clock } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { formatDistanceToNow } from 'date-fns';
 
+import { getMatchSlugs } from '../utils/seoUtils';
+
 const EventCard = ({ event }) => {
   const [timeLeft, setTimeLeft] = useState('');
+  const slugs = getMatchSlugs(event);
 
   useEffect(() => {
     const updateTime = () => {
@@ -23,7 +26,7 @@ const EventCard = ({ event }) => {
   }, [event.startTime]);
 
   return (
-    <Link to={`/match/${event.id}`} state={{ event }} className="glass-panel event-card">
+    <Link to={`/football/${slugs.en}`} state={{ event }} className="glass-panel event-card">
       <div className="card-image">
         <img
           src={event.thumbnail}

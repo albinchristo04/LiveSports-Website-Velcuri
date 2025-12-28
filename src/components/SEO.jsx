@@ -29,6 +29,17 @@ const SEO = ({ title, description, schema, image }) => {
             updateMeta('twitter:card', 'summary_large_image');
         }
 
+        // Update Canonical Link
+        const canonical = document.querySelector('link[rel="canonical"]');
+        if (canonical) {
+            canonical.setAttribute('href', window.location.href);
+        } else {
+            const link = document.createElement('link');
+            link.setAttribute('rel', 'canonical');
+            link.setAttribute('href', window.location.href);
+            document.head.appendChild(link);
+        }
+
         // Inject Schema.org JSON-LD
         if (schema) {
             let script = document.querySelector('#seo-schema');
