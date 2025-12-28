@@ -32,13 +32,26 @@ function fetchData(url) {
     });
 }
 
-function pingBing(sitemapUrl) {
-    const pingUrl = `https://www.bing.com/ping?sitemap=${encodeURIComponent(sitemapUrl)}`;
-    https.get(pingUrl, (res) => {
-        console.log(`Pinged Bing: ${res.statusCode}`);
+function submitToIndexNow(sitemapUrl) {
+    const host = 'velcuri.io';
+    const key = '19470b659da646f3ba501014cb7d9ff9';
+    const indexNowUrl = `https://www.bing.com/IndexNow?url=${encodeURIComponent(sitemapUrl)}&key=${key}`;
+
+    console.log(`Submitting to IndexNow: ${sitemapUrl}`);
+
+    https.get(indexNowUrl, (res) => {
+        console.log(`IndexNow Response: ${res.statusCode}`);
+        process.exit(0); // Force exit to prevent build hanging
     }).on('error', (err) => {
-        console.error('Error pinging Bing:', err);
+        console.error('IndexNow Error:', err);
+        process.exit(1);
     });
+
+    // Fallback timeout to ensure build doesn't hang
+    setTimeout(() => {
+        console.log('IndexNow timeout reached, exiting...');
+        process.exit(0);
+    }, 10000);
 }
 
 async function generateSitemaps() {
@@ -164,8 +177,8 @@ async function generateSitemaps() {
 
     console.log('Sitemaps generated successfully!');
 
-    // Ping Bing
-    pingBing(`${baseUrl}/sitemap-index.xml`);
+    // Submit to IndexNow
+    submitToIndexNow(`${baseUrl}/sitemap-index.xml`);
 }
 
 generateSitemaps();
