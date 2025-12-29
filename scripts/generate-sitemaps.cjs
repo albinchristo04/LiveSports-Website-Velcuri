@@ -56,7 +56,9 @@ function submitToIndexNow(sitemapUrl) {
 
 async function generateSitemaps() {
     const baseUrl = 'https://velcuri.io';
-    const publicDir = path.join(process.cwd(), 'public');
+    const outputDir = fs.existsSync(path.join(process.cwd(), 'dist'))
+        ? path.join(process.cwd(), 'dist')
+        : path.join(process.cwd(), 'public');
 
     const hubs = [
         'velcuri', 'velcuri-io', 'velcuri-streaming',
@@ -88,7 +90,7 @@ async function generateSitemaps() {
     });
 
     hubsXml += '\n</urlset>';
-    fs.writeFileSync(path.join(publicDir, 'sitemap-hubs.xml'), hubsXml);
+    fs.writeFileSync(path.join(outputDir, 'sitemap-hubs.xml'), hubsXml);
 
     // 2. Generate Rojadirecta Sitemap
     let rojaXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -102,7 +104,7 @@ async function generateSitemaps() {
     </url>`;
     });
     rojaXml += '\n</urlset>';
-    fs.writeFileSync(path.join(publicDir, 'sitemap-rojadirecta.xml'), rojaXml);
+    fs.writeFileSync(path.join(outputDir, 'sitemap-rojadirecta.xml'), rojaXml);
 
     // 3. Generate Tarjeta Roja Sitemap
     let tarjetaXml = `<?xml version="1.0" encoding="UTF-8"?>
@@ -116,7 +118,7 @@ async function generateSitemaps() {
     </url>`;
     });
     tarjetaXml += '\n</urlset>';
-    fs.writeFileSync(path.join(publicDir, 'sitemap-tarjeta-roja.xml'), tarjetaXml);
+    fs.writeFileSync(path.join(outputDir, 'sitemap-tarjeta-roja.xml'), tarjetaXml);
 
     // 4. Generate Matches Sitemap
     try {
@@ -152,7 +154,7 @@ async function generateSitemaps() {
         });
 
         matchesXml += '\n</urlset>';
-        fs.writeFileSync(path.join(publicDir, 'sitemap-matches.xml'), matchesXml);
+        fs.writeFileSync(path.join(outputDir, 'sitemap-matches.xml'), matchesXml);
     } catch (err) {
         console.error('Error fetching events for sitemap:', err);
     }
@@ -173,7 +175,7 @@ async function generateSitemaps() {
         <loc>${baseUrl}/sitemap-matches.xml</loc>
     </sitemap>
 </sitemapindex>`;
-    fs.writeFileSync(path.join(publicDir, 'sitemap-index.xml'), indexXml);
+    fs.writeFileSync(path.join(outputDir, 'sitemap-index.xml'), indexXml);
 
     console.log('Sitemaps generated successfully!');
 
