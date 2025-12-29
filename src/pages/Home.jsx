@@ -6,6 +6,7 @@ import EventCard from '../components/EventCard';
 import AdUnit from '../components/AdUnit';
 import { Loader2 } from 'lucide-react';
 import SEO from '../components/SEO';
+import Navbar from '../components/Navbar';
 
 const Home = () => {
     const [server, setServer] = useState('server1');
