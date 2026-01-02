@@ -1,8 +1,15 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import AdUnit from './AdUnit';
 
 const Footer = () => {
+    const { pathname } = useLocation();
+
+    // Hide footer on embed pages
+    if (pathname.startsWith('/embed/')) {
+        return null;
+    }
+
     return (
         <footer style={{
             marginTop: '3rem',
