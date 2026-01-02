@@ -23,7 +23,7 @@ const Match = () => {
 
     const isSpanish = pathname.startsWith('/futbol');
     const [freshness, setFreshness] = useState(getFreshnessSignal());
-    const matchTitle = getOptimizedTitle(event, isSpanish ? 'es' : 'en');
+    const matchTitle = event ? getOptimizedTitle(event, isSpanish ? 'es' : 'en') : 'Loading...';
 
     useEffect(() => {
         const loadData = async () => {

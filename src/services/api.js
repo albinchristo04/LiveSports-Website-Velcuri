@@ -100,6 +100,7 @@ export const getEventBySlug = async (slug) => {
     const events = await fetchEvents(server);
     const event = events.find(e => {
       const baseSlug = generateSlug(e.title);
+      // Check both English and Spanish slug patterns
       return slug === `${baseSlug}-live-stream` || slug === `${baseSlug}-en-vivo`;
     });
     if (event) return event;
