@@ -1,7 +1,15 @@
 import React from 'react';
+import { useLocation } from 'react-router-dom';
 import { Send } from 'lucide-react';
 
 const FloatingSocial = () => {
+    const { pathname } = useLocation();
+
+    // Hide on embed pages
+    if (pathname.startsWith('/embed/')) {
+        return null;
+    }
+
     return (
         <a
             href="https://t.me/+brOxYHl33qljZTQ1"

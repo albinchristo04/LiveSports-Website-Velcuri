@@ -3,6 +3,7 @@ import { fetchEvents } from '../services/api';
 import { groupEvents } from '../utils/matchingUtils';
 import Navbar from '../components/Navbar';
 import { Copy, Check, Loader2, Link as LinkIcon } from 'lucide-react';
+import { getMatchSlugs } from '../utils/seoUtils';
 
 const LinkAggregator = () => {
     const [groupedEvents, setGroupedEvents] = useState([]);
@@ -60,7 +61,12 @@ const LinkAggregator = () => {
                 let serverName = 'Server 1';
                 if (id.startsWith('s2')) serverName = 'Server 2';
                 if (id.startsWith('s3')) serverName = 'Server 3';
-                return `📺 ${serverName}: ${window.location.origin}/match/${id}`;
+
+                // Construct a minimal event object for slug generation
+                const eventForSlug = { title: group.title };
+                const slugs = getMatchSlugs(eventForSlug);
+
+                return `📺 ${serverName}: ${window.location.origin}/football/${slugs.en}`;
             }).join('\n');
 
             return `⚽ **${group.title}**\n🏆 ${group.league}\n⏰ ${time}\n${links}\n`;

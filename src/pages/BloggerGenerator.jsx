@@ -26,13 +26,14 @@ const BloggerGenerator = () => {
     const generateCode = (match) => {
         const streams = match.streams || [];
         const streamButtons = streams.map((stream, index) => {
-            return `<button class="stream-btn ${index === 0 ? 'active' : ''}" onclick="changeStream('${stream.url}', this)">
+            const embedUrl = `${window.location.origin}/embed/${match.id}/${index}`;
+            return `<button class="stream-btn ${index === 0 ? 'active' : ''}" onclick="changeStream('${embedUrl}', this)">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg>
                 ${stream.name || `Server ${index + 1}`}
             </button>`;
         }).join('\n                ');
 
-        const firstStreamUrl = streams.length > 0 ? streams[0].url : '';
+        const firstStreamUrl = streams.length > 0 ? `${window.location.origin}/embed/${match.id}/0` : '';
 
         const code = `<!-- AdSense Script - Load Once -->
 <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635539719400885" crossorigin="anonymous"></script>
@@ -73,17 +74,6 @@ const BloggerGenerator = () => {
         width: 100% !important;
         justify-content: flex-start !important;
         padding: 1rem !important;
-    }
-    
-    .social-links {
-        padding: 0 1rem !important;
-        flex-direction: column !important;
-        gap: 1rem !important;
-    }
-    
-    .discord-btn,
-    .telegram-btn {
-        width: 100% !important;
     }
     
     .ad-container {
@@ -144,7 +134,7 @@ const BloggerGenerator = () => {
         </div>
 
         <div class="video-container">
-            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-presentation allow-forms" scrolling="no"></iframe>
+            <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-presentation allow-forms allow-popups allow-popups-to-escape-sandbox" scrolling="no"></iframe>
         </div>
         
         <!-- Ad Unit 3 - Below Player -->
@@ -166,19 +156,6 @@ const BloggerGenerator = () => {
              data-ad-slot="8985770044"
              data-ad-format="auto"
              data-full-width-responsive="true"></ins>
-    </div>
-
-    <div class="social-links">
-        <a href="https://discord.gg/5QgbhJV4" target="_blank" class="discord-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
-                <path d="M20.317 4.36981C18.798 3.66981 17.168 3.16981 15.447 3.04981C15.417 3.04981 15.387 3.06981 15.367 3.09981C15.157 3.47981 14.927 3.99981 14.767 4.37981C12.947 4.10981 11.137 4.10981 9.33696 4.37981C9.17696 3.99981 8.93696 3.47981 8.72696 3.09981C8.70696 3.06981 8.67696 3.04981 8.64696 3.04981C6.92696 3.16981 5.29696 3.66981 3.77696 4.36981C3.76696 4.37981 3.75696 4.38981 3.74696 4.39981C0.666963 9.02981 -0.183037 13.5498 0.226963 18.0198C0.226963 18.0498 0.246963 18.0798 0.266963 18.0998C2.27696 19.5798 4.21696 20.4798 6.12696 21.0698C6.15696 21.0798 6.18696 21.0698 6.20696 21.0498C6.65696 20.4398 7.05696 19.7998 7.39696 19.1298C7.42696 19.0698 7.39696 18.9998 7.32696 18.9798C6.68696 18.7398 6.07696 18.4598 5.48696 18.1398C5.43696 18.1098 5.42696 18.0398 5.47696 17.9998C5.60696 17.9098 5.73696 17.8098 5.85696 17.7098C5.87696 17.6898 5.90696 17.6898 5.93696 17.6898C9.84696 19.4898 14.267 19.4898 18.147 17.6898C18.177 17.6898 18.207 17.6898 18.227 17.7098C18.357 17.8098 18.477 17.9098 18.607 17.9998C18.657 18.0398 18.647 18.1098 18.597 18.1398C18.007 18.4598 17.397 18.7398 16.757 18.9798C16.687 18.9998 16.657 19.0698 16.687 19.1298C17.027 19.7998 17.427 20.4398 17.877 21.0498C17.897 21.0698 17.927 21.0798 17.957 21.0698C19.877 20.4798 21.817 19.5798 23.817 18.0998C23.837 18.0798 23.857 18.0498 23.857 18.0198C24.367 12.7598 23.027 8.28981 20.337 4.39981C20.327 4.38981 20.317 4.37981 20.317 4.36981ZM8.01696 15.3298C6.83696 15.3298 5.87696 14.2498 5.87696 12.9298C5.87696 11.6098 6.81696 10.5298 8.01696 10.5298C9.22696 10.5298 10.187 11.6198 10.167 12.9298C10.167 14.2498 9.21696 15.3298 8.01696 15.3298ZM16.067 15.3298C14.887 15.3298 13.927 14.2498 13.927 12.9298C13.927 11.6098 14.867 10.5298 16.067 10.5298C17.277 10.5298 18.237 11.6198 18.217 12.9298C18.217 14.2498 17.267 15.3298 16.067 15.3298Z" fill="white" />
-            </svg>
-            Join Discord
-        </a>
-        <a href="https://t.me/your_channel" target="_blank" class="telegram-btn">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
-            Join Telegram
-        </a>
     </div>
 
     <!-- Ad Unit 5 - Before Footer -->

@@ -3,6 +3,7 @@ import { fetchEvents } from '../services/api';
 import ServerSelector from '../components/ServerSelector';
 import Navbar from '../components/Navbar';
 import { Copy, Check } from 'lucide-react';
+import { getMatchSlugs } from '../utils/seoUtils';
 
 const TelegramTool = () => {
     const [server, setServer] = useState('server1');
@@ -50,7 +51,8 @@ const TelegramTool = () => {
         const header = `🔥 **${dateStr.toUpperCase()} MATCHES** 🔥\n\n`;
         const eventList = events.map(e => {
             const time = e.startTime.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-            const link = `${window.location.origin}/match/${e.id}`;
+            const slugs = getMatchSlugs(e);
+            const link = `${window.location.origin}/football/${slugs.en}`;
             return `⚽ **${e.title}**\n🏆 ${e.league}\n⏰ ${time}\n📺 Watch: ${link}\n`;
         }).join('\n');
         const footer = `\n📢 Join us: https://t.me/+brOxYHl33qljZTQ1`;
