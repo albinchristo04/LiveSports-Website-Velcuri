@@ -72,6 +72,10 @@ const Match = () => {
 
     const isUpcoming = new Date() < event.startTime;
 
+    const isMobile = typeof navigator !== 'undefined' && /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isServer1 = activeStream?.name === 'Server 1' || (event?.streams && event.streams[0] === activeStream);
+    const shouldRemoveSandbox = isServer1 && !isMobile;
+
     return (
         <div className="container">
             {/* SEO & Schema */}
@@ -233,7 +237,7 @@ const Match = () => {
                                         frameBorder="0"
                                         allowFullScreen
                                         allow="autoplay; encrypted-media"
-                                        sandbox={`allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation ${activeStream.name === 'Server 3' ? 'allow-popups allow-popups-to-escape-sandbox' : ''}`}
+                                        sandbox={shouldRemoveSandbox ? undefined : `allow-forms allow-modals allow-orientation-lock allow-pointer-lock allow-presentation allow-same-origin allow-scripts allow-top-navigation-by-user-activation ${activeStream.name === 'Server 3' ? 'allow-popups allow-popups-to-escape-sandbox' : ''}`}
                                         title="Live Stream"
                                     ></iframe>
                                 </div>
