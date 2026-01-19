@@ -16,7 +16,7 @@ const DMCA = () => {
                 <p><strong>Digital Millennium Copyright Act Notice</strong></p>
 
                 <h2 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>1. Content Disclaimer</h2>
-                <p>Velcuri.io is an online service provider as defined in the Digital Millennium Copyright Act. We provide links to third-party content. We do not host, upload, or control any video content. All streams are hosted on external servers (such as p2p networks or third-party hosting sites) which are not under our control.</p>
+                <p>v1.velcuri.io is an online service provider as defined in the Digital Millennium Copyright Act. We provide links to third-party content. We do not host, upload, or control any video content. All streams are hosted on external servers (such as p2p networks or third-party hosting sites) which are not under our control.</p>
 
                 <h2 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>2. Copyright Infringement</h2>
                 <p>We respect the intellectual property rights of others. If you believe that your copyrighted work has been copied in a way that constitutes copyright infringement and is accessible on this site, please notify our copyright agent.</p>
@@ -31,7 +31,7 @@ const DMCA = () => {
                     <li>A statement that the information in the notification is accurate, and under penalty of perjury, that you are authorized to act on behalf of the copyright owner.</li>
                 </ul>
 
-                <p style={{ marginTop: '1rem' }}>Please send DMCA notices to: <strong>dmca@velcuri.io</strong> (Replace with actual email if available)</p>
+                <p style={{ marginTop: '1rem' }}>Please send DMCA notices to: <strong>dmca@v1.velcuri.io</strong> (Replace with actual email if available)</p>
             </div>
         </div>
     );

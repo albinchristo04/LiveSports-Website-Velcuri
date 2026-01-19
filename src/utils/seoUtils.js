@@ -1,5 +1,5 @@
 /**
- * SEO Utilities for Velcuri.io
+ * SEO Utilities for v1.velcuri.io
  */
 
 /**
@@ -34,9 +34,9 @@ export const getMatchSlugs = (event) => {
 export const getOptimizedTitle = (event, lang = 'en') => {
     const isLive = event.isLive;
     if (lang === 'es') {
-        return `${event.title} EN VIVO Gratis | Velcuri`;
+        return `${event.title} EN VIVO Gratis | v1.velcuri.io`;
     }
-    return `Watch ${event.title} Live Stream Free${isLive ? ' 🔴 LIVE' : ''} | Velcuri`;
+    return `Watch ${event.title} Live Stream Free${isLive ? ' 🔴 LIVE' : ''} | v1.velcuri.io`;
 };
 
 /**
@@ -66,11 +66,11 @@ export const getMatchFAQs = (event, lang = 'en') => {
         return [
             {
                 q: `¿Dónde ver ${event.title} en vivo?`,
-                a: `Puedes ver ${event.title} en vivo y en directo a través de Velcuri.io. Ofrecemos múltiples servidores de alta calidad para que disfrutes del partido sin interrupciones.`
+                a: `Puedes ver ${event.title} en vivo y en directo a través de v1.velcuri.io. Ofrecemos múltiples servidores de alta calidad para que disfrutes del partido sin interrupciones.`
             },
             {
                 q: `¿Es gratis ver ${event.title}?`,
-                a: `Sí, en Velcuri.io puedes ver ${event.title} de forma totalmente gratuita. No requerimos registro ni suscripciones para acceder a nuestras transmisiones.`
+                a: `Sí, en v1.velcuri.io puedes ver ${event.title} de forma totalmente gratuita. No requerimos registro ni suscripciones para acceder a nuestras transmisiones.`
             },
             {
                 q: `¿A qué hora empieza el partido?`,
@@ -81,11 +81,11 @@ export const getMatchFAQs = (event, lang = 'en') => {
     return [
         {
             q: `Where to watch ${event.title} live?`,
-            a: `You can watch ${event.title} live on Velcuri.io. We provide multiple high-quality streaming links so you can enjoy the match without any interruptions.`
+            a: `You can watch ${event.title} live on v1.velcuri.io. We provide multiple high-quality streaming links so you can enjoy the match without any interruptions.`
         },
         {
             q: `Is it free to watch ${event.title}?`,
-            a: `Yes, watching ${event.title} on Velcuri.io is completely free. We do not require any registration or subscription to access our live streams.`
+            a: `Yes, watching ${event.title} on v1.velcuri.io is completely free. We do not require any registration or subscription to access our live streams.`
         },
         {
             q: `What time does the match start?`,

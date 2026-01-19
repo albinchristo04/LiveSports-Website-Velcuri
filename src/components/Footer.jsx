@@ -57,7 +57,7 @@ const Footer = () => {
                 <Link to="/dmca" style={{ margin: '0 0.5rem', color: 'inherit', textDecoration: 'none' }}>DMCA</Link>
             </div>
             <div>
-                &copy; {new Date().getFullYear()} Velcuri.io. All rights reserved.
+                &copy; {new Date().getFullYear()} v1.velcuri.io. All rights reserved.
             </div>
             <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', opacity: 0.7 }}>
                 Disclaimer: This site does not host any content. All streams are found on external sites.

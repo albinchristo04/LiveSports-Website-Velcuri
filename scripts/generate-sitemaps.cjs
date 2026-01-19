@@ -33,7 +33,7 @@ function fetchData(url) {
 }
 
 function submitToIndexNow(sitemapUrl) {
-    const host = 'velcuri.io';
+    const host = 'v1.velcuri.io';
     const key = '19470b659da646f3ba501014cb7d9ff9';
     const indexNowUrl = `https://www.bing.com/IndexNow?url=${encodeURIComponent(sitemapUrl)}&key=${key}`;
 
@@ -55,7 +55,7 @@ function submitToIndexNow(sitemapUrl) {
 }
 
 async function generateSitemaps() {
-    const baseUrl = 'https://velcuri.io';
+    const baseUrl = 'https://v1.velcuri.io';
     const outputDir = fs.existsSync(path.join(process.cwd(), 'dist'))
         ? path.join(process.cwd(), 'dist')
         : path.join(process.cwd(), 'public');

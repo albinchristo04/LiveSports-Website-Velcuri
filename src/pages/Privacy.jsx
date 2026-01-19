@@ -16,7 +16,7 @@ const Privacy = () => {
                 <p><strong>Last updated: November 20, 2025</strong></p>
 
                 <h2 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>1. Introduction</h2>
-                <p>Welcome to Velcuri.io ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.</p>
+                <p>Welcome to v1.velcuri.io ("we," "our," or "us"). We are committed to protecting your privacy. This Privacy Policy explains how we collect, use, and safeguard your information when you visit our website.</p>
 
                 <h2 style={{ marginTop: '1.5rem', marginBottom: '0.5rem' }}>2. Information We Collect</h2>
                 <p>We may collect information about you in a variety of ways. The information we may collect on the Site includes:</p>

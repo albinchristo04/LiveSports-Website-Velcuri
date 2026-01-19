@@ -31,7 +31,7 @@ const Navbar = () => {
             alignItems: 'center'
         }}>
             <Link to="/" style={{ textDecoration: 'none', color: 'inherit', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                <h1 className="app-title" style={{ fontSize: '1.5rem', margin: 0 }}>Velcuri.io</h1>
+                <h1 className="app-title" style={{ fontSize: '1.5rem', margin: 0 }}>v1.velcuri.io</h1>
             </Link>
 
             {/* Desktop Menu */}

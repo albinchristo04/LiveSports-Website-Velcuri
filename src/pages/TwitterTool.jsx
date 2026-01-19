@@ -198,7 +198,7 @@ const TwitterTool = () => {
         // Footer / Domain
         ctx.font = 'bold 30px Inter, sans-serif';
         ctx.fillStyle = '#3b82f6';
-        ctx.fillText('Velcuri.io', 600, 620);
+        ctx.fillText('v1.velcuri.io', 600, 620);
 
         // Download
         const link = document.createElement('a');

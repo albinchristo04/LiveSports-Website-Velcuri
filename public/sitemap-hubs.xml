@@ -1,87 +1,87 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>https://velcuri.io/</loc>
+        <loc>https://v1.velcuri.io/</loc>
         <changefreq>hourly</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/velcuri</loc>
+        <loc>https://v1.velcuri.io/velcuri</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/velcuri-io</loc>
+        <loc>https://v1.velcuri.io/velcuri-io</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/velcuri-streaming</loc>
+        <loc>https://v1.velcuri.io/velcuri-streaming</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/rojadirecta-tv</loc>
+        <loc>https://v1.velcuri.io/rojadirecta-tv</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/rojadirectatv</loc>
+        <loc>https://v1.velcuri.io/rojadirectatv</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/roja-directa</loc>
+        <loc>https://v1.velcuri.io/roja-directa</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/roja-tv</loc>
+        <loc>https://v1.velcuri.io/roja-tv</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/pirlotv-futbol-en-vivo</loc>
+        <loc>https://v1.velcuri.io/pirlotv-futbol-en-vivo</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/futbol-en-vivo-gratis</loc>
+        <loc>https://v1.velcuri.io/futbol-en-vivo-gratis</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/ver-futbol-online</loc>
+        <loc>https://v1.velcuri.io/ver-futbol-online</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/rojadirecta-en-vivo</loc>
+        <loc>https://v1.velcuri.io/rojadirecta-en-vivo</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/rojadirecta-tv-en-vivo</loc>
+        <loc>https://v1.velcuri.io/rojadirecta-tv-en-vivo</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/tarjeta-roja-tv</loc>
+        <loc>https://v1.velcuri.io/tarjeta-roja-tv</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/tarjeta-roja-directa</loc>
+        <loc>https://v1.velcuri.io/tarjeta-roja-directa</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/tarjeta-roja-futbol-en-vivo</loc>
+        <loc>https://v1.velcuri.io/tarjeta-roja-futbol-en-vivo</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://velcuri.io/pirlo-tv-futbol-en-vivo-gratis</loc>
+        <loc>https://v1.velcuri.io/pirlo-tv-futbol-en-vivo-gratis</loc>
         <changefreq>daily</changefreq>
         <priority>0.8</priority>
     </url>
