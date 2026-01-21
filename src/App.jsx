@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import Match from './pages/Match';
@@ -17,6 +17,24 @@ import Embed from './pages/Embed';
 import SEOPage from './pages/SEOPage';
 
 function App() {
+  useEffect(() => {
+    // Load global ad scripts
+    const script1 = document.createElement('script');
+    script1.src = "https://pl28225632.effectivegatecpm.com/2b/60/97/2b6097036a8e2e631220dc32c8100cb6.js";
+    script1.async = true;
+    document.body.appendChild(script1);
+
+    const script2 = document.createElement('script');
+    script2.src = "https://pl27534969.effectivegatecpm.com/de/ff/c0/deffc03c7ca644daeac5d42043d99bb9.js";
+    script2.async = true;
+    document.body.appendChild(script2);
+
+    return () => {
+      document.body.removeChild(script1);
+      document.body.removeChild(script2);
+    };
+  }, []);
+
   return (
     <Router>
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
