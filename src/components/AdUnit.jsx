@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 
 /**
- * AdUnit component supporting AdSense and new Ad codes
+ * AdUnit component for Google AdSense
+ * Replaces previous Amazon and other ad implementations
  */
 const AdUnit = ({
     placementId = '1',
@@ -9,99 +10,61 @@ const AdUnit = ({
     className = '',
     type = 'display' // 'display' or 'anchor'
 }) => {
-    const containerRef = useRef(null);
+    // Map placement IDs to the new AdSense Slot IDs provided by the user
+    const getAdSlotId = (pid) => {
+        switch (pid) {
+            case '1':
+            case 'highlights-top':
+                return '8985770044'; // ad1
+            case '2':
+            case 'highlights-bottom':
+                return '5984202189'; // ad2
+            case '3':
+                return '2379999099'; // ad3
+            case '4': // Footer
+                return '8985770044'; // Reuse ad1
+            case 'anchor':
+                return '5984202189'; // Reuse ad2
+            default:
+                return '8985770044'; // Default to ad1
+        }
+    };
+
+    const slotId = getAdSlotId(placementId);
 
     useEffect(() => {
-        if (placementId === '1') {
-            try {
-                (window.adsbygoogle = window.adsbygoogle || []).push({});
-            } catch (e) {
-                console.warn('AdSense push error:', e);
-            }
-            return;
+        try {
+            // Push the ad to AdSense
+            (window.adsbygoogle = window.adsbygoogle || []).push({});
+        } catch (e) {
+            console.warn('AdSense push error:', e);
         }
+    }, [slotId]);
 
-        // For other placements, inject the new ad codes
-        const container = containerRef.current;
-        if (!container) return;
+    const isFooter = placementId === '4';
+    const isAnchor = type === 'anchor';
 
-        // Clear previous content
-        container.innerHTML = '';
-
-        if (placementId === '2' || placementId === 'highlights-bottom' || placementId === '4') {
-            // 300x250 Iframe Ad
-            const script1 = document.createElement('script');
-            script1.innerHTML = `
-                atOptions = {
-                    'key' : 'ce3f21e18814632d95fc9d6c33f8e7ed',
-                    'format' : 'iframe',
-                    'height' : 250,
-                    'width' : 300,
-                    'params' : {}
-                };
-            `;
-            const script2 = document.createElement('script');
-            script2.src = "https://www.highperformanceformat.com/ce3f21e18814632d95fc9d6c33f8e7ed/invoke.js";
-
-            container.appendChild(script1);
-            container.appendChild(script2);
-        } else if (placementId === '3' || placementId === 'highlights-top') {
-            // 320x50 Iframe Ad
-            const script1 = document.createElement('script');
-            script1.innerHTML = `
-                atOptions = {
-                    'key' : '2c2f4669d50ce38bc53968f8f16e3494',
-                    'format' : 'iframe',
-                    'height' : 50,
-                    'width' : 320,
-                    'params' : {}
-                };
-            `;
-            const script2 = document.createElement('script');
-            script2.src = "https://www.highperformanceformat.com/2c2f4669d50ce38bc53968f8f16e3494/invoke.js";
-
-            container.appendChild(script1);
-            container.appendChild(script2);
-        } else if (type === 'anchor' || placementId === 'container') {
-            // Container Ad
-            const script = document.createElement('script');
-            script.async = true;
-            script.setAttribute('data-cfasync', 'false');
-            script.src = "https://pl28221775.effectivegatecpm.com/109e5b336e522aab42d32897f53e6f7a/invoke.js";
-
-            const div = document.createElement('div');
-            div.id = "container-109e5b336e522aab42d32897f53e6f7a";
-
-            container.appendChild(script);
-            container.appendChild(div);
-        }
-    }, [placementId, type]);
-
-    if (placementId === '1') {
+    if (isAnchor) {
         return (
             <div
-                className={`ad-container ${className}`}
+                className="adsense-anchor-wrapper"
                 style={{
-                    margin: '1.5rem 0',
-                    textAlign: 'center',
-                    minHeight: '280px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    background: 'rgba(255, 255, 255, 0.02)',
-                    borderRadius: '12px',
-                    padding: '1rem',
-                    border: '1px solid rgba(255, 255, 255, 0.05)',
+                    position: 'fixed',
+                    bottom: 0,
+                    left: 0,
                     width: '100%',
-                    overflow: 'hidden',
-                    ...style
+                    zIndex: 1000,
+                    background: 'rgba(0,0,0,0.9)',
+                    borderTop: '1px solid rgba(255,255,255,0.1)',
+                    display: 'flex',
+                    justifyContent: 'center'
                 }}
             >
                 <ins className="adsbygoogle"
-                    style={{ display: 'block', width: '100%' }}
+                    style={{ display: 'block', width: '100%', maxWidth: '728px', height: '90px' }}
                     data-ad-client="ca-pub-9635539719400885"
-                    data-ad-slot="8985770044"
-                    data-ad-format="auto"
+                    data-ad-slot={slotId}
+                    data-ad-format="horizontal"
                     data-full-width-responsive="true"></ins>
             </div>
         );
@@ -109,20 +72,30 @@ const AdUnit = ({
 
     return (
         <div
-            ref={containerRef}
             className={`ad-container ${className}`}
             style={{
                 margin: '1.5rem 0',
                 textAlign: 'center',
-                minHeight: placementId === '3' ? '60px' : '280px',
+                minHeight: isFooter ? '90px' : '280px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                background: 'rgba(255, 255, 255, 0.02)',
+                borderRadius: '12px',
+                padding: isFooter ? '0.5rem' : '1rem',
+                border: '1px solid rgba(255, 255, 255, 0.05)',
                 width: '100%',
                 overflow: 'hidden',
                 ...style
             }}
-        />
+        >
+            <ins className="adsbygoogle"
+                style={{ display: 'block', width: '100%' }}
+                data-ad-client="ca-pub-9635539719400885"
+                data-ad-slot={slotId}
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+        </div>
     );
 };
 
