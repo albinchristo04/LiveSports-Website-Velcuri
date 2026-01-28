@@ -31,22 +31,6 @@ const Embed = () => {
         loadStream();
     }, [id, index]);
 
-    // Inject Popup Ads
-    useEffect(() => {
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://pl27534969.effectivegatecpm.com/de/ff/c0/deffc03c7ca644daeac5d42043d99bb9.js';
-        document.body.appendChild(script);
-
-        return () => {
-            // Cleanup might not be strictly necessary for popup ads but good practice
-            try {
-                document.body.removeChild(script);
-            } catch (e) {
-                // Ignore if already removed
-            }
-        };
-    }, []);
 
     if (loading) {
         return (

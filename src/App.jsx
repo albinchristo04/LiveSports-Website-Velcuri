@@ -13,12 +13,14 @@ import BloggerGenerator from './pages/BloggerGenerator';
 import FloatingSocial from './components/FloatingSocial';
 import Footer from './components/Footer';
 import Embed from './pages/Embed';
+import AdScripts from './components/AdScripts';
 
 import SEOPage from './pages/SEOPage';
 
 function App() {
   return (
     <Router>
+      <AdScripts />
       <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
         <div style={{ flex: 1 }}>
           <Routes>

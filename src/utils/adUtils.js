@@ -1,13 +1,5 @@
 export const reloadAdScript = () => {
-    // Remove existing script if present
-    const existingScript = document.querySelector('script[src="https://cdn.jsdelivr.net/gh/Tipblogg/nasrev-cdn/universal-ads.min.js"]');
-    if (existingScript) {
-        existingScript.remove();
-    }
-
-    // Create and append new script
-    const script = document.createElement('script');
-    script.src = "https://cdn.jsdelivr.net/gh/Tipblogg/nasrev-cdn/universal-ads.min.js";
-    script.async = true;
-    document.head.appendChild(script);
+    // This utility previously reloaded Universal Ads.
+    // It is kept as an empty function to prevent breakages if called elsewhere,
+    // but no longer injects any external scripts.
 };
