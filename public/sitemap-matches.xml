@@ -21,72 +21,92 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/portland-trail-blazers-vs-washington-wizards-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/los-angeles-lakers-vs-cleveland-cavaliers-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/portland-trail-blazers-vs-washington-wizards-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/los-angeles-lakers-vs-cleveland-cavaliers-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/sacramento-kings-vs-new-york-knicks-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/chicago-bulls-vs-indiana-pacers-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/sacramento-kings-vs-new-york-knicks-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/chicago-bulls-vs-indiana-pacers-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/milwaukee-bucks-vs-philadelphia-76ers-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/atlanta-hawks-vs-boston-celtics-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/milwaukee-bucks-vs-philadelphia-76ers-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/atlanta-hawks-vs-boston-celtics-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/new-orleans-pelicans-vs-oklahoma-city-thunder-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/orlando-magic-vs-miami-heat-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/new-orleans-pelicans-vs-oklahoma-city-thunder-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/orlando-magic-vs-miami-heat-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/detroit-pistons-vs-denver-nuggets-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/new-york-knicks-vs-toronto-raptors-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/detroit-pistons-vs-denver-nuggets-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/new-york-knicks-vs-toronto-raptors-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/brooklyn-nets-vs-phoenix-suns-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/charlotte-hornets-vs-memphis-grizzlies-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/brooklyn-nets-vs-phoenix-suns-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/charlotte-hornets-vs-memphis-grizzlies-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/la-clippers-vs-utah-jazz-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/minnesota-timberwolves-vs-dallas-mavericks-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/la-clippers-vs-utah-jazz-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/minnesota-timberwolves-vs-dallas-mavericks-en-vivo</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://v1.velcuri.io/football/golden-state-warriors-vs-utah-jazz-live-stream</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://v1.velcuri.io/futbol/golden-state-warriors-vs-utah-jazz-en-vivo</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://v1.velcuri.io/football/san-antonio-spurs-vs-houston-rockets-live-stream</loc>
+        <changefreq>hourly</changefreq>
+        <priority>0.9</priority>
+    </url>
+    <url>
+        <loc>https://v1.velcuri.io/futbol/san-antonio-spurs-vs-houston-rockets-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -101,22 +121,22 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/st-pauli-vs-rb-leipzig-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/cbs-sports-golazo-show-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/st-pauli-vs-rb-leipzig-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/cbs-sports-golazo-show-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/werder-bremen-vs-tsg-hoffenheim-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/tnt-sports-goals-show-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/werder-bremen-vs-tsg-hoffenheim-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/tnt-sports-goals-show-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -951,102 +971,32 @@
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/nashville-predators-vs-boston-bruins-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/new-york-rangers-vs-new-york-islanders-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/nashville-predators-vs-boston-bruins-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/new-york-rangers-vs-new-york-islanders-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/buffalo-sabres-vs-toronto-maple-leafs-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/philadelphia-flyers-vs-columbus-blue-jackets-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/buffalo-sabres-vs-toronto-maple-leafs-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/philadelphia-flyers-vs-columbus-blue-jackets-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/football/vegas-golden-knights-vs-montreal-canadiens-live-stream</loc>
+        <loc>https://v1.velcuri.io/football/colorado-avalanche-vs-ottawa-senators-live-stream</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
     <url>
-        <loc>https://v1.velcuri.io/futbol/vegas-golden-knights-vs-montreal-canadiens-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/los-angeles-kings-vs-detroit-red-wings-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/los-angeles-kings-vs-detroit-red-wings-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/utah-mammoth-vs-florida-panthers-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/utah-mammoth-vs-florida-panthers-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/winnipeg-jets-vs-new-jersey-devils-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/winnipeg-jets-vs-new-jersey-devils-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/dallas-stars-vs-st-louis-blues-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/dallas-stars-vs-st-louis-blues-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/chicago-blackhawks-vs-minnesota-wild-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/chicago-blackhawks-vs-minnesota-wild-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/san-jose-sharks-vs-vancouver-canucks-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/san-jose-sharks-vs-vancouver-canucks-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/washington-capitals-vs-seattle-kraken-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/washington-capitals-vs-seattle-kraken-en-vivo</loc>
+        <loc>https://v1.velcuri.io/futbol/colorado-avalanche-vs-ottawa-senators-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
@@ -1107,16 +1057,6 @@
     </url>
     <url>
         <loc>https://v1.velcuri.io/futbol/pre-season-testing-day-3-en-vivo</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/football/wwe-nxt-live-stream</loc>
-        <changefreq>hourly</changefreq>
-        <priority>0.9</priority>
-    </url>
-    <url>
-        <loc>https://v1.velcuri.io/futbol/wwe-nxt-en-vivo</loc>
         <changefreq>hourly</changefreq>
         <priority>0.9</priority>
     </url>
