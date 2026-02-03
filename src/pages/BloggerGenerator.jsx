@@ -35,10 +35,7 @@ const BloggerGenerator = () => {
 
         const firstStreamUrl = streams.length > 0 ? `${window.location.origin}/embed/${match.id}/0` : '';
 
-        const code = `<!-- AdSense Script - Load Once -->
-<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-9635539719400885" crossorigin="anonymous"></script>
-
-<!-- Match Content Start - Mobile Optimized -->
+        const code = `<!-- Match Content Start - Mobile Optimized -->
 <style>
 /* Mobile-specific overrides for this post */
 @media (max-width: 768px) {
@@ -105,15 +102,7 @@ const BloggerGenerator = () => {
         </div>
     </div>
 
-    <!-- Ad Unit 1 - Top -->
-    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-9635539719400885"
-             data-ad-slot="8985770044"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
+
 
     <div class="player-section glass-panel">
         <div class="server-list">
@@ -123,60 +112,16 @@ const BloggerGenerator = () => {
             </div>
         </div>
 
-        <!-- Ad Unit 2 - Above Player -->
-        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block; min-width: 300px; width: 100%;"
-                 data-ad-client="ca-pub-9635539719400885"
-                 data-ad-slot="5984202189"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
+
 
         <div class="video-container">
             <iframe id="main-player" src="${firstStreamUrl}" frameborder="0" allowfullscreen allow="autoplay; encrypted-media" sandbox="allow-same-origin allow-scripts allow-presentation allow-forms allow-popups allow-popups-to-escape-sandbox" scrolling="no"></iframe>
         </div>
         
-        <!-- Ad Unit 3 - Below Player -->
-        <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-            <ins class="adsbygoogle"
-                 style="display:block; min-width: 300px; width: 100%;"
-                 data-ad-client="ca-pub-9635539719400885"
-                 data-ad-slot="2379999099"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
-        </div>
+
     </div>
 
-    <!-- Ad Unit 4 - Mid Content -->
-    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-9635539719400885"
-             data-ad-slot="8985770044"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
 
-    <!-- Ad Unit 5 - Before Footer -->
-    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-9635539719400885"
-             data-ad-slot="8985770044"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
-
-    <!-- Ad Unit 6 - Bottom -->
-    <div class="ad-container" style="min-height: 100px; width: 100%; max-width: 100%; margin: 20px 0;">
-        <ins class="adsbygoogle"
-             style="display:block; min-width: 300px; width: 100%;"
-             data-ad-client="ca-pub-9635539719400885"
-             data-ad-slot="5984202189"
-             data-ad-format="auto"
-             data-full-width-responsive="true"></ins>
-    </div>
 </div>
 
 <script>
@@ -185,34 +130,6 @@ function changeStream(url, btn) {
     document.querySelectorAll('.stream-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
 }
-
-// Initialize AdSense ads - Push each ad unit individually
-(function() {
-    var adsLoaded = false;
-    
-    function loadAds() {
-        if (adsLoaded) return;
-        adsLoaded = true;
-        
-        var ads = document.querySelectorAll('.adsbygoogle');
-        ads.forEach(function(ad) {
-            if (!ad.getAttribute('data-adsbygoogle-status')) {
-                try {
-                    (adsbygoogle = window.adsbygoogle || []).push({});
-                } catch (e) {
-                    console.log('Ad load error:', e);
-                }
-            }
-        });
-    }
-    
-    // Load ads after DOM is ready
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadAds);
-    } else {
-        setTimeout(loadAds, 100);
-    }
-})();
 </script>
 <!-- Match Content End -->`;
 
