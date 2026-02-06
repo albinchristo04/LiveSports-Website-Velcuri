@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 
 /**
- * AdUnit component for Google AdSense
- * Replaces previous Amazon and other ad implementations
+ * AdUnit component placeholder
+ * Currently returns null - no ads displayed
  */
 const AdUnit = () => {
     return null;
